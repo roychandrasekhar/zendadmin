@@ -9,16 +9,24 @@ use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Storage\Session as SessionStorage;
 use Zend\Db\Adapter\Adapter as DbAdapter;
 use Zend\Authentication\Adapter\DbTable as AuthAdapter;
+use Zend\Session\Container;
 use Admin\Model\Admin;
 use Admin\Form\AdminForm;
 
 class IndexController extends AbstractActionController {
 
     public function indexAction() {
-        if ($user = $this->identity()) {
-            return $this->redirect()->toRoute('admin/default', array('controller' => 'index', 'action' => 'login'));
+        if ($user = $this->identity()) { // this section is not working. Need some more work here
+            return $this->redirect()->toRoute('admin/default', array(
+                        'controller' => 'index',
+                        'action' => 'login'
+            ));
         } else {
-            return new ViewModel();
+            $container = new Container('adminloginuser');
+            return new ViewModel(array(
+                'user_id' => $container->userid,
+                'menus' => 'menu',
+            ));
         }
     }
 
@@ -30,14 +38,26 @@ class IndexController extends AbstractActionController {
 
         $request = $this->getRequest();
         if ($request->isPost()) {
-            if ($this->validateUser($request)) {
+            if ($user_id = $this->getUserId($request)) {
                 $messages = "Successful login";
-                return $this->redirect()->toRoute('admin/default', array('controller' => 'index', 'action' => 'index'));
+                $container = new Container('adminloginuser');
+                $container->userid = $user_id;
+                return $this->redirect()->toRoute('admin/default', array(
+                    'controller' => 'index', 
+                    'action' => 'index',
+                ));
             } else {
                 $messages = "Error login";
+                return new ViewModel(array(
+                    'form' => $form,
+                    'messages' => $messages,
+                ));
             }
+        } else {
+            return new ViewModel(array(
+                'form' => $form,
+            ));
         }
-        return new ViewModel(array('form' => $form, 'messages' => $messages, 'topLevel'=> 'menu'));
     }
 
     public function logoutAction() {
@@ -57,7 +77,7 @@ class IndexController extends AbstractActionController {
         return $this->redirect()->toRoute('admin/default', array('controller' => 'index', 'action' => 'login'));
     }
 
-    private function validateUser($request) {
+    private function getUserId($request) {
         $data = $request->getPost();
         $servicelocator = $this->getServiceLocator();
         $dbadapter = $servicelocator->get('Zend\Db\Adapter\Adapter');
@@ -71,9 +91,9 @@ class IndexController extends AbstractActionController {
             'usr_password' => md5($data['usr_password'])));
         $row = $result->current();
         if (is_array($row)) {
-            return true;
+            return $row['id'];
         } else {
-            return false;
+            return 0;
         }
     }
 
