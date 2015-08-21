@@ -1,0 +1,191 @@
+/*
+* Amazium (http://www.amazium.co.uk)
+* Copyright 2010 - 2013, Mike Ballan
+* Licensed under MIT (https://github.com/OwlyStuff/Amazium/blob/master/LICENSE)
+*/
+
+
+/***********************************************
+Screen 1200px+
+***********************************************/
+.row                                            { margin:0 auto; width:1200px; display:table; }
+.row .row                                       { margin:0 -10px; width:auto; display:inline-block; }
+
+.grid_1                                         { width:80px; margin:0 10px; float:left; display:inline; }
+.grid_2                                         { width:180px; margin:0 10px; float:left; display:inline; }
+.grid_3                                         { width:280px; margin:0 10px; float:left; display:inline; }
+.grid_4                                         { width:380px; margin:0 10px; float:left; display:inline; }
+.grid_5                                         { width:480px; margin:0 10px; float:left; display:inline; }
+.grid_6                                         { width:580px; margin:0 10px; float:left; display:inline; }
+.grid_7                                         { width:680px; margin:0 10px; float:left; display:inline; }
+.grid_8                                         { width:780px; margin:0 10px; float:left; display:inline; }
+.grid_9                                         { width:880px; margin:0 10px; float:left; display:inline; }
+.grid_10                                        { width:980px; margin:0 10px; float:left; display:inline; }
+.grid_11                                        { width:1080px; margin:0 10px; float:left; display:inline; }
+.grid_12                                        { width:1180px; margin:0 10px; float:left; display:inline; }
+
+.offset_1                                       { margin-left:120px; }
+.offset_2                                       { margin-left:220px; }
+.offset_3                                       { margin-left:320px; }
+.offset_4                                       { margin-left:420px; }
+.offset_5                                       { margin-left:520px; }
+.offset_6                                       { margin-left:620px; }
+.offset_7                                       { margin-left:720px; }
+.offset_8                                       { margin-left:820px; }
+.offset_9                                       { margin-left:920px; }
+.offset_10                                      { margin-left:1020px; }
+.offset_11                                      { margin-left:1120px; }
+
+.show-mobile                                    { display:none !important; }
+.show-tablet                                    { display:none !important; }
+.show-screen                                    { display:inherit; }
+
+.hide-mobile                                    { display:inherit !important; }
+.hide-tablet                                    { display:inherit !important; }
+.hide-screen                                    { display:none !important; }
+
+
+
+/***********************************************
+Screen Smaller than 1200px
+***********************************************/
+@media only screen and (min-width: 960px) and (max-width: 1199px) {
+
+.row                                            { width:960px; }
+.row .row                                       { margin:0 -10px; }
+
+.grid_1                                         { width:50px; margin:0 10px; }
+.grid_2                                         { width:140px; margin:0 10px; }
+.grid_3                                         { width:220px; margin:0 10px; }
+.grid_4                                         { width:300px; margin:0 10px; }
+.grid_5                                         { width:380px; margin:0 10px; }     
+.grid_6                                         { width:460px; margin:0 10px; }
+.grid_7                                         { width:540px; margin:0 10px; }
+.grid_8                                         { width:620px; margin:0 10px; }
+.grid_9                                         { width:700px; margin:0 10px; }
+.grid_10                                        { width:780px; margin:0 10px; }
+.grid_11                                        { width:860px; margin:0 10px; }
+.grid_12                                        { width:940px; margin:0 10px; }
+    
+.offset_1                                       { margin-left:96px; }
+.offset_2                                       { margin-left:176px; }
+.offset_3                                       { margin-left:256px; }
+.offset_4                                       { margin-left:336px; }
+.offset_5                                       { margin-left:416px; }
+.offset_6                                       { margin-left:496px; }
+.offset_7                                       { margin-left:576px; }
+.offset_8                                       { margin-left:656px; }
+.offset_9                                       { margin-left:736px; }
+.offset_10                                      { margin-left:816px; }
+.offset_11                                      { margin-left:896px; }
+
+.show-mobile                                    { display:none !important; }
+.show-tablet                                    { display:none !important; }
+.show-screen                                    { display:inherit !important; }
+    
+.hide-mobile                                    { display:inherit !important; }
+.hide-tablet                                    { display:inherit !important; }
+.hide-screen                                    { display:none !important; }
+
+}
+
+
+
+/***********************************************
+Tablet (Smaller than 959px)
+***********************************************/
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+
+.row                                            { width:758px; }
+.row .row                                       { margin:0 -14px; }
+        
+.grid_1                                         { width:34px; margin:0 10px; }
+.grid_2                                         { width:98px; margin:0 10px; }
+.grid_3                                         { width:162px; margin:0 10px; }
+.grid_4                                         { width:226px; margin:0 10px; }
+.grid_5                                         { width:290px; margin:0 10px; }
+.grid_6                                         { width:354px; margin:0 10px; }
+.grid_7                                         { width:418px; margin:0 10px; }
+.grid_8                                         { width:482px; margin:0 10px; }
+.grid_9                                         { width:546px; margin:0 10px; }
+.grid_10                                        { width:610px; margin:0 10px; }
+.grid_11                                        { width:674px; margin:0 10px; }
+.grid_12                                        { width:738px; margin:0 10px; }
+
+.grid_1_tablet                                  { width:36px; }
+.grid_2_tablet                                  { width:100px; }
+.grid_3_tablet                                  { width:164px; }
+.grid_4_tablet                                  { width:228px; }
+.grid_5_tablet                                  { width:292px; }
+.grid_6_tablet                                  { width:356px; }
+.grid_7_tablet                                  { width:420px; }
+.grid_8_tablet                                  { width:484px; }
+.grid_9_tablet                                  { width:548px; }
+.grid_10_tablet                                 { width:612px; }
+.grid_11_tablet                                 { width:676px; }
+.grid_12_tablet                                 { width:740px; }
+        
+.offset_1                                       { margin-left:78px; }
+.offset_2                                       { margin-left:142px; }
+.offset_3                                       { margin-left:206px; }
+.offset_4                                       { margin-left:270px; }
+.offset_5                                       { margin-left:334px; }
+.offset_6                                       { margin-left:398px; }
+.offset_7                                       { margin-left:462px; }
+.offset_8                                       { margin-left:526px; }
+.offset_9                                       { margin-left:590px; }
+.offset_10                                      { margin-left:654px; }
+.offset_11                                      { margin-left:718px; }
+    
+.show-mobile                                    { display:none !important; }
+.show-tablet                                    { display:inherit !important; }
+.show-screen                                    { display:none !important; }
+    
+.hide-mobile                                    { display:inherit !important; }
+.hide-tablet                                    { display:none !important; }
+.hide-screen                                    { display:inherit !important; }
+
+}
+
+
+
+/***********************************************
+Mobile
+***********************************************/
+@media only screen and (max-width: 767px) {
+
+.row                                            { padding:0 16px; width:100%; display:block; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; }
+.row .row                                       { margin:0; padding:0; width:100%; display:block; }
+
+.grid_1, .grid_2, .grid_3, .grid_4,
+.grid_5, .grid_6, .grid_7, .grid_8,
+.grid_9, .grid_10, .grid_11, .grid_12           { width:100%; margin:10px 0 0 0; float:left; display:block; }
+
+.grid_6_mobile                                  { width:48%; }
+.grid_6_mobile:nth-child(odd)                   { width:48%; float:left; }
+.grid_6_mobile:nth-child(even)                  { float:right; }
+
+.show-mobile                                    { display:inherit !important; }
+.show-tablet                                    { display:none !important; }
+.show-screen                                    { display:none !important; }
+    
+.hide-mobile                                    { display:none !important; }
+.hide-tablet                                    { display:inherit !important; }
+.hide-screen                                    { display:inherit !important; }
+
+}
+
+
+
+/***********************************************
+Clean up
+***********************************************/
+.container:after                                { content: "\0020"; display: block; height: 0; clear: both; visibility: hidden; } 
+.clearfix:before,
+.clearfix:after,
+.row:before,
+.row:after                                      { content:'\0020'; display:block; overflow:hidden; visibility:hidden; width:0; height:0; }
+.row:after, .clearfix:after                     { clear:both; }
+.row, 
+.clearfix                                       { zoom:1; }
+.clear                                          { clear:both; display:block; overflow:hidden; visibility:hidden; width:0; height:0; }

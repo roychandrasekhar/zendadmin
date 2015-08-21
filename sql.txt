@@ -1,0 +1,14 @@
+--
+-- Table structure for table `users`
+--
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL,
+  `usr_name` varchar(100) NOT NULL,
+  `usr_password` varchar(200) NOT NULL,
+  `usr_active` int(11) NOT NULL DEFAULT '0'
+);
+
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
