@@ -22,10 +22,13 @@ class IndexController extends AbstractActionController {
                         'action' => 'login'
             ));
         } else {
-            $container = new Container('adminloginuser');
+            $adminloginuser = new Container('adminloginuser');
+            // load menu for user $adminloginuser->userid
+            $menus = $this->getUserMenu($adminloginuser->userid);
+//            print_r(json_encode($menus));
             return new ViewModel(array(
-                'user_id' => $container->userid,
-                'menus' => 'menu',
+                'user_id' => $adminloginuser->userid,
+                'menus' => $menus,
             ));
         }
     }
@@ -43,8 +46,8 @@ class IndexController extends AbstractActionController {
                 $container = new Container('adminloginuser');
                 $container->userid = $user_id;
                 return $this->redirect()->toRoute('admin/default', array(
-                    'controller' => 'index', 
-                    'action' => 'index',
+                            'controller' => 'index',
+                            'action' => 'index',
                 ));
             } else {
                 $messages = "Error login";
@@ -95,6 +98,27 @@ class IndexController extends AbstractActionController {
         } else {
             return 0;
         }
+    }
+
+    private function getUserMenu($user_id) {
+        $servicelocator = $this->getServiceLocator();
+        $dbadapter = $servicelocator->get('Zend\Db\Adapter\Adapter');
+        $param = function($name) use ($dbadapter) {
+            return $dbadapter->driver->formatParameterName($name);
+        };
+        $statement = $dbadapter->query(
+                'SELECT * FROM `module_master` WHERE id in(' .
+                    'SELECT module_id FROM `role_collection` where role_id in(' .
+                        'SELECT role_master_id FROM `privilege_master` where user_id=' . $param('usr_id') .
+                    ')' .
+                ')');
+        $results = $statement->execute(array('usr_id' => $user_id));
+        $returnArray = array();
+        // iterate through the rows
+        foreach ($results as $result) {
+            $returnArray[] = $result;
+        }
+        return $returnArray;
     }
 
 }

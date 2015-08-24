@@ -6,6 +6,7 @@ return array(
         'invokables' => array(
             'Admin\Controller\Index' => 'Admin\Controller\IndexController',
             'Admin\Controller\Admin' => 'Admin\Controller\AdminController',
+            'Admin\Controller\Customer' => 'Admin\Controller\CustomerController',
         ),
     ),
     'router' => array(
