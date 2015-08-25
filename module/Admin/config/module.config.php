@@ -6,11 +6,20 @@ return array(
         'invokables' => array(
             'Admin\Controller\Index' => 'Admin\Controller\IndexController',
             'Admin\Controller\Admin' => 'Admin\Controller\AdminController',
-            'Admin\Controller\Customer' => 'Admin\Controller\CustomerController',
         ),
     ),
     'router' => array(
         'routes' => array(
+            'home' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/',
+                    'defaults' => array(
+                        'controller' => 'Admin\Controller\Index',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
             'admin' => array(
                 'type' => 'Literal',
                 'options' => array(

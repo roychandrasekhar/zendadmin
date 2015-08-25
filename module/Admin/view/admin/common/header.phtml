@@ -1,1 +1,11 @@
-<h1>Header</h1>
+<?php 
+    $userdetail = $this->userdetail;
+?>
+<div class="btns"> 
+    <?php if($userdetail['id']!=''){ ?>
+        <?= 'Hello ' . $this->escapeHtml($userdetail['usr_name']) ?> <a title="" class="login my-account" href="javascript:void(0)">My Account</a> 
+        <a href="<?php echo $this->url('admin/default', array('controller' => 'index', 'action' => 'logout')); ?>">Logout</a> 
+    <?php }else{?>
+    Login
+    <?php }?>
+</div>

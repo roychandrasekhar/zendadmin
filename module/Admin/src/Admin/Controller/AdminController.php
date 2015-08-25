@@ -83,5 +83,19 @@ class AdminController extends AbstractActionController {
         }
         return $this->usersTable;
     }
+    
+    public function logoutAction() {
+        $auth = new AuthenticationService();
+
+        if ($auth->hasIdentity()) {
+            $identity = $auth->getIdentity();
+        }
+
+        $auth->clearIdentity();
+        $sessionManager = new \Zend\Session\SessionManager();
+        $sessionManager->forgetMe();
+
+        return $this->redirect()->toRoute('application/default', array('controller' => 'index', 'action' => 'index'));
+    }
 
 }

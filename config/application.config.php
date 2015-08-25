@@ -11,6 +11,9 @@ return array(
     'modules' => array(
         'Application',
         'Admin',
+        'Customer',
+        'Product',
+        'User',
     ),
     'module_listener_options' => array(
         'module_paths' => array(

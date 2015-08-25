@@ -2,8 +2,10 @@ Menu <br>
 <?php
     $menus = $this->menus;
     foreach($menus as $eachrow){
-        ?>
-        <a href="<?=$this->url().$eachrow['module_path'].'/id/'.$eachrow['id']?>"><?=$eachrow['module_name']?></a><br>
-        <?php
+        if($this->controller==$eachrow['module_name']){?>
+            <a><?=$eachrow['module_name']?></a><br>
+        <?php }else{ ?>
+            <a href="<?=$this->basePath().'/'.$eachrow['module_path']?>"><?=$eachrow['module_name']?></a><br>
+        <?php }
     }
 ?>
