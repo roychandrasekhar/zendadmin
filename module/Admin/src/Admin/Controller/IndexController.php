@@ -17,27 +17,36 @@ use User\Model\User;
 class IndexController extends AbstractActionController {
 
     public function indexAction() {
-        return $this->checkLogin('Index',$this->getServiceLocator());
+        $obj = $this->checkLogin($this->getServiceLocator());
+        if (is_object($obj)) {
+            return $obj;
+        } else {
+            $user = new User($this->getServiceLocator());
+            $adminloginuser = new Container('adminloginuser');
+            $menus = $user->getUserMenu($adminloginuser->userid);
+            return new ViewModel(array(
+                'userdetail' => $adminloginuser->userdetail,
+                'menus' => $menus,
+                'controller' => 'Index',
+            ));
+        }
     }
-    
-    public function checkLogin($controllername, $serviceLocator){
+
+    public function logindetail($serviceLocator) {
+        $user = new User($serviceLocator);
+        $adminloginuser = new Container('adminloginuser');
+        return $user->getUserMenu($adminloginuser->userid);
+    }
+
+    public function checkLogin($serviceLocator) {
         $container = new Container('adminloginuser');
-        if ($container->userid =='') { // this section is not working. Need some more work here
+        if ($container->userid == '') { // this section is not working. Need some more work here
             return $this->redirect()->toRoute('admin/default', array(
                         'controller' => 'index',
                         'action' => 'login'
             ));
         } else {
-            $user = new User($serviceLocator);
-            $adminloginuser = new Container('adminloginuser');
-            // load menu for user $adminloginuser->userid
-            $menus = $user->getUserMenu($adminloginuser->userid);
-//            print_r(json_encode($menus));
-            return new ViewModel(array(
-                'userdetail' => $adminloginuser->userdetail,
-                'menus' => $menus,
-                'controller' =>$controllername,
-            ));
+            return 0;
         }
     }
 
