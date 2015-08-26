@@ -1,4 +1,4 @@
 <?= $this->partial('/admin/common/header.phtml',array('userdetail' => $this->userdetail)); ?>
 <?= $this->partial('/admin/menu/left.phtml', array('menus' => $this->menus, 'controller'=> $this->controller)); ?> 
-<?= $this->partial('/customer/customer/dashboard.phtml', $this->customerlist);?>
+<?= $this->partial('/customer/customer/dashboard.phtml', array('totalcustomer'=>$this->totalcustomer));?>
 <?= $this->partial('/admin/common/footer.phtml', array());?>

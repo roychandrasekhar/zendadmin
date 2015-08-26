@@ -1,0 +1,40 @@
+        <table class='data' cellspacing='0' border='1'>
+            <tr class='headings'>
+                <th>Name</th>
+                <th>User Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Telephone</th>
+                <th>Dealer Type</th>
+                <th>State</th>
+                <th>Edit</th>
+            </tr>
+<?php
+$temp = false;
+$returntxt='';
+$displays = true;
+foreach ($this->customerlist as $item) {
+    $temp = true;
+    $style = '';?>
+        <tr class='<?= ($displays) ? 'even pointer' : 'pointer'?>' style='cursor:default;<?=$style?>' title='#'>
+            <td class=''><?=$item['name']?></td>
+            <td class=''><?=$item['username']?></td>
+            <td class=''><?=$item['email']?></td>
+            <td class=''><?=$item['mobile']?></td>
+            <td class=''><?=$item['telephone']?></td>
+            <td class=''><?= ($item['dealer_type']==1)?'Commercial':'Domestic' ?></td>
+            <td class=''><?= ($item['state']==1)?'Active':'In-active' ?></td>
+            <td class=''><a href='javascript:editCustomer(<?=$item['id']?>)'><?=$item['id']?></a></td>
+        </tr>
+    <?php $displays = ($displays) ? false : true;
+}?>
+<?php if ($temp == false) {?>
+    <tr><td colspan='3'>No Contact person found</td></tr>
+<?php }?>
+        </table>
+
+<script>
+    function editCustomer(customerid) {
+        window.location = '<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'edit')); ?>?id='+customerid;
+    }
+</script>

@@ -1,3 +1,107 @@
-<strong>Module:</strong>        Customer &raquo;
-<strong>Controller:</strong>    Customer &raquo;
-<strong>Action:</strong>        Edit
+<?= $this->partial('/admin/common/header.phtml', array('userdetail' => $this->userdetail)); ?>
+<?= $this->partial('/admin/menu/left.phtml', array('menus' => $this->menus, 'controller' => $this->controller)); ?> 
+<form method="POST" action="<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'update')); ?>">
+    <table border="1">
+        <tbody>
+            <tr>
+                <td>dealer_type</td>
+                <td>
+                    <input type="hidden" name="id" value="<?= $this->customerdetail['id'] ?>" />
+                    <select name="dealer_type">
+                        <option value="1" <?= ($this->customerdetail['dealer_type'] == 1) ? "selected" : "" ?>>Commercial</option>
+                        <option value="2" <?= ($this->customerdetail['dealer_type'] == 2) ? "selected" : "" ?>>Domestic</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>username</td>
+                <td>
+                    <input type="text" name="username" value="<?= $this->customerdetail['username'] ?>" />
+                </td>
+            </tr>
+            <tr>
+                <td>position_in_company</td>
+                <td>
+                    <input type="text" name="position_in_company" value="<?= $this->customerdetail['position_in_company'] ?>" />
+                </td>
+            </tr>
+            <tr>
+                <td>telephone</td>
+                <td>
+                    <input type="text" name="telephone" value="<?= $this->customerdetail['telephone'] ?>" />
+                </td>
+            </tr>
+            <tr>
+                <td>mobile</td>
+                <td>
+                    <input type="text" name="mobile" value="<?= $this->customerdetail['mobile'] ?>" />
+                </td>
+            </tr>
+            <tr>
+                <td>name</td>
+                <td>
+                    <input type="text" name="name" value="<?= $this->customerdetail['name'] ?>" />
+                </td>
+            </tr>
+            <tr>
+                <td>email</td>
+                <td>
+                    <input type="text" name="email" value="<?= $this->customerdetail['email'] ?>" />
+                </td>
+            </tr>
+            <tr>
+                <td>company_name</td>
+                <td>
+                    <input type="text" name="company_name" value="<?= $this->customerdetail['company_name'] ?>" />
+                </td>
+            </tr>
+            <tr>
+                <td>website</td>
+                <td>
+                    <input type="text" name="website" value="<?= $this->customerdetail['website'] ?>" />
+                </td>
+            </tr>
+            <tr>
+                <td>state</td>
+                <td>
+                    <select name="state">
+                        <option value="1" <?= ($this->customerdetail['state'] == 1) ? "selected" : "" ?>>Enable</option>
+                        <option value="2" <?= ($this->customerdetail['state'] == 0) ? "selected" : "" ?>>Disable</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Update" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
+
+
+<script>
+    function updateCustomer(customerid) {
+        alert('<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'edit')); ?>/' + customerid);
+//        var pageno = document.getElementById('page').value;
+//        var contactemail = (document.getElementById('contactemail').value).trim();
+//        var totalpage = document.getElementById('totalpage').options[document.getElementById('totalpage').selectedIndex].value;
+//        pageno = (pageno)?pageno:1;
+//        var obj = document.getElementById('output-div');
+//        var reloadurl = '<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'edit')); ?>';
+////        Element.hide(obj);
+//        new Ajax.Request(reloadurl, {
+//            method: 'post',
+//            parameters: encodeURI('pageno='+pageno+'&totalpage='+totalpage+'&contactemail='+contactemail),
+//            onComplete: function(transport) {
+//                document.getElementById('output-div').innerHTML = transport.responseText;
+//                pageNumber();
+//                setRecordNavi();
+////                Element.show(obj);
+//            }
+//        });
+    }
+</script>
+
+<?= $this->partial('/admin/common/footer.phtml', array()); ?>
