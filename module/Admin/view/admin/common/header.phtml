@@ -1,15 +1,32 @@
-<script src="<?= $this->basePath() ?>/js/prototype.js"></script>
-<script>
-    var mediaurl = "<?= $this->basePath() ?>/images";
-</script>
-<?php 
-    $userdetail = $this->userdetail;
-?>
-<div class="btns"> 
-    <?php if($userdetail['id']!=''){ ?>
-        <?= 'Hello ' . $this->escapeHtml($userdetail['usr_name']) ?> <a title="" class="login my-account" href="javascript:void(0)">My Account</a> 
-        <a href="<?php echo $this->url('admin/default', array('controller' => 'index', 'action' => 'logout')); ?>">Logout</a> 
-    <?php }else{?>
-    Login
-    <?php }?>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+		<link rel="stylesheet" href="<?php echo $this->serverUrl().$this->basePath('css/styles.css'); ?>">
+	</head>
+	<body>
+		<script src="<?= $this->basePath() ?>/js/prototype.js"></script>
+		<script>
+		var mediaurl = "<?= $this->basePath() ?>/images";
+		</script>
+		<?php
+		$userdetail = $this->userdetail;
+		?>
+		<div class="header">
+			<div class="wrapper">
+				<a href="<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'index')); ?>" class="logo"><img src="<?php echo $this->serverUrl().$this->basePath('images/logo.png'); ?>" alt=""></a>
+				<div class="apart">
+					<?php if($userdetail['id']!=''){ ?>
+					<!-- <?= 'Hello ' . $this->escapeHtml($userdetail['usr_name']) ?> -->
+					<a class="button my-account" href="javascript:void(0)">My Account</a>
+					<a class="button logout" href="<?php echo $this->url('admin/default', array('controller' => 'index', 'action' => 'logout')); ?>">Logout</a>
+					<?php }else{?>
+					Login
+					<?php }?>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</body>
+</html>

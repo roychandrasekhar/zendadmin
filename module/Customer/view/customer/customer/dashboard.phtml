@@ -1,154 +1,155 @@
-Customer Dashboard
-<?php
-$count = $this->totalcustomer;
-?>
-<table cellspacing="0">
-    <tr>
-        <td class="pager" style="background-color: #D8E6E6;padding-bottom: 0px !important;padding-top: 0px !important" >
-            <img style='height:18px; padding-left: 5px;padding-right: 5px;cursor: pointer' class='buttonstyle' onclick="loadListPage()" title="reload" src="<?= $this->basePath() ?>/images/reload.png" />
-            Page
-            <span id="leftarrow" class="buttonstyle"></span>
-            <input type="text" style="width:50px" value="1" onkeypress="getRecord(event);" name="page" id="page">
-            <span id="rightarrow" class="buttonstyle"></span>
-            of <span id="currentpage"></span> pages
-            <span class="separator">|</span>
-            View
-            <select onchange="loadListPage()" id="totalpage">
-                <option selected="selected" value="10">10</option>
-                <option <?php echo ($count > 10 || $count >= 20) ? '' : 'disabled="true"' ?> value="20">20</option>
-                <option <?php echo ($count > 20 || $count >= 30) ? '' : 'disabled="true"' ?> value="30">30</option>
-                <option <?php echo ($count > 30 || $count >= 50) ? '' : 'disabled="true"' ?> value="50">50</option>
-                <option <?php echo ($count > 50 || $count >= 100) ? '' : 'disabled="true"' ?> value="100">100</option>
-                <option <?php echo ($count > 100 || $count >= 200) ? '' : 'disabled="true"' ?> value="200">200</option>
-            </select>
-            per page
-            <span class="separator">|</span>
-            Total <?php echo $count ?> records found
-
-            <span class="separator">|</span>
-            Search by email
-            <input type="text" onkeypress="getRecord(event)" class="input-text" style="width:180px !important" value="" name="contactemail" id="contactemail">
-            <img style='height:18px; padding-left: 5px;padding-right: 5px;cursor: pointer' class='buttonstyle' onclick="clearAndLoadListPage()" title="Clear" src="<?= $this->basePath() ?>/images/cancel_icon.gif" />
-            <span class="no-display" id="super_product_links-total-count"></span>
-        </td>
-    </tr>
-</table>
-<div class="hor-scroll" id="output-div"></div>
-<script>
-    var totalrecord = parseInt(<?php echo $count ?>);
-    setRecordNavi();loadListPage();
-    
-    function getRecord(e){
+<div class="main">
+    <div class="wrapper">
+        <h2>Customer Dashboard</h2>
+        <?php
+        $count = $this->totalcustomer;
+        ?>
+        <table class="pager-table" cellspacing="0">
+            <tr>
+                <td class="pager" >
+                    <img style='height:18px; padding-left: 5px;padding-right: 5px;cursor: pointer' class='buttonstyle' onclick="loadListPage()" title="reload" src="<?= $this->basePath() ?>/images/reload.png" />
+                    Page
+                    <span id="leftarrow" class="buttonstyle"></span>
+                    <input type="text" style="width:50px" value="1" onkeypress="getRecord(event);" name="page" id="page">
+                    <span id="rightarrow" class="buttonstyle"></span>
+                    of <span id="currentpage"></span> pages
+                    <span class="separator">|</span>
+                    View
+                    <select onchange="loadListPage()" id="totalpage">
+                        <option selected="selected" value="10">10</option>
+                        <option <?php echo ($count > 10 || $count >= 20) ? '' : 'disabled="true"' ?> value="20">20</option>
+                        <option <?php echo ($count > 20 || $count >= 30) ? '' : 'disabled="true"' ?> value="30">30</option>
+                        <option <?php echo ($count > 30 || $count >= 50) ? '' : 'disabled="true"' ?> value="50">50</option>
+                        <option <?php echo ($count > 50 || $count >= 100) ? '' : 'disabled="true"' ?> value="100">100</option>
+                        <option <?php echo ($count > 100 || $count >= 200) ? '' : 'disabled="true"' ?> value="200">200</option>
+                    </select>
+                    per page
+                    <span class="separator">|</span>
+                    Total <?php echo $count ?> records found
+                    <span class="separator">|</span>
+                    Search by email
+                    <input type="text" onkeypress="getRecord(event)" class="input-text" style="width:180px !important" value="" name="contactemail" id="contactemail">
+                    <img style='height:18px; padding-left: 5px;padding-right: 5px;cursor: pointer' class='buttonstyle' onclick="clearAndLoadListPage()" title="Clear" src="<?= $this->basePath() ?>/images/cancel_icon.gif" />
+                    <span class="no-display" id="super_product_links-total-count"></span>
+                </td>
+            </tr>
+        </table>
+        <div class="hor-scroll" id="output-div"></div>
+        <script>
+        var totalrecord = parseInt(<?php echo $count ?>);
+        setRecordNavi();loadListPage();
+        
+        function getRecord(e){
         if(e.keyCode==13){
-            loadListPage();
+        loadListPage();
         }
-    }
-    function clearAndLoadListPage(){
+        }
+        function clearAndLoadListPage(){
         document.getElementById('contactemail').value='';
         loadListPage();
-    }
-    
-    function loadListPage() {
+        }
+        
+        function loadListPage() {
         var pageno = document.getElementById('page').value;
         var contactemail = (document.getElementById('contactemail').value).trim();
         var totalpage = document.getElementById('totalpage').options[document.getElementById('totalpage').selectedIndex].value;
         pageno = (pageno)?pageno:1;
         var obj = document.getElementById('output-div');
         var reloadurl = '<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'list')); ?>';
-//        Element.hide(obj);
+        //        Element.hide(obj);
         new Ajax.Request(reloadurl, {
-            method: 'post',
-            parameters: encodeURI('pageno='+pageno+'&totalpage='+totalpage+'&contactemail='+contactemail),
-            onComplete: function(transport) {
-                document.getElementById('output-div').innerHTML = transport.responseText;
-                pageNumber();
-                setRecordNavi();
-//                Element.show(obj);
-            }
+        method: 'post',
+        parameters: encodeURI('pageno='+pageno+'&totalpage='+totalpage+'&contactemail='+contactemail),
+        onComplete: function(transport) {
+        document.getElementById('output-div').innerHTML = transport.responseText;
+        pageNumber();
+        setRecordNavi();
+        //                Element.show(obj);
+        }
         });
-    }
-    
-    function editCustomer(customerid) {
-        window.location = '<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'edit')); ?>?id='+customerid;
-    }
-    
-    function updateCustomer(customerid){
+        }
         
-    }
-
-    function clearEmail(){
+        function editCustomer(customerid) {
+        window.location = '<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'edit')); ?>?id='+customerid;
+        }
+        
+        function updateCustomer(customerid){
+        
+        }
+        function clearEmail(){
         document.getElementById('contactemail').value='';
         loadListPage();
-    }
-    function setRecordNavi(cleardetail) {
+        }
+        function setRecordNavi(cleardetail) {
         if(cleardetail)document.getElementById('output-div2').innerHTML ='';
         var curr = parseInt(document.getElementById('page').value);
         var totalpage = document.getElementById('totalpage').options[document.getElementById('totalpage').selectedIndex].value;
         //var totalpage = document.getElementById('currentpage').innerHTML;
         if (curr == totalrecord) {
-            onRightArrow(0);
-            if (curr > 1) {
-                onLeftArrow(1);
-            }
+        onRightArrow(0);
+        if (curr > 1) {
+        onLeftArrow(1);
+        }
         }
         if (1 == curr) {
-            onLeftArrow(0);
-            if (curr < totalrecord) {
-                onRightArrow(1);
-            }
+        onLeftArrow(0);
+        if (curr < totalrecord) {
+        onRightArrow(1);
+        }
         }
         if (1 < curr && curr < totalrecord) {
-            onLeftArrow(1);
-            onRightArrow(1);
+        onLeftArrow(1);
+        onRightArrow(1);
         }
         if ((parseInt(curr) * parseInt(totalpage)) > totalrecord) {
-            onRightArrow(0);
+        onRightArrow(0);
         }
-
-    }
-    function onLeftArrow(state){
+        }
+        function onLeftArrow(state){
         var img = document.createElement('img');
         img.setAttribute('class','arrow');
         clearAllChildren(document.getElementById('leftarrow'));
         if(state===1){
-            img.setAttribute('src',mediaurl+'/pager_arrow_left.gif');
-            var atag = document.createElement('a');
-            atag.setAttribute('onclick','setNumber(false);loadListPage()');
-            atag.setAttribute('title','Next page');
-            atag.setAttribute('href','#');
-            atag.appendChild(img);
-            document.getElementById('leftarrow').appendChild(atag);
+        img.setAttribute('src',mediaurl+'/pager_arrow_left.gif');
+        var atag = document.createElement('a');
+        atag.setAttribute('onclick','setNumber(false);loadListPage()');
+        atag.setAttribute('title','Next page');
+        atag.setAttribute('href','#');
+        atag.appendChild(img);
+        document.getElementById('leftarrow').appendChild(atag);
         }else{
-            img.setAttribute('src',mediaurl+'/pager_arrow_left_off.gif');
-            document.getElementById('leftarrow').appendChild(img);
+        img.setAttribute('src',mediaurl+'/pager_arrow_left_off.gif');
+        document.getElementById('leftarrow').appendChild(img);
         }
-    }
-    function onRightArrow(state){
+        }
+        function onRightArrow(state){
         var img = document.createElement('img');
         img.setAttribute('class','arrow');
         clearAllChildren(document.getElementById('rightarrow'));
         if(state===1){
-            img.setAttribute('src',mediaurl+'/pager_arrow_right.gif');
-            var atag = document.createElement('a');
-            atag.setAttribute('onclick','setNumber(true);loadListPage()');
-            atag.setAttribute('title','Next page');
-            atag.setAttribute('href','#');
-            atag.appendChild(img);
-            document.getElementById('rightarrow').appendChild(atag);
+        img.setAttribute('src',mediaurl+'/pager_arrow_right.gif');
+        var atag = document.createElement('a');
+        atag.setAttribute('onclick','setNumber(true);loadListPage()');
+        atag.setAttribute('title','Next page');
+        atag.setAttribute('href','#');
+        atag.appendChild(img);
+        document.getElementById('rightarrow').appendChild(atag);
         }else{
-            img.setAttribute('src',mediaurl+'/pager_arrow_right_off.gif');
-            document.getElementById('rightarrow').appendChild(img);
+        img.setAttribute('src',mediaurl+'/pager_arrow_right_off.gif');
+        document.getElementById('rightarrow').appendChild(img);
         }
-    }
-    function setNumber(state){
+        }
+        function setNumber(state){
         document.getElementById('page').value = (state)? parseInt(document.getElementById('page').value)+1: parseInt(document.getElementById('page').value)-1;
-    }
-    function clearAllChildren(e){
+        }
+        function clearAllChildren(e){
         while (e.lastChild)
-            e.removeChild(e.lastChild);
-    }
-    function pageNumber(){
+        e.removeChild(e.lastChild);
+        }
+        function pageNumber(){
         var a = parseInt(totalrecord) / parseInt(document.getElementById('totalpage').options[document.getElementById('totalpage').selectedIndex].value);
         document.getElementById('currentpage').innerHTML = Math.ceil(a);
-    }
-</script>
+        }
+        </script>
+    </div>
+</div>
