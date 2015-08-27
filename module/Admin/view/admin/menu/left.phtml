@@ -1,11 +1,15 @@
 Menu <br>
-<?php
+<ul>
+    <?php
     $menus = $this->menus;
-    foreach($menus as $eachrow){
-        if($this->controller==$eachrow['module_name']){?>
-            <a><?=$eachrow['module_name']?></a><br>
-        <?php }else{ ?>
-            <a href="<?=$this->basePath().'/'.$eachrow['module_path']?>"><?=$eachrow['module_name']?></a><br>
-        <?php }
+    foreach ($menus as $eachrow) {
+        if ($this->controller == $eachrow['module_name']) {
+            ?>
+            <li><a><?= $eachrow['module_name'] ?></a></li>
+        <?php } else { ?>
+            <li><a href="<?= $this->basePath() . '/' . $eachrow['module_path'] ?>"><?= $eachrow['module_name'] ?></a></li>
+        <?php
+        }
     }
-?>
+    ?>
+</ul>

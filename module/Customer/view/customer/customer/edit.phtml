@@ -1,12 +1,13 @@
 <?= $this->partial('/admin/common/header.phtml', array('userdetail' => $this->userdetail)); ?>
 <?= $this->partial('/admin/menu/left.phtml', array('menus' => $this->menus, 'controller' => $this->controller)); ?> 
-<form method="POST" action="<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'update')); ?>">
+<form id="form1" method="POST" action="<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'update')); ?>">
     <table border="1">
         <tbody>
             <tr>
                 <td>dealer_type</td>
                 <td>
                     <input type="hidden" name="id" value="<?= $this->customerdetail['id'] ?>" />
+                    <input type="hidden" name="actiontype" id="actiontype" />
                     <select name="dealer_type">
                         <option value="1" <?= ($this->customerdetail['dealer_type'] == 1) ? "selected" : "" ?>>Commercial</option>
                         <option value="2" <?= ($this->customerdetail['dealer_type'] == 2) ? "selected" : "" ?>>Domestic</option>
@@ -71,8 +72,12 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2">
-                    <input type="submit" value="Update" />
+                <td>
+                    <input type="button" value="Delete" onclick="submitPage('delete')"/>
+                </td>
+                <td style="text-align: right">
+                    <input type="button" value="Cancel" onclick="gotoListPage()"/>
+                    <input type="button" value="Update" onclick="submitPage('update')"/>
                 </td>
             </tr>
         </tbody>
@@ -82,25 +87,21 @@
 
 
 <script>
-    function updateCustomer(customerid) {
-        alert('<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'edit')); ?>/' + customerid);
-//        var pageno = document.getElementById('page').value;
-//        var contactemail = (document.getElementById('contactemail').value).trim();
-//        var totalpage = document.getElementById('totalpage').options[document.getElementById('totalpage').selectedIndex].value;
-//        pageno = (pageno)?pageno:1;
-//        var obj = document.getElementById('output-div');
-//        var reloadurl = '<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'edit')); ?>';
-////        Element.hide(obj);
-//        new Ajax.Request(reloadurl, {
-//            method: 'post',
-//            parameters: encodeURI('pageno='+pageno+'&totalpage='+totalpage+'&contactemail='+contactemail),
-//            onComplete: function(transport) {
-//                document.getElementById('output-div').innerHTML = transport.responseText;
-//                pageNumber();
-//                setRecordNavi();
-////                Element.show(obj);
-//            }
-//        });
+    function gotoListPage(){
+        window.location = '<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'index')); ?>';
+    }
+    function validateForm(){
+        
+    }
+    function submitPage(action){
+        if(action=='delete'){
+            if(!confirm('Are you sure to delete this Customer ?')==true){
+                return;
+            }
+        }
+        document.getElementById('actiontype').value = action;
+        document.getElementById('form1').submit();
+        
     }
 </script>
 

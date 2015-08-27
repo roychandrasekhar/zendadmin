@@ -100,15 +100,21 @@ class CustomerController extends AbstractActionController {
     public function updateAction() {
         $request = $this->getRequest();
         $data = $request->getPost();
-        $postdata=array();
-        foreach ($data as $key => $value) {
-            $postdata[$key] = $value;
-        }
-
+        
         $db = $this->getCustomerTable();
-        $db->update($postdata, 
-                array('id' => $data['id'])
-        );
+        if($data['actiontype']=='delete'){
+            $db->delete(array('id' => $data['id']));
+        }elseif($data['actiontype']=='update'){
+            $postdata=array();
+            foreach ($data as $key => $value) {
+                $postdata[$key] = $value;
+            }
+
+            $db->update($postdata, 
+                    array('id' => $data['id'])
+            );
+            
+        }
         return $this->redirect()->toRoute('customer/default', array('controller' => 'customer', 'action' => 'index'));
     }
 
