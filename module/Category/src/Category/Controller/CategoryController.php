@@ -65,6 +65,7 @@ class CategoryController extends AbstractActionController {
         } elseif ($data['actiontype'] == 'update') {
             $postdata = array();
             foreach ($data as $key => $value) {
+                if($key=='actiontype')continue;
                 $postdata[$key] = $value;
             }
 
