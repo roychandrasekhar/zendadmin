@@ -1,0 +1,36 @@
+        <table class='data' cellspacing='0' border='1'>
+            <tr class='headings'>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Approved</th>
+                <th>Status</th>
+                <th>Manage</th>
+            </tr>
+<?php
+$temp = false;
+$returntxt='';
+$displays = true;
+foreach ($this->productlist as $item) {
+    $temp = true;
+    $style = '';?>
+        <tr class='<?= ($displays) ? 'even pointer' : 'pointer'?>' style='cursor:default;<?=$style?>' title='#'>
+            <td class=''><?=$item['name']?></td>
+            <td class=''><?=$item['description']?></td>
+            <td class=''><?=$item['price']?></td>
+            <td class=''><?= ($item['approved']==1)?'Yes':'No' ?></td>
+            <td class=''><?= ($item['status']==1)?'Active':'In-active' ?></td>
+            <td class=''><a href='javascript:editProduct(<?=$item['id']?>)'><?=$item['id']?></a></td>
+        </tr>
+    <?php $displays = ($displays) ? false : true;
+}?>
+<?php if ($temp == false) {?>
+    <tr><td colspan='3'>No Contact person found</td></tr>
+<?php }?>
+        </table>
+
+<script>
+    function editProduct(productid) {
+        window.location = '<?php echo $this->url('product/default', array('controller' => 'product', 'action' => 'edit')); ?>?id='+productid;
+    }
+</script>

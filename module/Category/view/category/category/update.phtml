@@ -1,3 +1,44 @@
 <?php
-    print_r($this->categorydetail);
+//print_r($this->categorydetail);
 ?>
+<form id="form1" method="POST" action="<?php echo $this->url('category/default', array('controller' => 'category', 'action' => 'update')); ?>">
+    <table border="1">
+        <tbody>
+            <tr>
+                <input type="hidden" name="id" value="<?= $this->categorydetail['id'] ?>" />
+                <input type="hidden" name="actiontype" id="actiontype" />
+                <td>Category Name</td>
+                <td><input type="text" name="category_name" value="<?= $this->categorydetail['name'] ?>" /></td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" value="Delete" onclick="submitPage('delete')"/>
+                    <input type="button" value="Add Sub-category" onclick="submitPage('addsub')"/>
+                </td>
+                <td style="text-align: right">
+                    <input type="button" value="Cancel" onclick="gotoListPage()"/>
+                    <input type="button" value="Update" onclick="submitPage('update')"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
+<script>
+    function gotoListPage(){
+        window.location = '<?php echo $this->url('category/default', array('controller' => 'category', 'action' => 'index')); ?>';
+    }
+    function validateForm(){
+        
+    }
+    function submitPage(action){
+        if(action=='delete'){
+            if(!confirm('Are you sure to delete this Category ?')==true){
+                return;
+            }
+        }
+        document.getElementById('actiontype').value = action;
+        document.getElementById('form1').submit();
+        
+    }
+</script>

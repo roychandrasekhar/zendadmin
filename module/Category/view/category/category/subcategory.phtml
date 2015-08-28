@@ -1,0 +1,35 @@
+<form id="form1" method="POST" action="<?php echo $this->url('category/default', array('controller' => 'category', 'action' => 'addcategory')); ?>">
+    <table border="1">
+        <tbody>
+            <tr>
+                <input type="hidden" name="parent_id" value="<?= $this->parentcategoryid ?>" />
+                <td>Parent Category</td>
+                <td><?= $this->parentcategoryname ?></td>
+            </tr>
+            <tr>
+                <td>New Category Name</td>
+                <td><input type="text" name="category_name" value="" /></td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td style="text-align: right">
+                    <input type="button" value="Cancel" onclick="gotoListPage()"/>
+                    <input type="button" value="Add" onclick="submitPage()"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
+<script>
+    function gotoListPage(){
+        window.location = '<?php echo $this->url('category/default', array('controller' => 'category', 'action' => 'index')); ?>';
+    }
+    function validateForm(){
+        
+    }
+    function submitPage(){
+        document.getElementById('form1').submit();
+    }
+</script>

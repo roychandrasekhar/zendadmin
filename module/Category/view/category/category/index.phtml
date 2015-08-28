@@ -15,8 +15,7 @@ Manage Category
                     d = new dTree('d', '<?php echo $this->serverUrl() . $this->basePath('dtree'); ?>');
                     d.add(0, -1, 'Root', '');
                     <?php foreach($this->categorytree as $eachrow){ ?>
-                        d.add(<?=$eachrow['id']?>, <?=$eachrow['parent_id']?>, '<?=$eachrow['name']?>', 
-                        '<?php echo $this->serverUrl().$this->basePath().'/category/category/update?id='.$eachrow['id']?>');
+                        d.add(<?=$eachrow['id']?>, <?=$eachrow['parent_id']?>, '<?=$eachrow['name']?>','<?php echo $this->serverUrl().$this->basePath().'/category/category/edit?id='.$eachrow['id']?>');
                     <?php } ?>
 //                    d.add(1, 0, 'Node 1', '<?php echo $this->serverUrl() . $this->basePath()?>/category/category/update?id='+1);
 //                    d.add(2, 0, 'Node 2', 'example01.html');
@@ -38,6 +37,8 @@ Manage Category
                 <?php
                 if ($this->categorydetail) {?>
                     <?= $this->partial('/category/category/update.phtml', array('categorydetail' => $this->categorydetail)); ?>
+                <?php }else if($this->parentcategoryid){ ?>
+                    <?= $this->partial('/category/category/subcategory.phtml', array('parentcategoryid' => $this->parentcategoryid, 'parentcategoryname' => $this->parentcategoryname)); ?>
                 <?php } ?>
             </td>
         </tr>

@@ -1,1255 +1,232 @@
 /* CSS Stylesheet */
 
-*{ -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; margin: 0; padding: 0; border: none; }
-.clearfix{ clear: both !important; }
-a{ -webkit-transition: all 0.5s ease; -moz-transition: all 0.5s ease; transition: all 0.5s ease; }
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900);
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.clearfix {
+    clear: both !important;
+}
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 26px;
+    color: #5b5b5b;
+    background: #f1f1f1;
+}
+.wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    margin: 0 0 30px;
+}
+html, body {
+    height: 100%;
+    width: 100%;
+}
 
-body{ font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 26px; color: #5b5b5b; }
-.wrapper{ max-width: 1200px; margin: 0 auto; }
-
-h1, h2, h3, h4, h5, h6{ font-weight: normal; }
-
-/* Header */
-
-header{ display: block; clear: both; }
-
-header .top{ background: #284882; min-height: 70px; padding: 0 60px; }
-header .top > ul{ float: left; list-style: none; margin: 25px 0; }
-header .top > ul li{ float: left; font-size: 14px; line-height: 20px; margin: 0 0 0 35px; }
-header .top > ul li:first-child{ margin: 0; }
-header .top > ul li a{ color: #ababab; text-decoration: none; }
-header .top > ul li a:hover{ color: #fff; }
-header .top > p{ float: right; font-size: 14px; line-height: 20px; color: #ababab; margin: 25px 0; }
-header .top > p a{ color: #ababab; text-decoration: none; }
-header .top > p a:hover{ color: #fff; }
-header .top > p span{ float: left; }
-header .top > p span.call{ background: url(../images/icon-call.jpg) no-repeat 0 center; padding: 0 0 0 30px; }
-header .top > p span.mail{ background: url(../images/icon-mail.jpg) no-repeat 0 center; padding: 0 0 0 30px; margin: 0 35px 0 0; }
-
-header .bot{ border-bottom: solid 1px #cdcdcd; padding: 0 60px; }
-
-.logo{ float: left; margin: 38px 0; }
-.logo a, .logo a img{ display: block; }
-
-.btns{ display: block; }
-.btns a{ float: left; display: block; margin: 0 0 0 10px; font-size: 14px; line-height: 20px; color: #fff; background: #284882; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; padding: 13px 38px; text-decoration: none; }
-.btns a:first-child{ margin: 0; }
-.btns a:hover{ background: #2190cc; }
-.btns a.register{ background: #2190cc; }
-.btns a.register:hover{ background: #284882; }
-
-header .bot .btns{ float: right; margin: 27px 0 0; }
-
-#nav{ float: right; padding: 0; margin:0 5px 0 0; }
-#nav li{ float: left; list-style: none; font-size: 16px; line-height: 20px; color: #2190cc; font-weight: 400; margin:0 1px 0 0;}
-#nav li a{ color: #2190cc; text-decoration: none; display: block;  padding: 40px 25px;  }
-#nav li a:hover{ color: #284882;}
-#nav li:hover{ background:#f0f7fd; }
-#nav li.active{background:#f0f7fd;}
-#nav li.active a{ color:#284882;}
-#nav li:first-child{ font-size: 0px; padding-left:0; }
-#nav li:first-child a{ background: url(../images/icon-home.jpg) no-repeat 0 center; width: 17px; }
-#nav li:first-child:hover{background:none;}
-
-
-/* Footer */
-
-footer{ display: block; clear: both; background: #383838; padding: 25px 60px; }
-
-footer > ul{ float: left; list-style: none; }
-footer > ul li{ float: left; font-size: 14px; line-height: 20px; margin: 0 0 0 35px; }
-footer > ul li:first-child{ margin: 0; }
-footer > ul li a{ color: #ababab; text-decoration: none; }
-footer > ul li a:hover{ color: #fff; }
-
-footer > p{ float: right; font-size: 14px; line-height: 20px; color: #ababab; margin: 0; }
-
-
-/* Banner */
-
-#banner{ background: #fffff7; display: block; clear: both; position: relative; }
-#banner .wrapper{ min-height: 440px; }
-#banner .pic{ display: block; position: absolute; right: 0; }
-#banner .caption{ position: relative; z-index: 1; max-width: 570px; padding: 100px 0 0; }
-#banner .caption h2{ font-size: 30px; line-height: 36px; color: #294781; margin: 0 0 16px; }
-#banner .caption h2 span{ color: #2190cc; }
-#banner .caption p{ margin: 0 0 26px; }
-
-
-/* Auction Search */
-
-.auction-search{ background: #2190cc; 
-background-image: linear-gradient(left, rgba(40, 72, 130, 1) 50%, rgba(33, 144, 204, 1) 0%);
-background-image: -o-linear-gradient(left, rgba(40, 72, 130, 1) 50%, rgba(33, 144, 204, 1) 0%);
-background-image: -moz-linear-gradient(left, rgba(40, 72, 130, 1) 50%, rgba(33, 144, 204, 1) 0%);
-background-image: -webkit-linear-gradient(left, rgba(40, 72, 130, 1) 50%, rgba(33, 144, 204, 1) 0%);
-background-image: -ms-linear-gradient(left, rgba(40, 72, 130, 1) 50%, rgba(33, 144, 204, 1) 0%); }
-
-.auction-search .title{ background: #284882; padding: 28px 0; }
-.auction-search .title h2{ font-size: 20px; line-height: 23px; margin: 10px 0; color: #fff; background: url(../images/icon-auction-search.png) no-repeat 0 center; padding: 0 0 0 32px; }
-
-.auction-search .action{ padding: 28px 0 28px 34px; background: #2190cc;  }
-.auction-search .action input[type="search"]{ height: 43px; width: 75%; float: left; background: transparent; color: #bddef0; font-size: 20px; line-height: 43px; border: none; border-left: solid 2px #bddef0; padding: 0 0 0 24px; border-radius:0; }
-
-.auction-search .action input[type="submit"]{ float: right; background: #ffffff; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; border: none; cursor: pointer; display: block; height: 43px; font-size: 14px; line-height: 43px; color: #5b5b5b; padding: 0 40px; -webkit-transition: all 0.5s ease; -moz-transition: all 0.5s ease; transition: all 0.5s ease; width: 20%; margin-right:0; }
-.auction-search .action input[type="submit"]:hover{ background: #284882; color: #fff; }
-
-
-/* Currently Running Auctions */
-.currently-running{ background: #f0f0f0; padding: 90px 0 0; }
-.currently-running h2{ font-size: 30px; line-height: 36px; color: #294781; }
-.currently-running .auction-items{ margin-top: 80px; background: #fff; border-top: solid 5px #2190cc; border-right: solid 1px #cdcdcd; border-left: solid 1px #cdcdcd; -webkit-border-radius: 4px 4px 0 0; -moz-border-radius: 4px 4px 0 0; border-radius: 4px 4px 0 0; padding: 0 100px 36px; }
-.currently-running .auction-items .block{ float: left; width: 20%; margin: 36px 0 0; padding: 0 50px 0 0; }
-.currently-running .auction-items .block:nth-child(5n+5){ clear: none; }
-.currently-running .auction-items .block:nth-child(5n+6){ clear: left; }
-.currently-running .auction-items .block label{ color: #f0f0f0; font-weight: 700; background: #284882; -webkit-border-radius: 50%; -moz-border-radius: 50%; border-radius: 50%; width: 26px; height: 26px; overflow: hidden; display: inline-block; text-align: center; text-transform: uppercase; margin: 0 0 6px; }
-.currently-running .auction-items .block ul{ list-style: none; }
-.currently-running .auction-items .block ul li{ color: #5b5b5b; }
-.currently-running .auction-items .block ul li a{ text-decoration: none; color: #5b5b5b; }
-.currently-running .auction-items .block ul li a:hover{ color: #294781; }
-
-
-/* Currently Running Auctions */
-.ending-soon{ background: #f0f8fd; padding: 90px 0 0; border-top: solid 1px #cdcdcd; }
-.ending-soon h2{ font-size: 30px; line-height: 36px; color: #294781; }
-.ending-soon .ending-list{ padding: 80px 0 60px; display: block; clear: both; }
-.ending-soon .ending-list .block{ overflow: hidden; background: #fff; border-top: solid 5px #2190cc; border-bottom: solid 1px #cdcdcd; border-right: solid 1px #cdcdcd; border-left: solid 1px #cdcdcd; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; margin: 0 0 20px; }
-
-.ending-soon .ending-list .block.red{ border-top-color: #da4f65; }
-
-
-.ending-soon .ending-list .grid_3{ width: 279px; }
-.ending-soon .ending-list .pic{ width: 120px; background: #f0f0f0; border: solid 1px #cdcdcd; min-height: 80px; display: block; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; margin: 0 0 0 20px; }
-.ending-soon .ending-list .block > div{ padding: 14px 0; margin:0 8px;}
-.ending-soon .ending-list h6{ font-size: 16px; list-style: 22px; color: #284882; margin: 14px 0 6px; }
-.ending-soon .ending-list h6 span{ color: #2190cc; }
-.ending-soon .ending-list p{ font-size: 12px; line-height: 18px; color: #5b5b5b; }
-.ending-soon .ending-list .btn{ background: #2190cc; font-size: 14px; line-height: 46px; display: block; color: #fff; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; text-align: center; text-decoration: none; margin: 18px 0 0; width: 90%; }
-.ending-soon .ending-list .btn:hover{ background: #1675a8; }
-.ending-soon .ending-list .btn.auction-end{ background: #da4f65; }
-.ending-soon .ending-list .btn.auction-end:hover{ background: #b9354a; }
-
-.ending-soon .ending-list .btn.make-bid{ background: url(../images/make-bit-btn.jpg) no-repeat 100% 0 #2190cc; padding: 0 37px 0 0; }
-.ending-soon .ending-list .btn.make-bid:hover{ background-color: #284882; }
-
-
-.green{ color: #1cab55 !important; }
-.red{ color: #da4f65 !important; }
-
-/* sell vehicle */
-.sell-vehicle{padding:41px 0; background:#fff; border-bottom:1px solid #cdcdcd;}
-.sell-heading h2{color:#294781; font-size:30px; margin:7px 0 0 0;}
-.sell-vehicle .back-listing{ background:#da4f65;}
-.sell-vehicle .btn{font-size: 14px; line-height: 46px; display: block; color: #fff; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; text-align: center; text-decoration: none; }
-.sell-vehicle .btn:hover{ background:  #b9354a; }
-.vehicle-information-sec form{margin:0;}
-
-.vehicle-information-sec{background:#f0f8fd; padding:70px 0 30px; border-bottom:1px solid #cdcdcd;}
-.vehicle-registration-sec{float:left; width:100%; clear:both; padding-bottom:55px; margin-bottom:20px; position:relative;}
-.vehicle-registration-sec:after{content:""; border-bottom:1px solid #cdcdcd; position:absolute; width:98%; bottom:-1px; left:0; margin-left:1%;}
-.vehicle-form-fld{float:right; width:580px;}
-.vehicle-form-fld input[type="text"]{ width:380px; float:left;}
-.vehicle-form-fld input[type="submit"]{background:#2190cc; float:right; width:180px; height:44px; color:#fff; border:none; margin-right:0;}
-.vehicle-form-fld input[type="submit"]:hover{background:#1883bc;}
-.vehicle-registration-sec h2{color:#294781; font-size:30px; margin:4px 0 0 0;}
-.vehicle-reg-rt p{float:left; color:#1cab55; font-size:18px; line-height:45px; text-align:right; width:300px; padding-right:20px;}
-.fld-block{display:inline-block; clear:both; width:100%; /*border-bottom:1px solid #cdcdcd;*/ padding-bottom:50px; margin-bottom:18px; float:left; position:relative;}
-.fld-block:after{content:""; border-bottom:1px solid #cdcdcd; position:absolute; width:98%; bottom:-1px; left:0; margin-left:1%;}
-.Full-Specification:after{border:none;}
-.Listing-Options .fld-block:after{border:none;}
-.date-picker{background: url(../images/date-picker.png) no-repeat top right #fff;}
-.total-loss-cate{padding:15px 0 30px;}
-.total-loss-cate .checkbox{padding:0;}
-.total-loss-cate .checkbox span{padding:0 85px 0 0; }
-.total-loss-cate .checkbox span label{color:#5b5b5b;}
-.mar-left-right-minus{margin-left:-10px; margin-right:-10px;}
-
-.Sevice-histry h2{color:#294781; font-size:30px; margin:30px 0 15px 0;}
-.his-table table th{background:#f0f0f0; padding:6px 10px; text-align:left; border-right:1px solid #cdcdcd; font-size:16px; color:#5b5b5b; font-weight:normal;}
-.his-table table td{ background:#fff; padding:10px; text-align:left; border-top:1px solid #cdcdcd;  border-right:1px solid #cdcdcd; font-size:16px;}
-.his-table table th:last-child, .his-table table td:last-child{border-right:none;}
-.his-table table { border:1px solid #cdcdcd;  border-radius:4px;}
-.his-table table tr td input{background:#f0f0f0; color:#b0b0b0;}
-.his-table{padding:35px 0 15px;}
-
-.Full-Specification h2{color:#294781; font-size:30px; margin:0 0 30px 0;}
-.Full-Specification{padding-top:30px; border-bottom:none; margin-bottom:0; padding-bottom:0;}
-.Full-Specification ul{list-style:none;}
-.Full-Specification ul li{width:195px; margin:0; padding:0;}
-.Full-Specification ul li label{color:#5b5b5b;}
-.additional-specification{margin-left:0; margin-top:35px;}
-.additional-specification h5{color:#294781; font-size:16px; margin:0 0 15px 0;}
-.additonal-form{display:inline-block; clear:both; width:100%;}
-.additonal-form input[type="text"]{width:69%; float:left; border-right:none; border-radius:3px 0 0 3px}
-.hide-lables .additonal-form input[type="submit"]{margin:0; height:44px; background: url(../images/plus-icon.png) no-repeat 25% 50%  #f0f0f0; border-radius:0 3px 3px 0; color:#284882; width:98px; padding-left:12%;}
-.hide-lables .additonal-form input[type="submit"]:hover, .hide-lables .additonal-form input[type="submit"]:focus{border:1px solid #456db6; color:#000;}
-
-.images-appraisel{ background:#fff; padding:50px 0 40px 0;}
-.images-appraisel h2{color:#294781; font-size:30px; margin:0 0 70px 0;}
-.images-appraisel .action-left-sec label {
-    background: #284882 none repeat scroll 0 0;
-    border-radius: 50%;
-    color: #f0f0f0;
+/* Login Page */
+.container {
+    height: 100%;
+    width: 100%;
+}
+.login {
+    margin: auto;
+    padding: 10% 0 0;
+    width: 320px;
+}
+.login h1 {
+    width: 100%;
+    height: 24px;
+    background: url(../images/logo.png) no-repeat center 0;
+    font-size: 0px;
     display: inline-block;
-    font-weight: 700;
-    height: 26px;
-	line-height:inherit;
-    margin: 0 10px 0 0;
+    vertical-align: top;
+}
+.login h1 a {
+    width: 259px;
+    height: 24px;
+    background: url(../images/logo.png) no-repeat 0 0;
+    font-size: 0px;
+    display: inline-block;
+    vertical-align: top;
+}
+.login .loginform {
+    background: #fff none repeat scroll 0 0;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+    font-weight: 400;
+    margin-left: 0;
+    margin-top: 40px;
     overflow: hidden;
+    padding: 26px 24px;
+}
+.login .loginform ul li {
+    margin: 0 0 10px;
+}
+.login .loginform ul li:last-child {
+    margin: 0;
+}
+.login .loginform .msg {
+    border: 1px dotted #da4f65;
+    color: #da4f65;
+    display: block;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 4px 10px;
     text-align: center;
     text-transform: uppercase;
-    width: 26px;}
-.images-appraisel .action-left-sec ul{list-style:none;}
-.images-appraisel .action-left-sec ul li a{ color:#5b5b5b; text-decoration:none;}
-.images-appraisel .action-left-sec ul li a:hover{color:#000;}
-.images-appraisel .action-left-sec .block{width:100%; clear:both; float:left; margin-bottom:15px;}
-.images-appraisel-upload-form{background:#f0f0f0; border:1px solid #cdcdcd; padding:20px; border-radius:4px;}
-.images-appraisel-upload-form ul{list-style:none;}
-.images-appraisel-upload-form ul li{float:left; width:100%; clear:both; margin-bottom:20px;}
-.images-appraisel-upload-form ul li:last-child{margin-bottom:0;}
-.images-appraisel-upload-form ul li label{height:auto; line-height:inherit; margin:0 0 10px 0;}
-.images-appraisel-upload-form ul li textarea{min-height:125px; padding:0 20px;}
-.images-appraisel-inner{    
+}
+.login .loginform label {
+    color: #777;
+    font-size: 14px;
+    line-height: 20px;
+    display: block;
     clear: both;
-    float: left;
-    margin-bottom: 50px;
-    width: 100%;}
-.images-appraisel-upload-form ul li .upload-btn{background:#1cab55; height:auto; color:#fff; border:1px solid #cdcdcd; margin:0 20px 0 0;}
-.images-appraisel-upload-form ul li .upload-btn:hover{background:#129044;}
-.images-appraisel-upload-form ul li .delet-btn{background:#da4f65; height:auto; color:#fff; border:1px solid #cdcdcd; margin:0;}
-.images-appraisel-upload-form ul li .delet-btn:hover{background:#c53850;}
-.images-appraisel-upload-form form{margin:0;}
-.tyre-tread-depth form, .Listing-Options form{margin:0;}
-.tyre-tread-depth h2, .Listing-Options h2{margin:25px 0 10px 0;}
-.Listing-Options .fld-block{border-bottom:none; margin-bottom:10px;}
-.submit_btn{padding-bottom:0;}
-.hide-lables .submit_btn input.cancel{  background: #da4f65;
-    border-radius: 4px;
-    color: #fff;
-    display: block;
-    font-size: 14px;
-	border:none;
-    margin: 0;
-    text-align: center;
-    text-decoration: none;
-	width:100%;
-	height:46px;
-    }
-.hide-lables .submit_btn input.cancel:hover{ background:#c24155;}	
-.hide-lables .submit_btn input.save{  background: #2190cc;
-    border-radius: 4px;
-    color: #fff;
-    display: block;
-    font-size: 14px;
-	border:none;
-    margin: 0;
-    text-align: center;
-    text-decoration: none;
-	width:100%;
-	height:46px;
-    }
-.hide-lables .submit_btn input.save:hover{ background:#1e81b7;}	
-.hide-lables .submit_btn .submit {background: #1cab55;
-    border-radius: 4px;
-    color: #fff;
-    display: block;
-    font-size: 14px;
-	border:none;
-    margin: 0;
-    text-align: center;
-    text-decoration: none;
-	width:100%;
-	height:46px;}
-.hide-lables .submit_btn .submit:hover{background:#159f4c;} 
-
-/*tool tips sec*/
-.sw-hover-show {
-    background: none repeat scroll 0 0 #284882;
-    color: #fff;
-    display: none;
-    padding: 25px 20px;
-    position: absolute;
-	left:-124px;
-	top:35px;
-	transition:all 400ms ease-in 0s;
-	width:275px;
-	border-radius:4px;
-	z-index:99;
+    margin: 0 0 3px;
 }
-.sw-hover-show:before {
-    border-bottom: 11px solid #284882;
-    border-right: 11px solid transparent;
-    border-left: 11px solid transparent;
-    content: "";
-    display: none;
-    left: 45%;
-    position: absolute;
-    top: -10px;
-
+.login .loginform input[type="text"], .login .loginform input[type="password"] {
+    border: 1px solid #ddd;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07) inset;
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07) inset;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07) inset;
+    font-size: 14px;
+    line-height: 40px;
+    height: 40px;
+    padding: 0 12px;
+    display: block;
+    width: 100%;
+    color: #32373c;
+    outline: 0 none;
+    -webkit-transition: border-color 0.05s ease-in-out 0s;
+    -moz-transition: border-color 0.05s ease-in-out 0s;
+    transition: border-color 0.05s ease-in-out 0s;
+    background: #fbfbfb;
 }
-.sw-bn:hover .sw-hover-show{display:block; transition:all 400ms ease-in 0s;}
-.sw-bn:hover .sw-hover-show:before{display:block; transition:all 400ms ease-in 0s;}
-.middle-img{display:inline-block; position:relative;}
-.middle-img-center{text-align:center;}
-.middle-img ul{list-style:none; padding:0; margin:0;}
-.pos-four{position:absolute; left:48px; bottom:64px;}
-.pos-three{position:absolute; right:15px; top:113px;}
-.pos-one{position:absolute; left:15px; top:113px;}
-.pos-two{position:absolute; left:139px; top:64px;}
-.sw-bn{  background: #284882 none repeat scroll 0 0;
-    border-radius: 100%;
+.login .loginform input[type="text"]:focus, .login .loginform input[type="password"]:focus {
+    border-color: #5b9dd9;
+    -webkit-box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
+    -moz-box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
+    box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
+}
+.login .loginform input[type="submit"] {
+    background: #284882;
+    border-radius: 4px;
     color: #fff;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 14px;
+    line-height: 40px;
+    margin: 10px 0 0;
+    padding: 0 30px;
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease 0s;
+    -moz-transition: all 0.5s ease 0s;
+    transition: all 0.5s ease 0s;
     cursor: pointer;
+    border: none;
+}
+.login .loginform input[type="submit"]:hover {
+    background: #2190cc;
+}
+.header {
+    border-bottom: 1px solid #cdcdcd;
+    padding: 20px 0;
+    background: #fff;
+}
+.header .logo {
+    display: inline-block;
+    float: left;
+    margin: 7px 0 0;
+}
+.header .logo img {
     display: block;
-    font-size: 14px;
-    height: 26px;
-    padding: 0 2px;
-    width: 25px;}
-.sw-bn h3{margin-top:0; margin-bottom:20px; font-size:16px; font-weight:normal; text-align:left;}
-.sw-bn p{font-size:14px; margin:0 0 20px 0; text-align:left;}
-.sw-img-listing{display:inline-block; width:100%; margin:0; padding:0;}
-.sw-img-listing li{display:inline-block; width:106px; height:72px; background:#ababab; margin-right:19px;}
-.sw-img-listing li:last-child{margin-right:0;}
-
-
-.vehicle-details{ border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;  padding:85px 0 0; background:#f0f0f0;}
-.vehicle-details h2{color:#294781; font-size:30px; margin:10px 0 0 0;}
-.vehicle-details-cont{ margin:0 0 0 0;}
-.vehicle-details-cont p{font-size:14px; color:#2190cc;}
-.vehicle-deatils-form{background:#fff; border-top:4px solid #2190cc; border-left:1px solid #cdcdcd; border-right:1px solid #cdcdcd; border-radius:3px; padding:40px 0; float:left; width:100%; margin:80px 0 0;}
-.vehicle-deatils-form span{width:auto; text-align:left; display:inline-block; color:#2190cc; font-size:16px; float:left;}
-.vehicle-deatils-form p{width:47%; margin-right:20px; text-align:right; display:inline-block; float:left;}
-
-.full-specification-sec{border-bottom:1px solid #cdcdcd;  padding:70px 0 0; background:#f0f0f0;}
-.full-specification-sec h2{color:#294781; font-size:30px; margin:20px 0 0 0;}
-.vehicle-deatils-form ul{list-style:none; margin:0; padding:0;}
-.full-specification-sec .vehicle-deatils-form ul li{margin-bottom:18px;}
-.full-specification-sec .vehicle-deatils-form ul li a{color:#5b5b5b; font-size:16px; text-decoration:none;}
-.full-specification-sec .vehicle-deatils-form ul li a:hover{color:#000;}
-.full-specification-sec .vehicle-deatils-form{padding:40px 40px;}
-
-.appraisel-service-details{ background:#fff; padding:90px 0 95px; border-bottom:1px solid #cdcdcd;}
-.appraisel-service-details h2{color:#294781; font-size:30px; margin:20px 0 0 0; display:inline-block;}
-.appraisel-service-details .add-comment{padding:80px 0 0 0;}
-.appraisel-service-details .detail-tyre-depths{padding:80px 0 0 0;}
-.appraisel-service-details .detail-tyre-depths h3{ color:#2190cc; font-size:18px; margin:0 0 20px 0; font-weight:normal;}
-.appraisel-service-details .detail-tyre-depths .his-table{padding:0;}
-.appraisel-service-details .detail-tyre-depths .his-table table th, .appraisel-service-details .detail-tyre-depths .his-table table td{font-size:14px;}
-.appraisel-service-details .add-comment h3{ color:#2190cc; font-size:18px; margin:0 0 20px 0; font-weight:normal;}
-.appraisel-service-details .add-comment p{font-size:16px; line-height:24px;}
-.appraisel-service-mc-middle{text-align:center;}
-.MR-RIGHT-ZERO{margin-right:0;}
-.appraisel-service-details-inner{clear:both; width:100%; float:left;}
-.service-details-table h3{ color:#2190cc; font-size:18px; margin:30px 0 30px 0; font-weight:normal;}
-.service-details-table-sec th{background:#f0f0f0; padding:6px 10px; text-align:left; border-right:1px solid #cdcdcd; font-size:16px; color:#5b5b5b; font-weight:normal;}
-.service-details-table-sec td{ background:#fff; padding:10px; text-align:left; border-top:1px solid #cdcdcd;  border-right:1px solid #cdcdcd; font-size:16px;}
-.service-details-table-sec table th:last-child, .service-details-table-sec table td:last-child{border-right:none;}
-.service-details-table-sec table { border:1px solid #cdcdcd;  border-radius:4px;}
-.details-term-con h2{color:#294781; font-size:30px; margin:0 0 55px 0;}
-.details-term-con{ padding:90px 0;}
-.details-term-con p a{color:#2190cc; text-decoration:none;}
-.details-term-con ul{list-style:none; padding:40px 0 0 25px; margin:0;}
-.details-term-con ul li{font-size:16px; margin-bottom:10px;}
-.detail-inner-btn{text-align:center; margin:70px 0 0 0;}
-.detail-inner-btn .back-listing{background: #da4f65;  border-radius: 4px;
-    color: #fff;
-    display:inline-block;
-    font-size: 14px;
-    line-height: 46px;
-    margin: 0 20px 0 0;
-    text-align: center;
-    text-decoration: none;
-    width: 180px; }
-.detail-inner-btn .make-bid{ background: #2190cc url("../images/make-bit-btn.jpg") no-repeat scroll 100% 0;
-    padding: 0 37px 0 0;
-	 border-radius: 4px;
-    color: #fff;
-    display:inline-block;
-    font-size: 14px;
-    line-height: 46px;
-    text-align: center;
-    text-decoration: none;
-    width: 180px; 
-	}
-.detail-inner-btn .back-listing:hover{ background:#b9354a}	
-.detail-inner-btn .make-bid:hover{background: #284882 url("../images/make-bit-btn.jpg") no-repeat scroll 100% 0;}
-.details-term-text{padding-top:80px;}
-.img-right{float:right;}
-.appraisel-service-mc{padding-top:90px;}
-.no-record-txt{font-size:18px; margin:220px 0; text-align:center; color:#ababab;}
-.sa-sale-sec .vehicle-registration-sec{margin-bottom:0; border-bottom:none;}
-.vehicle-information-sec.sa-sale-sec{padding-bottom:0;}
-
-.detail-page-wrap{background:#f0f8fd; padding:20px 0 65px;}
-.detail-form{background:#fff; border:1px solid #cdcdcd; float:left;}
-.watch-vehicle{padding:28px 20px; border-bottom:1px solid #cdcdcd; float:left; width:100%;}
-.watch-vehicle p{font-size:18px; margin-bottom:10px;}
-.watch-vehicle h3{ font-size:30px; color:#284882; display:inline-block;}
-.watch-vehicle h3 span{ color:#da4f65; font-weight:bold;}
-.watch-vehicle h3 em{ color:#1cab55; font-size:16px; font-style:normal; margin-left:10px;}
-.watch-vehicle-btn{float:right;  border-radius: 4px;
-    color: #fff;
+}
+.header .apart {
+    float: right;
+}
+.footer {
+    background: #383838;
+    clear: both;
     display: block;
-    font-size: 14px;
-	height:46px;
-	width:180px;
-	background:#284882;
-	margin:-12px 0 0 0;
-    line-height: 46px;
+    padding: 25px 0;
     text-align: center;
-    text-decoration: none;}
-.watch-vehicle-btn:hover{background:#152f5d;}	
-.watch-vehicle ul{list-style:none;}
-.watch-vehicle ul li{width:49%; margin-right:1%; float:left; margin-bottom:6px;}
-.watch-vehicle ul li .blue{ color:#2190cc;}
-.watch-vehicle ul li.time-icon{background:url("../images/time-icon.png") no-repeat scroll 0 7px; padding-left:25px;}
-.watch-vehicle ul li.tool-icon{background:url("../images/tool-icon.png") no-repeat scroll 0 7px; padding-left:25px;}
-.watch-vehicle ul li.map-icon{background:url("../images/map-icon.png") no-repeat scroll 5px 7px; padding-left:25px;}
-.watch-vehicle .current-bid-left{float:left; width:360px;}
-.watch-vehicle .current-bid-left p{ font-size:18px;}
-.watch-vehicle-submit{ float:left; width:100%; background:#f0f0f0; padding:20px;}
-.watch-vehicle-submit input[type="text"]{width:360px; border:1px solid #cdcdcd; float:left; height:46px; font-size:16px;}
-.watch-vehicle-submit input[type="submit"]{float:left;  border-radius: 4px;
-    color: #fff;
-    display: block;
+   /* position: fixed;
+    bottom: 0px;
+    left: 0px;*/
+    width: 100%;
+}
+body{ padding: 0 0 70px; }
+.footer p {
+    color: #ababab;
     font-size: 14px;
-	height:46px;
-	width:210px;
-	background:#1cab55;
-	margin:0 0 0 20px;
-    line-height: 46px;
-	border:none;
-    text-align: center;
-    text-decoration: none;}
-.watch-vehicle-submit p{font-size:14px; margin:20px 0 0 0;}	
-.detals-tooltip{float:left; margin:8px 0 0 20px; position:relative;}	
-.abarth-punto-head h2{margin:0 0 0;}
-.abarth-punto-head p{ margin:20px 0 0;}
-.abarth-punto-rt-btn .back-listing{ margin:10px 0 0;}
-
-.ending-soon .ending-list .block.yellow {border-top-color: #fdbc6c;}
-.ending-soon .ending-list .block.yellow .make-bid {background: #fdbc6c url("../images/make-bit-btn.jpg") no-repeat scroll 100% 0;padding: 0 37px 0 0; color:#5b5b5b;}
-.ending-soon .ending-list .block.yellow .make-bid:hover {background: #eaa44c url("../images/make-bit-btn.jpg") no-repeat scroll 100% 0;}
-.ending-soon .ending-list .block.green {border-top-color: #1bab54;}
-.ending-soon .ending-list .block.green .make-bid {background: #1bab54 url("../images/make-bit-btn.jpg") no-repeat scroll 100% 0; padding: 0 37px 0 0;}
-.pagination-wrap{margin:20px 0 0 0; text-align:center; clear:both;}
-.pagination-wrap ul{list-style:none; display:inline-block; margin:30px 0 0 0;}
-.pagination-wrap ul li{margin-right:20px; display:inline-block;}
-.pagination-wrap ul li a{ background:#ababab; color:#fff; padding:14px 32px; border-radius:4px; -webkit-border-radius:4px; -moz-border-radius:4px; text-decoration:none; display:block;}
-.pagination-wrap ul li.current a{color:#fff; background:#284881;}
-.pagination-wrap span.previous_btn{ background: #2290cd url("../images/prev-arrow.png") no-repeat scroll 25px 24px; color:#fff; padding:17px 62px; border-radius:4px; -webkit-border-radius:4px; -moz-border-radius:4px;  color:#fff; margin-right:20px; cursor:pointer;}
-.pagination-wrap span.next_btn{ background: #2290cd url("../images/next-arrow.png") no-repeat scroll 130px 24px; color:#fff; padding:17px 62px; border-radius:4px; -webkit-border-radius:4px; -moz-border-radius:4px;  color:#fff; cursor:pointer;}
-
-.buying-action .ending-list{ padding-top:30px;}
-.buying-action {padding-top:30px;}
-.refine-results-left{width:480px; float:left;}
-.sort-liting-rt{float:right; width:680px;}
-.refine-results-left span{ background:#2290cd; height:48px; width:180px; line-height:48px; display:block; float:left; color:#fff; text-align:center; border-radius:4px; -webkit-border-radius:4px; -moz-border-radius:4px;}
-.refine-results-left p{display:inline-block; margin-left:20px; margin-top:10px;}
-.sort-by{float:right; width:252px;}
-.page-size{float:right; width:180px; margin-right:30px;}
-.sort-by label, .page-size label {line-height:inherit; height:auto; color:#5b5b5b; font-size:16px; width:auto; margin-right:20px;}
-.page-size span.select{width:80px; border:none;}
-.page-size select{background:#ababab; color:#fff !important; border-radius:4px; -webkit-border-radius:4px; -moz-border-radius:4px; padding-left:10px !important;}
-.page-size span.select:after{ background: #ababab url("../images/drop-arrow.png") no-repeat scroll 15px 20px; border-radius:4px; -webkit-border-radius:4px; -moz-border-radius:4px;}
-.sort-by span.select{width:180px; border:none;}
-.sort-by select{background:#ababab; color:#fff !important; border-radius:4px; -webkit-border-radius:4px; -moz-border-radius:4px; padding-left:10px !important;}
-.sort-by span.select:after{ background: #ababab url("../images/drop-arrow.png") no-repeat scroll 15px 20px; border-radius:4px; -webkit-border-radius:4px; -moz-border-radius:4px;}
-
-.ending-soon .dashboard-ending-list{padding:0;}
-.dashboard-ending-soon{padding-top:0; padding-bottom:70px; border-top:none;}
-.dashboard-ending-soon .grid{margin:0 6px;}
-.buying-action .grid{margin:0 5px;}
-
-.notification{background:#1dab55; min-height:100px; position:absolute; top:0; left:0; width:100%; padding:35px 40px 0 130px;}
-.notification:before{ content:""; background: #0e9344 url("../images/notify-icon.png") no-repeat scroll 50% 50%; width:100px; height:100px; left:0; top:0; position:absolute;}
-.notification p{color:#fff; font-size:18px;}
-.notification-cross{ position:absolute; top:33px; right:40px; background: url("../images/notification-cross.png") no-repeat scroll 50% 50%; width:34px; height:34px;}
-.winning-cont{ padding:40px 0 0 0; width:100%; display:inline-block;}
-.winning-cont p{background: url("../images/notify-winning-icon.png") no-repeat scroll 10px 0; padding:0 0 0 45px; color:#1cab55; font-size:18px;}
-
-.btns .my-account{ background:#1dab55;}
-.btns .my-account:hover{background:#1dc55f;}
-.btns a.logout{ background:#da5067;}
-.btns a.logout:hover{background:#b9354a;}
-
-.bottom-btns{margin:30px 0 50px 0; display:inline-block; width:100%; text-align:center;}
-.bottom-btns .bottom-btns-middle{display:inline-block;}
-.bottom-btns .bottom-btns-middle a.login{ background: #284882;
+    line-height: 20px;
+    margin: 0;
+}
+.button {
+    background: #284882 none repeat scroll 0 0;
     border-radius: 4px;
     color: #fff;
-    display: block;
-    float: left;
+    display: inline-block;
+    vertical-align: top;
     font-size: 14px;
-	min-width:180px;
-	margin:0 20px 0 0;
-    line-height: 20px;
-    padding: 15px 20px;
-    text-decoration: none;}
-.bottom-btns .bottom-btns-middle a.login:hover{background: #2190cc;}	
-.bottom-btns .bottom-btns-middle a.register{   background: #2190cc;
-    border-radius: 4px;
-    color: #fff;
-    display: block;
-    float: left;
-    font-size: 14px;
-	min-width:180px;
-    line-height: 20px;
-    padding: 15px 20px;
-    text-decoration: none;}
-.bottom-btns .bottom-btns-middle a.register:hover{background: #284882;}	
-
-.tooltip-none{ background: #212121 none repeat scroll 0 0;
-    color: #fff;
-    display: none;
-    font-size: 14px;
-	line-height:20px;
-    left: 33px;
-    padding: 10px 12px;
-    position: absolute;
-    top: -10px;
-    width: 90px;}
-.tooltip-none:before {
-   border-bottom: 6px solid transparent;
-    border-right: 6px solid #212121;
-    border-top: 6px solid transparent;
-    content: "";
-    left: -6px;
-    position: absolute;
-    top: 15px;
+    line-height: 40px;
+    height: 40px;
+    padding: 0 20px;
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease 0s;
+    -moz-transition: all 0.5s ease 0s;
+    transition: all 0.5s ease 0s;
 }
-.detals-tooltip:hover .tooltip-none{display:block;}
-
-.MAR-LT{margin-left:0;}
-.MAR-RT{margin-right:0;}
-.MAR-BOTTOM{margin-bottom:0;}
-
-.Float-RT{float:right;}
-.Float-LT{float:Left;}
-
-
-
-/*pop up css start*/
-#lean_overlay {
-	position: fixed;
-	z-index: 100;
-	top: 0px;
-	left: 0px;
-	height: 100%;
-	width: 100%;
-	background: #000;
-	display: none;
+.button:hover {
+    background: #2190cc none repeat scroll 0 0;
 }
-.popupContainer {
-	position: absolute !important;
-	width: 380px;
-	height: auto;
-	left: 40%;
-	top: 80px;
-	background: #FFF;
+.nav {
+    border-bottom: 1px solid #cdcdcd;
+    padding: 12px 0;
+    background: #fff;
 }
-.register-btn {
-	padding: 15px 20px;
-	background: #2190cc;
-	color: #fff;
-	text-align: center;
-	text-decoration: none;
-	font-size: 14px;
-	border-radius: 4px;
+.nav ul {
+    font-size: 0px;
 }
-.register-btn:hover{background:#0e7cb7; transition:all 0.1s ease 0s;}
-.login-btn {
-	padding: 15px 20px;
-	background: #1cab55;
-	color: #fff;
-	text-align: center;
-	text-decoration: none;
-	font-size: 14px;
-	border-radius: 4px;
+.nav ul li {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+    margin: 0 0 0 20px;
+    color: #284882;
 }
-.login-btn:hover{background:#0d9644; transition:all 0.1s ease 0s;}
-.back_btn {
-	padding: 15px 20px;
-	background: #e0e0e0;
-	color: #212121;
-	text-align: center;
-	text-decoration: none;
-	font-size: 14px;
-	border-radius: 4px;
+.nav ul li:first-child {
+    margin: 0;
 }
-.btn_red {
-	background: #ED6347;
-	color: #FFF;
+.nav ul li a {
+    color: #284882;
+    text-decoration: none;
 }
-.btn:hover {
-	background: #E4E4E2;
-}
-.btn_red:hover {
-	background: #C12B05;
-}
-a.btn {
-	color: #666;
-	text-align: center;
-	text-decoration: none;
-}
-a.btn_red {
-	color: #FFF;
-}
-.one_half {
-	width: 50%;
-	display: block;
-	float: left;
-}
-.one_half.last {
-	width: 45%;
-	margin-left: 5%;
-}
-/* Popup Styles*/
-.popupHeader {
-	font-size: 30px;
-	color: #294781;
-	text-transform: uppercase;
-}
-.popupHeader {
-	position: relative;
-	padding: 40px 20px 20px;
-	text-align: center;
-}
-.popupHeader .modal_close {
-	background: #da4f65;
-	color: #fff;
-	cursor: pointer;
-	font-size: 16px;
-	height: 34px;
-	position: absolute;
-	right: -20px;
-	text-align: center;
-	top: -20px;
-	border-radius: 100%;
-	width: 34px;
-}
-.crose-icon {
-	margin-top: 4px;
-	display: inline-block;
-}
-.popupHeader .modal_close:hover{background:#f84965;}
-.popupBody {
-	padding: 0px 20px 20px;
-}
-.centeredText {
-	text-align: center;
-	margin: 20px 0;
-	clear: both;
-	overflow: hidden;
-	text-transform: uppercase;
-}
-.action_btns {
-	clear: both;
-	overflow: hidden;
-}
-.action_btns a {
-	display: block;
-}
-/* User Login Form */
-.social_login p {
-	margin: 0;
-	color: #5b5b5b;
-	font-size: 16px;
-	line-height: 24px;
-	margin-bottom: 30px;
-	text-align: center;
-}
-.social_login p a {
-	color: #2190cc;
-}
-.user_login {
-	display: none;
-}
-.user_login label {
-	display: block;
-	margin-bottom: 5px;
-}
-.user_login input[type="text"], .user_login input[type="email"], .user_login input[type="password"] {
-	display: block;
-	width: 90%;
-	padding: 10px;
-	border: 1px solid #DDD;
-	color: #666;
-}
-.user_login input[type="text"]:focus, .user_login input[type="email"]:focus, .user_login input[type="password"]:focus{ border:1px solid #a1a1a1;}
-.user_login input[type="checkbox"] {
-	float: left;
-	margin-right: 5px;
-}
-.user_login input[type="checkbox"]+label {
-	float: left;
-}
-.user_login .checkbox {
-	margin-bottom: 10px;
-	clear: both;
-	overflow: hidden;
-}
-/* User Register Form */
-.user_register {
-	display: none;
-}
-.user_register label {
-	display: block;
-	margin-bottom: 5px;
-}
-.user_register input[type="text"], .user_register input[type="email"], .user_register input[type="password"] {
-	display: block;
-	width: 93.5%;
-	padding: 10px;
-	border: 1px solid #DDD;
-	color: #666;
-}
-.user_register input[type="text"]:focus, .user_register input[type="email"]:focus, .user_register input[type="password"]:focus{border:1px solid #a1a1a1;}
-.user_register input[type="checkbox"] {
-	float: left;
-	margin-right: 5px;
-}
-.user_register input[type="checkbox"]+label {
-	float: left;
-}
-.user_register .checkbox {
-	margin-bottom: 10px;
-	clear: both;
-	overflow: hidden;
-}
-/* User Login Form sec */
-.user_login_form label {
-	display: block;
-	margin-bottom: 15px;
-	color: #284882;
-	font-size: 14px;
-}
-.user_login_form input[type="text"], .user_login_form input[type="email"], .user_login_form input[type="password"] {
-	display: block;
-	width: 100%;
-	padding: 10px;
-	border: 1px solid #cdcdcd;
-	color: #666;
-	border-radius: 3px;
-	height: 44px;
-}
-.user_login_form input[type="text"]:focus, .user_login_form input[type="email"]:focus, .user_login_form input[type="password"]:focus{border:1px solid #a1a1a1;}
-.user_login_form input[type="checkbox"] {
-	float: left;
-	margin-right: 5px;
-}
-.user_login_form input[type="checkbox"]+label {
-	float: left;
-}
-.user_login_form .checkbox {
-	margin-bottom: 10px;
-	clear: both;
-	overflow: hidden;
-}
-.forgot_password {
-	display: block;
-	margin: 18px 0 25px;
-	clear: both;
-	overflow: hidden;
-	text-decoration: none;
-	color: #da4f65;
-	font-size: 12px;
-	text-align: center;
-	outline: none;
-}
+.main{ padding: 30px 0; }
 
+table{ width: 100%; border-collapse: collapse; table-layout: fixed; background: #fff; }
+table, table td, table th{ border: solid 1px #cdcdcd; font-size: 14px; line-height: 20px; }
+table th{ font-weight: 700; }
+table td{ padding: 6px 10px; font-size: 13px; line-height: 19px; }
+table th{ padding: 10px; }
+table a{ color: #2190cc; }
+table tr.headings th:last-child, table tr.pointer td:last-child{ width: 8%; text-align: center; }
+table tr.headings th:nth-child(6), table tr.pointer td:nth-child(6){ width: 10%; text-align: center; }
+table tr.headings th:nth-child(7), table tr.pointer td:nth-child(7){ width: 8%; text-align: center; }
+table tr.even{ background: #f7f7f7; }
+table tr.headings{ background: #F0F8FD; }
 
-/*responsive css start*/
-
-@media only screen and (min-width: 1025px) and (max-width: 1200px) {
-  .auction-search .title{padding:15px 0;}
-  .auction-search .action input[type="submit"]{width:auto;}
-  .auction-search .action input[type="search"]{width:72%;}
-  
-   header .bot, header .top{padding:0 15px;}
-  
-  .currently-running .auction-items{padding:0 50px 30px;}
-  .currently-running .auction-items .block{width:20%;}
-  
-  .total-loss-cate .checkbox span { padding: 0 40px 0 0;}
-  .Full-Specification ul li{width:230px;}
-  
-  .vehicle-form-fld input[type="text"]{width:55%;}
-  .vehicle-form-fld{width:52%;}
-  .vehicle-form-fld input[type="submit"]{width:auto;}
-  
-  .vehicle-reg-rt{width:640px;}
-  .vehicle-reg-head{width:280px;}
-  
-  .ending-soon .ending-list .grid_3{width:215px;}
-  .ending-soon .ending-list h6{margin-top:0;}
-}
-
-@media only screen and (min-width: 980px) and (max-width: 1024px) {
-  .auction-search .title{padding:15px 0;}
-  .auction-search .action input[type="submit"]{width:auto;}
-  .auction-search .action input[type="search"]{width:72%;}
-  
-  header .bot, header .top{padding:0 15px;}
-  
-  .currently-running .auction-items{padding:0 50px 30px;}
-  .currently-running .auction-items .block{width:20%;}
-  
-  .ending-soon .ending-list .grid_3{width:215px;}
-  .ending-soon .ending-list h6{margin-top:0;}
-  
-  .full-specification-img img{width:100%;}
-  .images-appraisel-upload-form img{width:100%;}
-  
-  .watch-vehicle-submit input[type="text"]{width:43%;}
-  .watch-vehicle-btn{float:left; margin-top:15px;}
-  
-  .vehicle-deatils-form span{font-size:14px;}
-  .vehicle-deatils-form p{font-size:14px;}
-  
-  .total-loss-cate .checkbox span { padding: 0 40px 0 0;}
-  .Full-Specification ul li{width:230px;}
-  
-  .vehicle-form-fld input[type="text"]{width:55%;}
-  .vehicle-form-fld{width:52%;}
-  .vehicle-form-fld input[type="submit"]{width:auto;}
-  
-  .vehicle-reg-rt{width:640px;}
-  .vehicle-reg-head{width:280px;}
-  
-  .tooltip-none::before{border-left:5px solid #212121; border-right:none; left:90px;}
-  .tooltip-none{left:-100px; top:-5px;}
-     
-  .refine-results-left{width:43%;}
-  .sort-liting-rt{width:57%;}
-  
-  .additonal-form input[type="text"]{width:65%;}
-  
-  footer{padding:25px 40px;}
-  
-}
-
-@media only screen and (min-width: 768px) and (max-width: 979px) {
-	header .top{ padding:0 15px;}
-	header .top > ul li{margin:0 0 0 15px;}
-	header .top > p span.mail{margin:0 15px 0 0; padding:0 0 0 20px;}
-	header .top > p span.call{padding:0 0 0 20px;}
-	header .bot{padding:0 15px;}
-	#nav li a{padding:25px 25px;}
-	
-	#banner .caption{max-width:270px; padding:50px 0 0;}
-	
-   .currently-running .auction-items .block {margin:20px 0 0; padding:0 20px 0 0; width: 20%;}
-   .currently-running .auction-items{margin-top:30px; padding:0 20px 20px;}
-   .currently-running{padding:30px 0;}
-   .currently-running h2, .ending-soon h2{font-size:26px;}
-   
-   .ending-soon{padding:40px 0 0;}
-   .ending-soon .ending-list{padding:30px 0 20px;}
-   .ending-soon .ending-list .grid_3 { width: 138px;}
-   .ending-soon .ending-list .grid_2{ width:125px;}
-   .ending-soon .ending-list h6{margin:0 0 5px 0;}
-   .ending-soon .ending-list .pic{margin:0 0 0 10px;}
-   .ending-soon .ending-list .btn{margin:5px 0 0 0; width:95%; font-size:13px;}
-   
-   .auction-search .title{padding:15px 0;}
-   .auction-search .action input[type="search"]{width:64%;}
-   .auction-search .action input[type="submit"]{width:auto;}
-   
-   .buying-action .grid{margin:0 9px;}
-   
-   .refine-results-left{width:35%;}
-   .sort-liting-rt{width:65%;}
-   .refine-results-left p{margin-left:0;}
-   
-   .home-tabouter ul.heading li.tab-list{width:168px;}
-   .home-tabouter ul.heading li.tab-list-sub{width:130px;}
-   .dashboard-ending-soon .home-tabouter ul.heading{margin:0 auto 30px;}
-   .dashboard-ending-soon .home-tabouter h2{padding:15px 0;}
-   
-   .Full-Specification ul li{width:240px;}
-   .additional-specification{width:350px;}
-   .back-listing-btn, .abarth-punto-rt-btn{width:180px; padding-right:10px;}
-   
-   .vehicle-reg-rt p{width:100%; text-align:left; line-height:36px;}
-   .vehicle-form-fld{width:100%;}
-   .vehicle-form-fld input[type="text"]{width:55%;}
-   .vehicle-registration-sec h2{margin-top:33px;}
-   .vehicle-registration-sec::after{width:96%; margin-left:1%;}
-   
-   .vehicle-details{padding:40px 0 0;}
-   .vehicle-deatils-form{margin:40px 0 0;}
-   .vehicle-deatils-form .vehicle-detail-form-left{margin-left:10px; width:47%;}
-   .vehicle-deatils-form .vehicle-deatils-form-right{margin-left:10px; width:47%;}
-   
-   .vehicle-reg-rt{width:430px;}
-   .vehicle-reg-head{width:280px;}
-   
-   .full-specification-sec{padding:30px 0 0;}
-   .full-specification-sec h2{font-size:26px; margin:15px 0 0;}
-   .vehicle-details-cont img{width:100%;}
-   .full-specification-sec .vehicle-deatils-form{padding:20px;} 
-   .full-specification-sec .vehicle-deatils-form ul li { margin-bottom: 10px; margin-left: 0;  margin-right: 1%; width: 32%;}
-   
-   .Full-Specification h2{margin-bottom:15px;}
-	
-   .appraisel-service-details{padding:30px 0;}
-   .appraisel-service-mc { padding-top: 40px;}
-   .appraisel-service-details .add-comment h3{font-size:16px; margin-bottom:10px;}
-   .appraisel-service-details .detail-tyre-depths h3{font-size:16px; margin-bottom:15px;}
-   .appraisel-service-details .add-comment{padding-top:50px;}
-   .appraisel-service-details .detail-tyre-depths{padding:50px 0 0;}
-   
-   .service-details-table h4{margin:20px 0;}
-   
-   .details-term-con{padding:40px 0;}
-   .details-term-con h2{margin:0 0 30px 0;}
-   .detail-inner-btn{margin:40px 0 0;}
-   
-   .detail-page-wrap{padding:20px 0 30px;}
-   
-   footer{padding:15px 10px;}
-   footer > ul li{margin:0 0 0 20px;}
-   
-   .watch-vehicle-btn{float:left; margin:15px 0 0;}
-   .watch-vehicle ul li{width:100%; margin-right:0;}
-   .watch-vehicle{padding:12px 20px;}
-   .watch-vehicle-submit input[type="submit"]{width:auto; padding:0 10px;}
-   .watch-vehicle-submit input[type="text"]{width:40%;}
-   
-   .images-appraisel-upload-form img{width:100%;}
-   .images-appraisel-upload-form ul li .upload-btn{padding:0 10px; margin:0 5px 0 0;}
-   .images-appraisel-upload-form ul li .delet-btn{padding:0 10px;}
-   .images-appraisel{padding:30px 0;}
-   .images-appraisel h2{margin:0 0 30px 0;}
-   
-   .tyre-tread-depth h2, .Listing-Options h2{margin:0;}
-   .tyre-tread-depth .fld-block{padding-bottom:30px;}
-   .Listing-Options .fld-block{padding-bottom:30px;}
-   
-   .middle-img > img{width:100%;}
-/*   .pos-three { right:10px; top:93px;}   
-   .pos-two { left: 102px; top:55px;}  
-   .pos-one { left: 11px;top: 92px;}*/
-   
-   .vehicle-registration-sec{padding-bottom:30px; margin-bottom:10px;}
-   .vehicle-information-sec{padding:30px 0;}
-   .vehicle-information-sec .fld-block{padding-bottom:35px;} 
-   .vehicle-information-sec .fld-block.Full-Specification{padding:15px 0 0;}
-
-   .Sevice-histry h2{margin:15px 0 0;}
-   
-   .appraisel-service-mc-right{width:240px;}
-   
-   .winning-cont{padding:25px 0 0;}
-   .winning-cont p{padding:0 0 0 35px; background-position:0 0;}
-   
-   .total-loss-cate .checkbox span { padding: 0 10px 0 0;}
-   .bottom-btns{margin:10px 0 20px 0;}
-   
-   .tooltip-none::before{border-left:5px solid #212121; border-right:none; left:90px;}
-   .tooltip-none{left:-100px; top:-5px;}
-   
-   .pagination-wrap span.previous_btn, .pagination-wrap span.next_btn{padding:17px 40px; background-position:80px 24px;}
-   .pagination-wrap{margin-bottom:30px;}
-   .pagination-wrap ul{margin:0;}
-   
-}
-
-@media only screen and (min-width: 640px) and (max-width: 767px) {
-	 #banner{padding-bottom:30px;}
-	
-	.currently-running .auction-items .block{ width:25%; padding:0 20px 0 0; min-height:160px; margin:15px 0 0 0;}
-	.currently-running .auction-items .block:nth-child(5n+6){clear:inherit;}
-	
-	.auction-search .action input[type="search"]{width:66%;}
-	.auction-search .action input[type="submit"]{width:auto; float:left;}
-	.auction-search .title{margin:0;}
-	
-	.pagination-wrap span.previous_btn{padding:17px 40px; }
-	.pagination-wrap span.next_btn{padding:17px 40px; background-position:80px 24px;}
-	.pagination-wrap ul li a{padding:14px 20px;}
-	
-	
-    .full-specification-sec .vehicle-deatils-form ul li { margin-bottom:3px; margin-right:1%; width:49%;}
-	
-	.appraisel-service-details h2{font-size:26px; margin:25px 0 0;}
-	
-	.hide-lables .additonal-form input[type="submit"]{width:150px; padding-left:8%;}
-	
-	.watch-vehicle-submit input[type="text"]{width:50%;}
-	
-	.ending-soon .ending-list .grid_2{ width:150px;}
-	.ending-soon .ending-list .grid_3 {width: 120px;}
-	.ending-soon .ending-list h6{margin:0 0 5px 0;}
-	
-}
-
-@media only screen and (min-width: 480px) and (max-width: 639px) {	
-	.ending-soon .ending-list .btn{width:40%; margin:0;}
-	
-	.auction-search .action input[type="submit"]{width:auto; float:left; margin:0;}
-	.auction-search .action input[type="search"]{width:53%;}
-	
-	.pagination-wrap span.previous_btn{padding:17px 15px 17px 35px; margin-right:5px;}
-	.pagination-wrap span.next_btn{padding:17px 35px 17px 20px; background-position:57px 24px;}
-	.pagination-wrap ul li a{padding:14px 15px;}
-	.pagination-wrap ul li{margin-right:3px;}
-	.pagination-wrap{margin-bottom:10px;}
-	
-	.watch-vehicle-submit input[type="submit"]{width:auto; padding:0 15px;}
-	.watch-vehicle-submit input[type="text"]{width:40%;}
-	
-	.hide-lables .additonal-form input[type="submit"]{width:125px;}
-		
-    .full-specification-sec .vehicle-deatils-form ul li { margin-bottom:3px; margin-right:1%; width:49%;}
-	
-	 footer > ul li{margin:0 0 0 20px;}
-	
-}
-
-@media screen and (max-width: 767px) {
-.fld-block label{ height:30px; line-height:30px; margin-top:0;}
-.fld-block{padding-bottom:25px; margin-bottom:0px;}
-.fld-block::after{margin-left:0; width:100%;}
-
-.vehicle-registration-sec{ margin-bottom:10px; padding-bottom:25px;}
-.vehicle-reg-rt p{width:100%; text-align:left;}
-.vehicle-form-fld{width:100%;}
-.vehicle-information-sec{padding:20px 0 0;}
-.vehicle-registration-sec h2{margin:15px 0 0 ;}
-
-.vehicle-details{padding:15px 0 0;}
-.vehicle-deatils-form{margin:20px 0 0;}
-
-.images-appraisel h2{margin-bottom:20px;}
-.images-appraisel{padding:20px 0;}
-.images-appraisel-inner{margin-bottom:0;}
-.appraisel-service-details{padding:30px 0;}
-
-.tyre-tread-depth h2, .Listing-Options h2{margin:10px 0;}
-input[type="checkbox"], input[type="checkbox"]:invalid:not(:focus){top:0 !important;}
-
-.Sevice-histry h2, .Full-Specification h2{ margin:15px 0 15px 0;}
-.Full-Specification{padding:0;}
-
-header .top > ul li{ margin:0 0 0 12px;}
-header .top{padding:0 15px; display:inline-block; text-align:center;}
-header .top > ul { display: inline-block; float: none; margin: 15px 0 10px;}
-header .top > p{margin:0 0 15px; display:inline-block; float:none;}
-header .top > p span.mail{margin:0 15px 0 0;}
-header .bot{padding:0 15px;  text-align:center;}
-
-#banner{float:left; width:100%;}
-#banner .pic{position:inherit; width:100%;}
-#banner .caption { margin: 0 auto 20px; max-width: 92%; padding: 0;}
-
-.auction-search{float:left; width:100%;}
-.auction-search .action{padding:0 15px 15px; margin:0; background:none;}
-.auction-search .title{padding:15px 0; margin:0;}
-.auction-search{ background: #284882; }
-.currently-running .auction-items{margin-top:20px; padding:0 20px 20px;}
-
-.refine-results-left{width:100%;}
-.sort-liting-rt{width:100%; margin:10px 0 0 0;}
-
-.pagination-wrap ul{margin:0 0 20px;}
-
-.dashboard-ending-soon .home-tabouter ul.heading li{margin:0 0 5px 0;}
-.dashboard-ending-soon .home-tabouter ul.heading{ margin:0 0 15px 0;}
-.dashboard-ending-soon .home-tabouter h2{padding:15px 0;}
-
-.sell-vehicle{float:left; width:100%; padding:0 0 15px 0;}
-.bottom-btns{margin:0 0 15px 0;}
-
-.full-specification-sec{padding:0;}
-.vehicle-details-cont img{width:100%;}
-.full-specification-img{margin:15px 0 0 0;}
-.full-specification-sec .vehicle-deatils-form{padding:15px;}
-.full-specification-sec h2{margin:15px 0 10px;}
-
-.appraisel-service-mc{padding-top:0;}
-.appraisel-service-details .add-comment{padding:15px 0;}
-.appraisel-service-details .detail-tyre-depths{padding:20px 0 0;}
-.appraisel-service-details .detail-tyre-depths h3{margin:0 0 10px 0;}
-.abarth-punto-head h2{margin-top:10px;}
-.service-details-table h3{margin:15px 0;}
-
-.appraisel-service-details .add-comment h3{margin:0 0 10px 0;}
-
-.vehicle-form-fld input[type="text"]{width:68%;}
-.vehicle-deatils-form{padding:20px 0;}
-
-.details-term-con {padding: 30px 0;}
-.details-term-con h2{margin:0 0 20px 0;}
-
-.detail-inner-btn{margin:20px 0 0;}
-.detail-page-wrap{display:inline-block; padding:20px 0;}
-
-.watch-vehicle-submit p{margin-top:10px;}
-.watch-vehicle ul li{width:100%; margin-right:0;}
-.watch-vehicle{padding:15px 20px;}
-
-.Listing-Options .fld-block{padding-bottom:15px; margin-bottom:0;}
-
-.images-appraisel-middle{text-align:center;}
-
-.additional-specification{margin-top:15px;}
-
-footer{padding:15px 15px; text-align:center;}
-footer > ul{float:none; display:inline-block;}
-footer > p{float:none; display:inline-block; clear:both;}
-
-.tooltip-none::before{border-left:5px solid #212121; border-right:none; left:90px;}
-.tooltip-none{left:-100px; top:-5px;}
-
-.navigation{display:none;}
-.nav-sec a.show-mobile{width:48px; height:48px; display:inline-block !important; background:url("../images/menu-toogle.png") no-repeat scroll 0 0; font-size:0; margin-bottom:10px;}
-.nav-sec{clear:left;  text-align:center;}
-nav #nav{background:#284882; width:100%; position:relative; margin-top:15px;}
-nav ol li:first-child::before { border-bottom: 10px solid #284882; border-left: 9px solid transparent; border-right: 9px solid transparent; content: ""; display: block; height: 0; position: absolute; right: 48%; top: -10px; width: 0;}
-#nav li:hover{background:#f5f5f5 !important; color:#212121;}
-#nav li{float:left; width:100%; border-bottom:1px solid #fff;}
-#nav li:last-child{border-bottom:none;}
-#nav li a { color: #fff; display: block; font-size:16px; padding: 10px 20px; text-decoration: none;}
-#nav li:first-child a{width:auto; background:none;}
-
-.popupHeader{padding:20px;}
-.social_login p{margin:0 0 10px;}
-.user_login_form label{margin-bottom:6px;}
-.forgot_password{margin:10px 0;}
-.social_login br, .user_login br, .user_register br{display:none;}
-.user_login_form input[type="text"], .user_login_form input[type="email"], .user_login_form input[type="password"]{margin-bottom:6px;}
-.action_btns{margin-top:15px;}
-
-.ending-soon .ending-list{padding:20px 0;}
-.ending-soon, .currently-running{padding:15px 0 0; width:100%; display:inline-block; float:left;}
-
-.images-appraisel-upload-form img{width:100%;}
-	
-}
-
-@media screen and (max-width: 639px) {
-header .bot{padding:0 15px;  text-align:center;}
-header .bot .btns{float:none; width:100%; display:inline-block; margin:0 0 10px 0;}
-
-.logo{float:none; clear:both; margin:15px 0;}
-.logo a{display:inline-block;}
-.btns a{float:none; display:inline-block;}
-
-.currently-running .auction-items .block label{float:left; margin:5px 15px 0 0;}
-.currently-running .auction-items .block ul{float:left;}
-.currently-running .auction-items .block:nth-child(5n+6){clear:inherit;}
-.currently-running .auction-items .block{padding:0; margin:15px 0 0; width:100%;}
-
-.ending-soon .ending-list .block{padding:15px;}
-.ending-soon .ending-list .block > div{padding:0; width:100%; margin:5px 0;}
-.ending-soon .ending-list .pic{margin:0;}
-.ending-soon .ending-list h6{margin:0;}
-
-.sort-by label, .page-size label{width:100%; margin-right:0; margin-top:5px;}
-.page-size, .sort-by{width:100%; margin-right:0;}
-.page-size span.select, .sort-by span.select{width:100%;}
-
-.vehicle-form-fld input[type="text"]{width:57%;}
-.Full-Specification ul li{width:100%;}
-
-#banner .caption p { margin: 0 0 15px;}
-#banner .caption h2 { font-size: 24px; line-height: 30px; margin: 0 0 10px;}
-
-.appraisel-service-mc .sw-hover-show{width:250px;}
-.appraisel-service-mc ul li.pos-three .sw-hover-show{ left:-210px;}
-.appraisel-service-mc ul li.pos-one .sw-hover-show{ left:-15px;}
-.appraisel-service-mc ul li.pos-three .sw-hover-show:before{left:85%;}
-.appraisel-service-mc ul li.pos-two .sw-hover-show:before{left:50%;}
-.appraisel-service-mc ul li.pos-one .sw-hover-show:before{ left:7%;}
-.appraisel-service-mc .sw-img-listing li{width:90px;}
-
-.images-appraisel .sw-hover-show{width:250px;}
-.images-appraisel ul li.pos-three .sw-hover-show{ left:-210px;}
-.images-appraisel ul li.pos-one .sw-hover-show{ left:-15px;}
-.images-appraisel ul li.pos-three .sw-hover-show:before{left:85%;}
-.images-appraisel ul li.pos-two .sw-hover-show:before{left:50%;}
-.images-appraisel ul li.pos-one .sw-hover-show:before{ left:7%;}
-.images-appraisel .sw-img-listing li{width:90px;}
-
-.appraisel-service-details h2{margin:0 0 15px 0; line-height:34px;}
-
-.vehicle-detail-form-left, .vehicle-deatils-form-right{margin-top:0;}
-.vehicle-details h2{margin:0;}
-
-.details-term-con ul{padding:15px 0 0;}
-
-.watch-vehicle-btn{float:left; margin-top:15px;}
-
-.his-table{overflow-y:scroll;}
-
-.sell-heading h2{font-size:26px;}
-.abarth-punto-head p{margin:10px 0 0;}
-
-nav ol li:first-child::before{right:47%;}
-
-}
-
-@media screen and (max-width: 479px) {
-	 header .top > ul li{ margin:0 0 0 8px; font-size:13px;}
-	 header .top > ul{float:left;}
-	 
-	.popupContainer{width:92%; left:4% !important; margin-left:0 !important;}
-	.popupHeader .modal_close{right:-5px;}
-	
-	.ending-soon .ending-list .btn{width:60%; margin:0;}
-	.ending-soon h2, .currently-running h2{font-size:22px; line-height:26px;}
-	
-	.auction-search .action input[type="submit"]{width:100%; float:left; margin:15px 0 0;}
-	.auction-search .action input[type="search"]{width:100%;}
-	
-	.pagination-wrap span.previous_btn { margin-right: 0; padding: 12px 8px 12px 15px; background:#2290cd url("../images/prev-arrow.png") no-repeat scroll 6px 18px;}
-	.pagination-wrap span.next_btn { margin-right: 0; padding:12px 15px 12px 10px; background:#2290cd url("../images/next-arrow.png") no-repeat scroll 46px 18px;}
-	.pagination-wrap ul li a { padding: 8px 11px;}
-    .pagination-wrap ul li {margin-right: 0;}
-	.pagination-wrap ul{margin:0;}
-	.pagination-wrap{margin:0 0 15px 0;}
-	
-	.vehicle-form-fld input[type="text"]{width:100%; margin-bottom:10px;}
-	.vehicle-form-fld input[type="submit"]{width:100%;}
-	
-	.detail-inner-btn .back-listing{float:left; margin:0 0 10px 0;}
-	.detail-inner-btn .make-bid{float:left;}
-	
-	.vehicle-deatils-form p{width:100%; padding:0 5%; text-align:left; margin-right:0;}
-	.vehicle-deatils-form span{width:100%; padding:0 5%;}
-	
-	.watch-vehicle h3 span{display:inline-block; margin-top:10px;}
-	.watch-vehicle-submit input[type="submit"]{width:75%; margin:15px 0 0;}
-	.watch-vehicle-submit input[type="text"]{width:100%;}
-	.watch-vehicle ul li{font-size:14px;}
-	
-	.additonal-form input[type="text"]{width:63%;}
-	
-	.appraisel-service-details-inner .img-right{float:left;}
-	
-	.images-appraisel-upload-form {padding:12px;}
-	.images-appraisel-upload-form ul li .upload-btn{padding:0 10px; margin-right:5px;}
-	.images-appraisel-upload-form ul li .delet-btn{padding:0 10px;}
-	
-	.service-details-table-sec { overflow-y: scroll; padding: 0 0 15px;}
-	.bottom-btns .bottom-btns-middle a.login{min-width:120px; padding:15px 10px; margin-right:10px;}
-	.bottom-btns .bottom-btns-middle a.register{min-width:120px; padding:15px 10px;}
-		
-	.full-specification-sec .vehicle-deatils-form ul li { margin-bottom: 0; margin-top: 5px;}
-	
-	 nav ol li:first-child::before{right:45.5%;}
-	
-	.refine-results-left p{margin-left:0;}
-	
-	.detals-tooltip{margin-top:22px;}
-	
-	.notification-cross{right:15px;}
-	.notification{padding:12px 40px 0 110px;}
-	
-	footer > ul li{margin:0 0 0 9px; font-size:13px;}
-	footer > p{font-size:13px;}
-}
-
-
+.pager-table{ margin: 0 0 10px; }
+.pager-table td{ background-color: #dce8f0; } 
+table.pager-table, table.pager-table td, table.pager-table th{ border: solid 1px #b3b3b3; }
