@@ -52,16 +52,15 @@
             <tr>
                 <td>Category</td>
                 <td>
-                    <input type="text" name="category" value="<?= $this->productdetail['category'] ?>" />
                     <p><a href="javascript: d.openAll();">open all</a> | <a href="javascript: d.closeAll();">close all</a></p>
                     <script type="text/javascript">
                     <!--
                         d = new dTree('d', '<?php echo $this->serverUrl() . $this->basePath('dtree'); ?>');
-                        d.add(0, -1, 'Root', '');
+                        d.add(0, -1, '<input type="checkbox" value="0" name="treenode"> Root', '');
                         <?php 
                         $tree = explode(',', $this->productdetail['category']);
                         foreach($this->categorytree as $eachrow){ ?>
-                            d.add(<?=$eachrow['id']?>, <?=$eachrow['parent_id']?>, '<?=$eachrow['name']?>','<?php echo $this->serverUrl().$this->basePath().'/category/category/edit?id='.$eachrow['id']?>');
+                            d.add(<?=$eachrow['id']?>, <?=$eachrow['parent_id']?>, '<input type="checkbox" value="<?=$eachrow['id']?>" <?= (in_array($eachrow['id'], $tree))?"checked":"" ?>  name="treenode"> <?=$eachrow['name']?>','<?php echo $this->serverUrl().$this->basePath().'/category/category/edit?id='.$eachrow['id']?>');
                         <?php } ?>
                         document.write(d);
                         //-->
