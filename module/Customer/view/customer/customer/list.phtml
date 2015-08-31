@@ -7,7 +7,7 @@
                 <th>Telephone</th>
                 <th>Dealer Type</th>
                 <th>State</th>
-                <th>Manage</th>
+                <th>Action</th>
             </tr>
 <?php
 $temp = false;
@@ -24,12 +24,12 @@ foreach ($this->customerlist as $item) {
             <td class=''><?=$item['telephone']?></td>
             <td class=''><?= ($item['dealer_type']==1)?'Commercial':'Domestic' ?></td>
             <td class=''><?= ($item['state']==1)?'Active':'In-active' ?></td>
-            <td class=''><a href='javascript:editCustomer(<?=$item['id']?>)'><?=$item['id']?></a></td>
+            <td class=''><a href='javascript:editCustomer(<?=$item['id']?>)'>Edit</a></td>
         </tr>
     <?php $displays = ($displays) ? false : true;
 }?>
 <?php if ($temp == false) {?>
-    <tr><td colspan='3'>No Contact person found</td></tr>
+    <tr><td colspan='8'>No Customer found</td></tr>
 <?php }?>
         </table>
 

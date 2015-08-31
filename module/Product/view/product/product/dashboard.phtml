@@ -1,7 +1,11 @@
 <div class="main">
     <div class="wrapper">
         <h2>Product Dashboard</h2>
+        
         <?php
+        if($this->messages!=''){
+            echo $this->messages.'<br>';
+        }
         $count = $this->totalproduct;
         ?>
         <table class="pager-table" cellspacing="0">

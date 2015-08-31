@@ -50,7 +50,11 @@ class CategoryController extends AbstractActionController {
             'menus' => $menus,
             'controller' => 'Category',
             'categorytree' => $this->getAllCategory(),
-            'categorydetail' => $this->getCategoryDetail($request->getQuery('id')),
+            'islink' => true,
+            'categorydetail' => 
+                ($request->getQuery('id')!=0)?$this->getCategoryDetail($request->getQuery('id')):
+                array('id'=>0,'parent_id'=>-1,'name'=>'Root','path'=>'')
+                ,
         ));
         return $view->setTemplate('/category/category/index.phtml');
     }
@@ -81,7 +85,7 @@ class CategoryController extends AbstractActionController {
                 'controller' => 'Category',
                 'categorytree' => $this->getAllCategory(),
                 'parentcategoryid' => $data['id'],
-                'parentcategoryname' => $data['category_name'],
+                'parentcategoryname' => $data['name'],
             ));
             return $view->setTemplate('/category/category/index.phtml');
         }

@@ -4,13 +4,16 @@
             <?php
             $menus = $this->menus;
             foreach ($menus as $eachrow) {
-            if ($this->controller == $eachrow['module_name']) {
-            ?>
-            <li><a><?= $eachrow['module_name'] ?></a></li>
-            <?php } else { ?>
-            <li><a href="<?= $this->basePath() . '/' . $eachrow['module_path'] ?>"><?= $eachrow['module_name'] ?></a></li>
-            <?php
-            }
+                if ($this->controller == $eachrow['module_name']) {
+                    if($this->islink){?>
+                        <li><a class="hrefactive"><?= $eachrow['module_name'] ?></a></li>
+                    <?php }else{ ?>
+                        <li><a class="hrefactive" href="<?= $this->basePath() . '/' . $eachrow['module_path'] ?>"><?= $eachrow['module_name'] ?></a></li>
+                    <?php }
+                }else { ?>
+                    <li><a href="<?= $this->basePath() . '/' . $eachrow['module_path'] ?>"><?= $eachrow['module_name'] ?></a></li>
+                    <?php
+                }
             }
             ?>
         </ul>

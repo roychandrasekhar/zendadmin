@@ -46,6 +46,7 @@ class CustomerController extends AbstractActionController {
             $menus = $user->getUserMenu($adminloginuser->userid);
             return new ViewModel(array(
                 'userdetail' => $adminloginuser->userdetail,
+                'islink' => true,
                 'menus' => $menus,
                 'controller' => 'Customeredit',
                 'customerdetail' => $this->getCustomerCollection(0, 1, '', $request->getQuery('id')),
@@ -62,7 +63,7 @@ class CustomerController extends AbstractActionController {
         return array('customerlist' => $this->getCustomerCollection($pagecounter - 1, $totalpage, $contactemail));
     }
 
-    private function getCustomerCollection($pagecounter = 0, $totalpage = 0, $contactemail, $customerid = '') {
+    public function getCustomerCollection($pagecounter = 0, $totalpage = 0, $contactemail, $customerid = '') {
         $servicelocator = $this->getServiceLocator();
         $dbadapter = $servicelocator->get('Zend\Db\Adapter\Adapter');
 //        $param = function($name) use ($dbadapter) {

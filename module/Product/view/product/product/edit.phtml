@@ -5,7 +5,7 @@
 <script type="text/javascript" src="<?php echo $this->serverUrl() . $this->basePath('dtree/dtree.js'); ?>"></script>
 
 
-<form id="form1" method="POST" action="<?php echo $this->url('product/default', array('controller' => 'product', 'action' => 'update')); ?>">
+<form id="form1" method="POST" enctype="multipart/form-data" action="<?php echo $this->url('product/default', array('controller' => 'product', 'action' => 'update')); ?>">
     <table border="1">
         <tbody>
             <tr>
@@ -13,6 +13,7 @@
                 <td>
                     <input type="hidden" name="id" value="<?= $this->productdetail['id'] ?>" />
                     <input type="hidden" name="actiontype" id="actiontype" />
+                    <input type="hidden" name="category" id="category" />
                     <select name="status">
                         <option value="1" <?= ($this->productdetail['status'] == 1) ? "selected" : "" ?>>Active</option>
                         <option value="0" <?= ($this->productdetail['status'] == 0) ? "selected" : "" ?>>In-active</option>
@@ -56,13 +57,15 @@
                     <script type="text/javascript">
                     <!--
                         d = new dTree('d', '<?php echo $this->serverUrl() . $this->basePath('dtree'); ?>');
-                        d.add(0, -1, '<input type="checkbox" value="0" name="treenode"> Root', '');
+//                        d.add(0, -1, '<input type="checkbox" value="0" name="treenode"> Category Tree', '');
+                        d.add(0, -1, 'Category Tree', '');
                         <?php 
-                        $tree = explode(',', $this->productdetail['category']);
+                        $tree = $this->categoryid;
                         foreach($this->categorytree as $eachrow){ ?>
-                            d.add(<?=$eachrow['id']?>, <?=$eachrow['parent_id']?>, '<input type="checkbox" value="<?=$eachrow['id']?>" <?= (in_array($eachrow['id'], $tree))?"checked":"" ?>  name="treenode"> <?=$eachrow['name']?>','<?php echo $this->serverUrl().$this->basePath().'/category/category/edit?id='.$eachrow['id']?>');
+                            d.add(<?=$eachrow['id']?>, <?=$eachrow['parent_id']?>, '<a href="javascript:;"><input type="checkbox" value="<?=$eachrow['id']?>" <?= (in_array($eachrow['id'], $tree))?"checked":"" ?>  name="treenodes"></a> <?=$eachrow['name']?>','');
                         <?php } ?>
                         document.write(d);
+                        d.openAll();
                         //-->
                     </script>
                 </td>
@@ -70,7 +73,14 @@
             <tr>
                 <td>Belonging Customer</td>
                 <td>
-                    <input type="text" name="customer_id" value="<?= $this->productdetail['customer_id'] ?>" />
+                    <input type="text" readonly name="customername" value="<?= $this->customername ?>" />
+                </td>
+            </tr>
+            <tr>
+                <td>Image</td>
+                <td>
+                    <img src="<?php echo $this->serverUrl() . $this->basePath($this->productdetail['imagepath']); ?>">
+                    Product Image: <input type="file" name="photo" size="25" />
                 </td>
             </tr>
             
@@ -111,7 +121,16 @@
                 return;
             }
         }
+        var treenodes = document.getElementsByName('treenodes');
+        var category='';
+        for(i=0;i<treenodes.length;i++){
+            if (treenodes[i].type == "checkbox" && treenodes[i].checked) {
+                category = (category=='')?treenodes[i].value: category+','+treenodes[i].value;
+            }
+        }
+        
         document.getElementById('actiontype').value = action;
+        document.getElementById('category').value = category;
         document.getElementById('form1').submit();
         
     }

@@ -5,7 +5,7 @@
                 <th>Price</th>
                 <th>Approved</th>
                 <th>Status</th>
-                <th>Manage</th>
+                <th>Action</th>
             </tr>
 <?php
 $temp = false;
@@ -20,7 +20,7 @@ foreach ($this->productlist as $item) {
             <td class=''><?=$item['price']?></td>
             <td class=''><?= ($item['approved']==1)?'Yes':'No' ?></td>
             <td class=''><?= ($item['status']==1)?'Active':'In-active' ?></td>
-            <td class=''><a href='javascript:editProduct(<?=$item['id']?>)'><?=$item['id']?></a></td>
+            <td class=''><a href='javascript:editProduct(<?=$item['id']?>)'>Edit</a></td>
         </tr>
     <?php $displays = ($displays) ? false : true;
 }?>
