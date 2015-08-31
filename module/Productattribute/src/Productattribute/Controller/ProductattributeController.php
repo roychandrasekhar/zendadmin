@@ -1,6 +1,6 @@
 <?php
 
-namespace Product\Controller;
+namespace Productattribute\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
@@ -8,7 +8,7 @@ use Zend\View\Model\ViewModel;
 use Zend\Db\TableGateway\TableGateway;
 use User\Model\User;
 
-class ProductController extends AbstractActionController {
+class ProductattributeController extends AbstractActionController {
 
     private $tables;
 
@@ -26,8 +26,8 @@ class ProductController extends AbstractActionController {
             return new ViewModel(array(
                 'userdetail' => $adminloginuser->userdetail,
                 'menus' => $menus,
-                'controller' => 'Products',
-                'totalproduct' => $this->getTotalProduct(),
+                'controller' => 'Productattribute',
+                'totalproductattribute' => $this->getTotalProductattribute(),
 //                'messages' => realpath(dirname(__FILE__) . '/../../../../../public/images/products/'),
             ));
         }
@@ -65,39 +65,39 @@ class ProductController extends AbstractActionController {
         $data = $request->getPost();
         $totalpage = $data['totalpage'];
         $pagecounter = $data['pageno'];
-        $contactemail = $data['contactemail'];
-        return array('productlist' => $this->getProductCollection($pagecounter - 1, $totalpage, $contactemail));
+        $attributename = $data['attributename'];
+        return array('productattributelist' => $this->getProductattributeCollection($pagecounter - 1, $totalpage, $attributename));
     }
 
-    private function getProductCollection($pagecounter = 0, $totalpage = 0, $contactemail, $productid = '') {
+    private function getProductattributeCollection($pagecounter = 0, $totalpage = 0, $attributename, $productattributeid = '') {
         $servicelocator = $this->getServiceLocator();
         $dbadapter = $servicelocator->get('Zend\Db\Adapter\Adapter');
 //        $param = function($name) use ($dbadapter) {
 //            return $dbadapter->driver->formatParameterName($name);
 //        };
-        $sql = 'select * from product';
-        if ($contactemail != '') {
-            $sql .= ' where email like "' . $contactemail . '%"';
-        } else if ($productid != '') {
-            $sql .= ' where id =' . $productid;
+        $sql = 'select * from productattribute';
+        if ($attributename != '') {
+            $sql .= ' where name like "' . $attributename . '%"';
+        } else if ($productattributeid != '') {
+            $sql .= ' where id =' . $productattributeid;
         }
         $statement = $dbadapter->query($sql . " limit $pagecounter,$totalpage ");
         $results = $statement->execute();
         $returnArray = array();
         // iterate through the rows
         foreach ($results as $result) {
-            if ($productid)
+            if ($productattributeid)
                 return $result;
             $returnArray[] = $result;
         }
         return $returnArray;
     }
 
-    private function getTotalProduct() {
+    private function getTotalProductattribute() {
         $servicelocator = $this->getServiceLocator();
         $dbadapter = $servicelocator->get('Zend\Db\Adapter\Adapter');
         $statement = $dbadapter->query(
-                "select count(*) as total from product");
+                "select count(*) as total from productattribute");
         $results = $statement->execute();
         $total = 0;
         foreach ($results as $result) {
@@ -110,7 +110,7 @@ class ProductController extends AbstractActionController {
         $request = $this->getRequest();
         $data = $request->getPost();
 
-        $db = $this->getTable('product');
+        $db = $this->getProductTable();
         if ($data['actiontype'] == 'delete') {
             $db->delete(array('id' => $data['id']));
         } elseif ($data['actiontype'] == 'update') {
@@ -157,11 +157,11 @@ class ProductController extends AbstractActionController {
             }
             // image part
         }
-        return $this->redirect()->toRoute('product/default', array('controller' => 'product', 'action' => 'index'));
+        return $this->redirect()->toRoute('productattribute/default', array('controller' => 'productattribute', 'action' => 'index'));
     }
 
     public function getAllCategory() {
-        $categoryTable = $this->getTable('category');
+        $categoryTable = $this->getCategoryTable();
         $results = $categoryTable
                 ->select();
 //                ->order(array('id','parent_id'));
@@ -194,8 +194,6 @@ class ProductController extends AbstractActionController {
         }
         return $returnArray;
     }
-    
-    
 
     public function getTable($tablename) {
         if (!isset($this->tables[$tablename])) {
@@ -207,12 +205,12 @@ class ProductController extends AbstractActionController {
     }
 
     public function getCustomerName($customerid) {
-        $db = $this->getTable('customer');
+        $db = $this->getCustomerTable();
         $results = $db->select(array('id' => $customerid));
+        $returnArray = array();
         foreach ($results as $result) {
             return $result['name'];
         }
         return '';
     }
-
 }

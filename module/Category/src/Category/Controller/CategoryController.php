@@ -10,7 +10,7 @@ use User\Model\User;
 
 class CategoryController extends AbstractActionController {
 
-    private $categoryTable;
+    private $tables;
 
     public function indexAction() {
         $container = new Container('adminloginuser');
@@ -63,7 +63,7 @@ class CategoryController extends AbstractActionController {
         $request = $this->getRequest();
         $data = $request->getPost();
 
-        $db = $this->getCategoryTable();
+        $db = $this->getTable('category');
         if ($data['actiontype'] == 'delete') {
             $db->delete(array('id' => $data['id']));
         } elseif ($data['actiontype'] == 'update') {
@@ -96,7 +96,7 @@ class CategoryController extends AbstractActionController {
         $request = $this->getRequest();
         $data = $request->getPost();
 
-        $db = $this->getCategoryTable();
+        $db = $this->getTable('category');
         $db->insert(
                 array('parent_id' => $data['parent_id'],'name' => $data['category_name'])
         );
@@ -104,13 +104,13 @@ class CategoryController extends AbstractActionController {
     }
 
     private function getCategoryDetail($categoryid) {
-        $categoryTable = $this->getCategoryTable();
+        $categoryTable = $this->getTable('category');
         $rowset = $categoryTable->select(array('id' => $categoryid));
         return $rowset->current();
     }
 
     public function getAllCategory() {
-        $categoryTable = $this->getCategoryTable();
+        $categoryTable = $this->getTable('category');
         $results = $categoryTable
                 ->select();
 //                ->order(array('id','parent_id'));
@@ -121,13 +121,12 @@ class CategoryController extends AbstractActionController {
         return $returnArray;
     }
 
-    public function getCategoryTable() {
-        if (!$this->categoryTable) {
-            $this->categoryTable = new TableGateway(
-                    'category', $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter')
+    public function getTable($tablename) {
+        if (!isset($this->tables[$tablename])) {
+            $this->tables[$tablename] = new TableGateway(
+                    $tablename, $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter')
             );
         }
-        return $this->categoryTable;
+        return $this->tables[$tablename];
     }
-
 }

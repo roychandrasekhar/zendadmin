@@ -11,7 +11,7 @@ use User\Model\User;
 
 class CustomerController extends AbstractActionController {
 
-    private $customerTable;
+    private $tables;
 
     public function indexAction() {
         $container = new Container('adminloginuser');
@@ -104,7 +104,7 @@ class CustomerController extends AbstractActionController {
         $request = $this->getRequest();
         $data = $request->getPost();
         
-        $db = $this->getCustomerTable();
+        $db = $this->getTable('customer');
         if($data['actiontype']=='delete'){
             $db->delete(array('id' => $data['id']));
         }elseif($data['actiontype']=='update'){
@@ -121,13 +121,12 @@ class CustomerController extends AbstractActionController {
         return $this->redirect()->toRoute('customer/default', array('controller' => 'customer', 'action' => 'index'));
     }
 
-    public function getCustomerTable() {
-        if (!$this->customerTable) {
-            $this->customerTable = new TableGateway(
-                    'customer', $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter')
+    public function getTable($tablename) {
+        if (!isset($this->tables[$tablename])) {
+            $this->tables[$tablename] = new TableGateway(
+                    $tablename, $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter')
             );
         }
-        return $this->customerTable;
+        return $this->tables[$tablename];
     }
-
 }

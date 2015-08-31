@@ -15,6 +15,7 @@ return array(
         'Product',
         'User',
         'Category',
+        'Productattribute',
     ),
     'module_listener_options' => array(
         'module_paths' => array(
