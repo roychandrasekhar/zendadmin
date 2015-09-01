@@ -107,6 +107,7 @@ class ProductController extends AbstractActionController {
         } else if ($productid != '') {
             $sql .= ' where id =' . $productid;
         }
+        if($pagecounter) $pagecounter = $totalpage*$pagecounter;
         $statement = $dbadapter->query($sql . " limit $pagecounter,$totalpage ");
         $results = $statement->execute();
         $returnArray = array();

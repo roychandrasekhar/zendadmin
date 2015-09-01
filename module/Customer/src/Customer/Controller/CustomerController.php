@@ -96,14 +96,17 @@ class CustomerController extends AbstractActionController {
         } else if ($customerid != '') {
             $sql .= ' where id =' . $customerid;
         }
+        if($pagecounter) $pagecounter = $totalpage*$pagecounter;
         $statement = $dbadapter->query($sql . " limit $pagecounter,$totalpage ");
         $results = $statement->execute();
         $returnArray = array();
         // iterate through the rows
         foreach ($results as $result) {
-            if ($customerid)
+            if ($customerid != '') {
                 return $result;
-            $returnArray[] = $result;
+            } else {
+                $returnArray[] = $result;
+            }
         }
         return $returnArray;
     }
@@ -131,12 +134,24 @@ class CustomerController extends AbstractActionController {
         } elseif ($data['actiontype'] == 'add') {
             $postdata = array();
             foreach ($data as $key => $value) {
+                if ($key == 'actiontype') {
+                    continue;
+                }
                 $postdata[$key] = $value;
             }
             $db->insert($postdata);
         } elseif ($data['actiontype'] == 'update') {
             $postdata = array();
             foreach ($data as $key => $value) {
+                if ($key == 'password') {
+                    if ($value == '') {
+                        continue;
+                    } else {
+                        $value = md5($value);
+                    }
+                } else if ($key == 'actiontype') {
+                    continue;
+                }
                 $postdata[$key] = $value;
             }
 
