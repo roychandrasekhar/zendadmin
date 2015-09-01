@@ -34,6 +34,7 @@
                     Search by Name
                     <input type="text" onkeypress="getRecord(event)" class="input-text" style="width:180px !important" value="" name="attributename" id="attributename">
                     <img style='height:18px; padding-left: 5px;padding-right: 5px;cursor: pointer' class='buttonstyle' onclick="clearAndLoadListPage()" title="Clear" src="<?= $this->basePath() ?>/images/cancel_icon.gif" />
+                    <input type="button" value="Add attribute" onclick="addAttribute()">
                     <span class="no-display" id="super_product_links-total-count"></span>
                 </td>
             </tr>
@@ -155,6 +156,12 @@
             function pageNumber() {
                 var a = parseInt(totalrecord) / parseInt(document.getElementById('totalpage').options[document.getElementById('totalpage').selectedIndex].value);
                 document.getElementById('currentpage').innerHTML = Math.ceil(a);
+            }
+            function editProductattribute(productattributeid) {
+                window.location = '<?php echo $this->url('productattribute/default', array('controller' => 'productattribute', 'action' => 'edit')); ?>?id=' + productattributeid;
+            }
+            function addAttribute() {
+                window.location = '<?php echo $this->url('productattribute/default', array('controller' => 'productattribute', 'action' => 'add')); ?>';
             }
         </script>
     </div>

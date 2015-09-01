@@ -26,7 +26,7 @@ class ProductattributeController extends AbstractActionController {
             return new ViewModel(array(
                 'userdetail' => $adminloginuser->userdetail,
                 'menus' => $menus,
-                'controller' => 'Productattribute',
+                'controller' => 'Product Attribute',
                 'totalproductattribute' => $this->getTotalProductattribute(),
 //                'messages' => realpath(dirname(__FILE__) . '/../../../../../public/images/products/'),
             ));
@@ -46,17 +46,35 @@ class ProductattributeController extends AbstractActionController {
         $user = new User($this->getServiceLocator());
         $adminloginuser = new Container('adminloginuser');
         $menus = $user->getUserMenu($adminloginuser->userid);
-        $productdetail = $this->getProductCollection(0, 1, '', $request->getQuery('id'));
+        $productattributedetail = $this->getProductattributeCollection(0, 1, '', $request->getQuery('id'));
         return new ViewModel(array(
             'userdetail' => $adminloginuser->userdetail,
             'menus' => $menus,
-            'controller' => 'Productedit',
-            'customername' => $this->getCustomerName($productdetail['customer_id']),
-            'controller' => 'Products',
+            'controller' => 'Product Attribute',
             'islink' => true,
-            'productdetail' => $productdetail,
-            'categorytree' => $this->getAllCategory(),
-            'categoryid' => $this->getProductCategoryId($request->getQuery('id')),
+            'productattributedetail' => $productattributedetail,
+            'attributetype'=> $this->getAttributeType()
+        ));
+    }
+    
+    public function addAction() {
+        $container = new Container('adminloginuser');
+        if ($container->userid == '') { // this section is not working. Need some more work here
+            return $this->redirect()->toRoute('admin/default', array(
+                        'controller' => 'index',
+                        'action' => 'login'
+            ));
+        }
+
+        $user = new User($this->getServiceLocator());
+        $adminloginuser = new Container('adminloginuser');
+        $menus = $user->getUserMenu($adminloginuser->userid);
+        return new ViewModel(array(
+            'userdetail' => $adminloginuser->userdetail,
+            'menus' => $menus,
+            'controller' => 'Product Attribute',
+            'islink' => true,
+            'attributetype'=> $this->getAttributeType()
         ));
     }
 
@@ -66,15 +84,15 @@ class ProductattributeController extends AbstractActionController {
         $totalpage = $data['totalpage'];
         $pagecounter = $data['pageno'];
         $attributename = $data['attributename'];
-        return array('productattributelist' => $this->getProductattributeCollection($pagecounter - 1, $totalpage, $attributename));
+        return array(
+            'productattributelist' => $this->getProductattributeCollection($pagecounter - 1, $totalpage, $attributename),
+            'attributetype'=> $this->getAttributeType()
+            );
     }
 
     private function getProductattributeCollection($pagecounter = 0, $totalpage = 0, $attributename, $productattributeid = '') {
         $servicelocator = $this->getServiceLocator();
         $dbadapter = $servicelocator->get('Zend\Db\Adapter\Adapter');
-//        $param = function($name) use ($dbadapter) {
-//            return $dbadapter->driver->formatParameterName($name);
-//        };
         $sql = 'select * from productattribute';
         if ($attributename != '') {
             $sql .= ' where name like "' . $attributename . '%"';
@@ -110,87 +128,42 @@ class ProductattributeController extends AbstractActionController {
         $request = $this->getRequest();
         $data = $request->getPost();
 
-        $db = $this->getProductTable();
+        $db = $this->getTable('productattribute');
         if ($data['actiontype'] == 'delete') {
             $db->delete(array('id' => $data['id']));
         } elseif ($data['actiontype'] == 'update') {
             $postdata = array();
             $categoryid = '';
             foreach ($data as $key => $value) {
-                if ($key == 'actiontype' || $key == 'treenodes' || $key == 'customername') {
-                    continue;
-                } else if ($key == 'category') {
-                    $categoryid = $value;
+                if ($key == 'actiontype') {
                     continue;
                 } else {
                     $postdata[$key] = $value;
                 }
             }
             $db->update($postdata, array('id' => $data['id']));
-            $this->setProductCategory($data['id'], $categoryid);
-
-            // image part
-            if ($_FILES['photo']['name']) {
-                //if no errors...
-                if (!$_FILES['photo']['error']) {
-                    $valid_file=true;
-                    //now is the time to modify the future file name and validate the file
-                    $new_file_name = strtolower($_FILES['photo']['tmp_name']); //rename file
-                    if ($_FILES['photo']['size'] > (1024000)) { //can't be larger than 1 MB
-                        $valid_file = false;
-                        $message = 'Oops!  Your file\'s size is to large.';
-                    }
-
-                    if ($valid_file) {
-                        $imgname = '/'.$data['id'].'_'.$_FILES['photo']['name'];
-                        move_uploaded_file($_FILES['photo']['tmp_name'], realpath(dirname(__FILE__) . '/../../../../../public/images/products/').$imgname);
-                        $postdata = array();
-                        $postdata['imagepath'] = 'images/products'.$imgname;
-                        $db->update($postdata, array('id' => $data['id']));
-                    }
-                }
-                //if there is an error...
-                else {
-                    //set that to be the returned message
-                    $message = 'Ooops!  Your upload triggered the following error:  ' . $_FILES['photo']['error'];
+        } elseif ($data['actiontype'] == 'add') {
+            $postdata = array();
+            $categoryid = '';
+            foreach ($data as $key => $value) {
+                if ($key == 'actiontype') {
+                    continue;
+                } else {
+                    $postdata[$key] = $value;
                 }
             }
-            // image part
+            $db->insert($postdata);
         }
         return $this->redirect()->toRoute('productattribute/default', array('controller' => 'productattribute', 'action' => 'index'));
     }
-
-    public function getAllCategory() {
-        $categoryTable = $this->getCategoryTable();
+    
+    public function getAttributeType() {
+        $categoryTable = $this->getTable('attributetype');
         $results = $categoryTable
                 ->select();
-//                ->order(array('id','parent_id'));
         $returnArray = array();
         foreach ($results as $result) {
-            $returnArray[] = $result;
-        }
-        return $returnArray;
-    }
-
-    public function setProductCategory($productid, $categoryid) {
-        // delete all product category
-        $db = $this->getTable('product_category');
-        $db->delete(array('product_id' => $productid));
-
-        // insert all new category for product
-        $categoryarray = explode(',', $categoryid);
-        foreach ($categoryarray as $eachcategoryid) {
-            $db->insert(array('product_id' => $productid, 'category_id' => $eachcategoryid));
-        }
-    }
-
-    public function getProductCategoryId($productid) {
-        $db = $this->getTable('product_category');
-        $results = $db->select(array('product_id' => $productid));
-//                ->order(array('id','parent_id'));
-        $returnArray = array();
-        foreach ($results as $result) {
-            $returnArray[] = $result['category_id'];
+            $returnArray[$result['id']] = $result['name'];
         }
         return $returnArray;
     }
@@ -202,15 +175,5 @@ class ProductattributeController extends AbstractActionController {
             );
         }
         return $this->tables[$tablename];
-    }
-
-    public function getCustomerName($customerid) {
-        $db = $this->getCustomerTable();
-        $results = $db->select(array('id' => $customerid));
-        $returnArray = array();
-        foreach ($results as $result) {
-            return $result['name'];
-        }
-        return '';
     }
 }

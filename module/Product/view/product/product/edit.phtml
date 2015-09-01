@@ -74,6 +74,7 @@
                 <td>Belonging Customer</td>
                 <td>
                     <input type="text" readonly name="customername" value="<?= $this->customername ?>" />
+                    <a href='<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'edit')); ?>?id=<?=$this->productdetail['customer_id']?>' target="_blank">View</a>
                 </td>
             </tr>
             <tr>

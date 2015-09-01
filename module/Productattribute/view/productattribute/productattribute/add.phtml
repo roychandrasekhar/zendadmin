@@ -7,24 +7,23 @@
             <tr>
                 <td>Status</td>
                 <td>
-                    <input type="hidden" name="id" value="<?= $this->productattributedetail['id'] ?>" />
                     <input type="hidden" name="actiontype" id="actiontype" />
                     <select name="active">
-                        <option value="1" <?= ($this->productattributedetail['active'] == 1) ? "selected" : "" ?>>Active</option>
-                        <option value="0" <?= ($this->productattributedetail['active'] == 0) ? "selected" : "" ?>>In-active</option>
+                        <option value="1">Active</option>
+                        <option value="0">In-active</option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <td>Name</td>
                 <td>
-                    <input type="text" name="name" value="<?= $this->productattributedetail['name'] ?>" />
+                    <input type="text" name="name" />
                 </td>
             </tr>
             <tr>
                 <td>Description</td>
                 <td>
-                    <input type="text" name="description" value="<?= $this->productattributedetail['description'] ?>" />
+                    <input type="text" name="description" />
                 </td>
             </tr>
             <tr>
@@ -33,18 +32,17 @@
                     <select name="type" id="type">
                         <option>...</option>
                         <?php foreach ($this->attributetype as $key => $value) { ?>
-                            <option value="<?= $key ?>" <?= ($this->productattributedetail['type'] == $key) ? "selected" : "" ?>><?= $value ?></option>
+                            <option value="<?= $key ?>"><?= $value ?></option>
                         <?php } ?>
                     </select>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="button" value="Delete" onclick="submitPage('delete')"/>
                 </td>
                 <td style="text-align: right">
                     <input type="button" value="Cancel" onclick="gotoListPage()"/>
-                    <input type="button" value="Update" onclick="submitPage('update')"/>
+                    <input type="button" value="Add" onclick="submitPage('add')"/>
                 </td>
             </tr>
         </tbody>
@@ -67,11 +65,6 @@
         }
     }
     function submitPage(action) {
-        if (action == 'delete') {
-            if (!confirm('Are you sure to delete this Attribute ?') == true) {
-                return;
-            }
-        }
         if (validateForm()==true) {
             document.getElementById('actiontype').value = action;
             document.getElementById('form1').submit();

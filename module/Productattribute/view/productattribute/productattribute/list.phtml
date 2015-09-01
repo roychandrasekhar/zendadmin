@@ -1,34 +1,30 @@
-        <table class='data' cellspacing='0' border='1'>
-            <tr class='headings'>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Type</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-<?php
-$temp = false;
-$returntxt='';
-$displays = true;
-foreach ($this->productattributelist as $item) {
-    $temp = true;
-    $style = '';?>
-        <tr class='<?= ($displays) ? 'even pointer' : 'pointer'?>' style='cursor:default;<?=$style?>' title='#'>
-            <td class=''><?=$item['name']?></td>
-            <td class=''><?=$item['description']?></td>
-            <td class=''><?=$item['type']?></td>
-            <td class=''><?= ($item['active']==1)?'Active':'In-active' ?></td>
-            <td class=''><a href='javascript:editProduct(<?=$item['id']?>)'>Edit</a></td>
+<table class='data' cellspacing='0' border='1'>
+    <tr class='headings'>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    <?php
+    $temp = false;
+    $returntxt = '';
+    $displays = true;
+    foreach ($this->productattributelist as $item) {
+        $temp = true;
+        $style = '';
+        ?>
+        <tr class='<?= ($displays) ? 'even pointer' : 'pointer' ?>' style='cursor:default;<?= $style ?>' title='#'>
+            <td class=''><?= $item['name'] ?></td>
+            <td class=''><?= $item['description'] ?></td>
+            <td class=''><?= $this->attributetype[$item['type']] ?></td>
+            <td class=''><?= ($item['active'] == 1) ? 'Active' : 'In-active' ?></td>
+            <td class=''><a href="javascript:editProductattribute(<?= $item['id'] ?>)" >Edit</a></td>
         </tr>
-    <?php $displays = ($displays) ? false : true;
-}?>
-<?php if ($temp == false) {?>
-    <tr><td colspan='3'>No attribute found</td></tr>
-<?php }?>
-        </table>
-
-<script>
-    function editProduct(productattributeid) {
-        window.location = '<?php echo $this->url('productattribute/default', array('controller' => 'productattribute', 'action' => 'edit')); ?>?id='+productattributeid;
+        <?php $displays = ($displays) ? false : true;
     }
-</script>
+    ?>
+    <?php if ($temp == false) { ?>
+        <tr><td colspan='5'>No attribute found</td></tr>
+<?php } ?>
+</table>

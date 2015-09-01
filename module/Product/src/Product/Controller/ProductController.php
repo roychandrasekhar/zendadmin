@@ -117,13 +117,13 @@ class ProductController extends AbstractActionController {
             $postdata = array();
             $categoryid = '';
             foreach ($data as $key => $value) {
-                if ($key == 'actiontype' || $key == 'treenodes' || $key == 'customername') {
-                    continue;
+                if($key=='name' || $key=='description'||$key=='short_description'||$key=='status'
+                        ||$key=='price'||$key=='imagepath'||$key=='inventory'||$key=='category'
+                        ||$key=='customer_id'||$key=='approved'){
+                    $postdata[$key] = $value;
                 } else if ($key == 'category') {
                     $categoryid = $value;
                     continue;
-                } else {
-                    $postdata[$key] = $value;
                 }
             }
             $db->update($postdata, array('id' => $data['id']));
@@ -156,8 +156,41 @@ class ProductController extends AbstractActionController {
                 }
             }
             // image part
+            
+            $attributetablearray = $this->getAttributeTablename();
+            // check for attribute
+            foreach ($data as $key => $value) {
+                $subatt = explode('||', $key);
+                if($subatt[0]=='attribute'){
+                    // get table name from id
+                    $tablename = $attributetablearray[$subatt[2]];
+                    
+                    // delete old value for $data['id'] in that table
+                    $attTable = $this->getTable($tablename);
+                    $attTable->delete(array('product_id' => $data['id']));
+                    
+                    // insert new $value in that table
+                    $data = array();
+                    $data['product_id']=$data['id'];
+                    $data['attributetype_id']=$subatt[1];
+                    $data['value']=$value;
+                    $attTable->insert();
+                }
+            }
+            // check for attribute
         }
         return $this->redirect()->toRoute('product/default', array('controller' => 'product', 'action' => 'index'));
+    }
+    
+    public function getAttributeTablename() {
+        $categoryTable = $this->getTable('attributetype');
+        $results = $categoryTable
+                ->select();
+        $returnArray = array();
+        foreach ($results as $result) {
+            $returnArray[$result['id']] = $result['tablename'];
+        }
+        return $returnArray;
     }
 
     public function getAllCategory() {
