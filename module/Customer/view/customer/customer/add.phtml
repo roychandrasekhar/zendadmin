@@ -122,8 +122,27 @@
     }
     function submitPage(action) {
         if(validate()==false)return;
-        document.getElementById('actiontype').value = action;
-        document.getElementById('form1').submit();
+        uniqueEmail(action);
+//        document.getElementById('actiontype').value = action;
+//        document.getElementById('form1').submit();
+    }
+    function uniqueEmail(action) {
+        var email = (document.getElementById('email').value).trim();
+        var reloadurl = '<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'uniqueemail')); ?>';
+        //        Element.hide(obj);
+        new Ajax.Request(reloadurl, {
+            method: 'post',
+            parameters: encodeURI('email=' + email),
+            onComplete: function (transport) {
+                if(transport.responseText=='0'){
+                    document.getElementById('actiontype').value = action;
+                    document.getElementById('form1').submit();
+                }else{
+                    alert('Email ['+document.getElementById("email").value + '] already exist');
+                    document.getElementById("email").focus();
+                }
+            }
+        });
     }
 </script>
 

@@ -18,20 +18,20 @@
             <tr>
                 <td>Name</td>
                 <td>
-                    <input type="text" name="name" value="<?= $this->productattributedetail['name'] ?>" />
+                    <?= $this->productattributedetail['name'] ?>
                 </td>
             </tr>
             <tr>
-                <td>Description</td>
+                <td>Description *</td>
                 <td>
-                    <input type="text" name="description" value="<?= $this->productattributedetail['description'] ?>" />
+                    <input type="text" id="description" name="description" value="<?= $this->productattributedetail['description'] ?>" />
                 </td>
             </tr>
             <tr>
-                <td>Attribute Type</td>
+                <td>Attribute Type *</td>
                 <td>
                     <select name="type" id="type">
-                        <option>...</option>
+                        <option></option>
                         <?php foreach ($this->attributetype as $key => $value) { ?>
                             <option value="<?= $key ?>" <?= ($this->productattributedetail['type'] == $key) ? "selected" : "" ?>><?= $value ?></option>
                         <?php } ?>
@@ -57,13 +57,18 @@
     function gotoListPage() {
         window.location = '<?php echo $this->url('productattribute/default', array('controller' => 'productattribute', 'action' => 'index')); ?>';
     }
-    function validateForm() {
-        if(document.getElementById('type').value==''){
-            alert('Attribute type not selected');
-            document.getElementById('type').focus();
-            return false;
-        }else{
-            return true;
+    function validate() {
+        var responsevalue = true;
+        var obj = new Array();
+        obj[obj.length] = ['req', document.getElementById("type"), 'Attribute type not selected'];
+        obj[obj.length] = ['req', document.getElementById("name"), 'Please enter Name'];
+        obj[obj.length] = ['req', document.getElementById("description"), 'Please enter description'];
+        for (cnt = 0; cnt < obj.length; cnt++) {
+            responsevalue = V2validateData(obj[cnt][0], obj[cnt][1], obj[cnt][2]);
+            if (responsevalue == false) {
+                obj[cnt][1].focus();
+                return false;
+            }
         }
     }
     function submitPage(action) {
@@ -71,8 +76,10 @@
             if (!confirm('Are you sure to delete this Attribute ?') == true) {
                 return;
             }
-        }
-        if (validateForm()==true) {
+            document.getElementById('actiontype').value = action;
+            document.getElementById('form1').submit();
+        }else{
+            if(validate()==false)return;
             document.getElementById('actiontype').value = action;
             document.getElementById('form1').submit();
         }

@@ -21,21 +21,21 @@
                 </td>
             </tr>
             <tr>
-                <td>Name</td>
+                <td>Name *</td>
                 <td>
-                    <input type="text" name="name" value="<?= $this->productdetail['name'] ?>" />
+                    <input type="text" id="name" name="name" value="<?= $this->productdetail['name'] ?>" />
                 </td>
             </tr>
             <tr>
-                <td>Description</td>
+                <td>Description *</td>
                 <td>
-                    <input type="text" name="description" value="<?= $this->productdetail['description'] ?>" />
+                    <input type="text" id="description" name="description" value="<?= $this->productdetail['description'] ?>" />
                 </td>
             </tr>
             <tr>
-                <td>Short Description</td>
+                <td>Short Description *</td>
                 <td>
-                    <input type="text" name="short_description" value="<?= $this->productdetail['short_description'] ?>" />
+                    <input type="text" id="short_description" name="short_description" value="<?= $this->productdetail['short_description'] ?>" />
                 </td>
             </tr>
             <tr>
@@ -143,25 +143,38 @@ foreach ($this->categorytree as $eachrow) {
     function gotoListPage() {
         window.location = '<?php echo $this->url('product/default', array('controller' => 'product', 'action' => 'index')); ?>';
     }
-    function validateForm() {
-
+    function validate() {
+        var responsevalue = true;
+        var obj = new Array();
+        obj[obj.length] = ['req', document.getElementById("name"), 'Please enter Product name'];
+        obj[obj.length] = ['req', document.getElementById("description"), 'Please enter description'];
+        obj[obj.length] = ['req', document.getElementById("short_description"), 'Please enter short description'];
+        for (cnt = 0; cnt < obj.length; cnt++) {
+            responsevalue = V2validateData(obj[cnt][0], obj[cnt][1], obj[cnt][2]);
+            if (responsevalue == false) {
+                obj[cnt][1].focus();
+                return false;
+            }
+        }
     }
     function submitPage(action) {
         if (action == 'delete') {
             if (!confirm('Are you sure to delete this Product ?') == true) {
                 return;
             }
-        }
-        var treenodes = document.getElementsByName('treenodes');
-        var category = '';
-        for (i = 0; i < treenodes.length; i++) {
-            if (treenodes[i].type == "checkbox" && treenodes[i].checked) {
-                category = (category == '') ? treenodes[i].value : category + ',' + treenodes[i].value;
+        }else{
+            if(validate()==false)return;
+            var treenodes = document.getElementsByName('treenodes');
+            var category = '';
+            for (i = 0; i < treenodes.length; i++) {
+                if (treenodes[i].type == "checkbox" && treenodes[i].checked) {
+                    category = (category == '') ? treenodes[i].value : category + ',' + treenodes[i].value;
+                }
             }
+            document.getElementById('category').value = category;
         }
 
         document.getElementById('actiontype').value = action;
-        document.getElementById('category').value = category;
         document.getElementById('form1').submit();
 
     }

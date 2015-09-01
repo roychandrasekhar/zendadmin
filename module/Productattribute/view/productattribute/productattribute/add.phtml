@@ -15,22 +15,22 @@
                 </td>
             </tr>
             <tr>
-                <td>Name</td>
+                <td>Name *</td>
                 <td>
-                    <input type="text" name="name" />
+                    <input type="text" name="name" id="name" />
                 </td>
             </tr>
             <tr>
-                <td>Description</td>
+                <td>Description *</td>
                 <td>
-                    <input type="text" name="description" />
+                    <input type="text" name="description" id="description"/>
                 </td>
             </tr>
             <tr>
                 <td>Attribute Type</td>
                 <td>
                     <select name="type" id="type">
-                        <option>...</option>
+                        <option></option>
                         <?php foreach ($this->attributetype as $key => $value) { ?>
                             <option value="<?= $key ?>"><?= $value ?></option>
                         <?php } ?>
@@ -55,21 +55,44 @@
     function gotoListPage() {
         window.location = '<?php echo $this->url('productattribute/default', array('controller' => 'productattribute', 'action' => 'index')); ?>';
     }
-    function validateForm() {
-        if(document.getElementById('type').value==''){
-            alert('Attribute type not selected');
-            document.getElementById('type').focus();
-            return false;
-        }else{
-            return true;
+    function validate() {
+        var responsevalue = true;
+        var obj = new Array();
+        obj[obj.length] = ['req', document.getElementById("type"), 'Attribute type not selected'];
+        obj[obj.length] = ['req', document.getElementById("name"), 'Please enter Name'];
+        obj[obj.length] = ['req', document.getElementById("description"), 'Please enter description'];
+        for (cnt = 0; cnt < obj.length; cnt++) {
+            responsevalue = V2validateData(obj[cnt][0], obj[cnt][1], obj[cnt][2]);
+            if (responsevalue == false) {
+                obj[cnt][1].focus();
+                return false;
+            }
         }
     }
     function submitPage(action) {
-        if (validateForm()==true) {
-            document.getElementById('actiontype').value = action;
-            document.getElementById('form1').submit();
-        }
-
+        if (validate() == false)
+            return;
+        uniqueAttribute(action);
+//        document.getElementById('actiontype').value = action;
+//        document.getElementById('form1').submit();
+    }
+    function uniqueAttribute(action) {
+        var name = (document.getElementById('name').value).trim();
+        var reloadurl = '<?php echo $this->url('productattribute/default', array('controller' => 'productattribute', 'action' => 'uniqueattribute')); ?>';
+        //        Element.hide(obj);
+        new Ajax.Request(reloadurl, {
+            method: 'post',
+            parameters: encodeURI('name=' + name),
+            onComplete: function (transport) {
+                if(transport.responseText=='0'){
+                    document.getElementById('actiontype').value = action;
+                    document.getElementById('form1').submit();
+                }else{
+                    alert('Attribute name ['+document.getElementById("name").value + '] already exist');
+                    document.getElementById("name").focus();
+                }
+            }
+        });
     }
 </script>
 

@@ -83,6 +83,13 @@ class CustomerController extends AbstractActionController {
         $contactemail = $data['contactemail'];
         return array('customerlist' => $this->getCustomerCollection($pagecounter - 1, $totalpage, $contactemail));
     }
+    
+    public function uniqueemailAction() {
+        $request = $this->getRequest();
+        $data = $request->getPost();
+        $email = $data['email'];
+        return array('customerlist' => $this->checkCustomerEmail($email));
+    }
 
     public function getCustomerCollection($pagecounter = 0, $totalpage = 0, $contactemail, $customerid = '') {
         $servicelocator = $this->getServiceLocator();
@@ -111,6 +118,19 @@ class CustomerController extends AbstractActionController {
         return $returnArray;
     }
 
+    private function checkCustomerEmail($email) {
+        $servicelocator = $this->getServiceLocator();
+        $dbadapter = $servicelocator->get('Zend\Db\Adapter\Adapter');
+        $statement = $dbadapter->query(
+                "select count(*) as total from customer where email='".$email."'");
+        $results = $statement->execute();
+        $total = 0;
+        foreach ($results as $result) {
+            $total = $result['total'];
+        }
+        return $total;
+//        return "select count(*) as total from customer where email='".$email."'";
+    }
     private function getTotalCustomer() {
         $servicelocator = $this->getServiceLocator();
         $dbadapter = $servicelocator->get('Zend\Db\Adapter\Adapter');

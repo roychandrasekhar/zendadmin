@@ -89,6 +89,26 @@ class ProductattributeController extends AbstractActionController {
             'attributetype'=> $this->getAttributeType()
             );
     }
+    
+    public function uniqueattributeAction() {
+        $request = $this->getRequest();
+        $data = $request->getPost();
+        $name = $data['name'];
+        return array('attributelist' => $this->checkAttributeName($name));
+    }
+    
+    private function checkAttributeName($name) {
+        $servicelocator = $this->getServiceLocator();
+        $dbadapter = $servicelocator->get('Zend\Db\Adapter\Adapter');
+        $statement = $dbadapter->query(
+                "select count(*) as total from productattribute where name='".$name."'");
+        $results = $statement->execute();
+        $total = 0;
+        foreach ($results as $result) {
+            $total = $result['total'];
+        }
+        return $total;
+    }
 
     private function getProductattributeCollection($pagecounter = 0, $totalpage = 0, $attributename, $productattributeid = '') {
         $servicelocator = $this->getServiceLocator();
