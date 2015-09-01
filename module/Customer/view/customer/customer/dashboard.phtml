@@ -30,126 +30,132 @@
                     Search by email
                     <input type="text" onkeypress="getRecord(event)" class="input-text" style="width:180px !important" value="" name="contactemail" id="contactemail">
                     <img style='height:18px; padding-left: 5px;padding-right: 5px;cursor: pointer' class='buttonstyle' onclick="clearAndLoadListPage()" title="Clear" src="<?= $this->basePath() ?>/images/cancel_icon.gif" />
+                    <input type="button" value="Add Customer" onclick="addCustomer()">
                     <span class="no-display" id="super_product_links-total-count"></span>
                 </td>
             </tr>
         </table>
         <div class="hor-scroll" id="output-div"></div>
         <script>
-        var totalrecord = parseInt(<?php echo $count ?>);
-        setRecordNavi();loadListPage();
-        
-        function getRecord(e){
-        if(e.keyCode==13){
-        loadListPage();
-        }
-        }
-        function clearAndLoadListPage(){
-        document.getElementById('contactemail').value='';
-        loadListPage();
-        }
-        
-        function loadListPage() {
-        var pageno = document.getElementById('page').value;
-        var contactemail = (document.getElementById('contactemail').value).trim();
-        var totalpage = document.getElementById('totalpage').options[document.getElementById('totalpage').selectedIndex].value;
-        pageno = (pageno)?pageno:1;
-        var obj = document.getElementById('output-div');
-        var reloadurl = '<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'list')); ?>';
-        //        Element.hide(obj);
-        new Ajax.Request(reloadurl, {
-        method: 'post',
-        parameters: encodeURI('pageno='+pageno+'&totalpage='+totalpage+'&contactemail='+contactemail),
-        onComplete: function(transport) {
-        document.getElementById('output-div').innerHTML = transport.responseText;
-        pageNumber();
-        setRecordNavi();
-        //                Element.show(obj);
-        }
-        });
-        }
-        
-        function editCustomer(customerid) {
-        window.location = '<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'edit')); ?>?id='+customerid;
-        }
-        
-        function updateCustomer(customerid){
-        
-        }
-        function clearEmail(){
-        document.getElementById('contactemail').value='';
-        loadListPage();
-        }
-        function setRecordNavi(cleardetail) {
-        if(cleardetail)document.getElementById('output-div2').innerHTML ='';
-        var curr = parseInt(document.getElementById('page').value);
-        var totalpage = document.getElementById('totalpage').options[document.getElementById('totalpage').selectedIndex].value;
-        //var totalpage = document.getElementById('currentpage').innerHTML;
-        if (curr == totalrecord) {
-        onRightArrow(0);
-        if (curr > 1) {
-        onLeftArrow(1);
-        }
-        }
-        if (1 == curr) {
-        onLeftArrow(0);
-        if (curr < totalrecord) {
-        onRightArrow(1);
-        }
-        }
-        if (1 < curr && curr < totalrecord) {
-        onLeftArrow(1);
-        onRightArrow(1);
-        }
-        if ((parseInt(curr) * parseInt(totalpage)) > totalrecord) {
-        onRightArrow(0);
-        }
-        }
-        function onLeftArrow(state){
-        var img = document.createElement('img');
-        img.setAttribute('class','arrow');
-        clearAllChildren(document.getElementById('leftarrow'));
-        if(state===1){
-        img.setAttribute('src',mediaurl+'/pager_arrow_left.gif');
-        var atag = document.createElement('a');
-        atag.setAttribute('onclick','setNumber(false);loadListPage()');
-        atag.setAttribute('title','Next page');
-        atag.setAttribute('href','#');
-        atag.appendChild(img);
-        document.getElementById('leftarrow').appendChild(atag);
-        }else{
-        img.setAttribute('src',mediaurl+'/pager_arrow_left_off.gif');
-        document.getElementById('leftarrow').appendChild(img);
-        }
-        }
-        function onRightArrow(state){
-        var img = document.createElement('img');
-        img.setAttribute('class','arrow');
-        clearAllChildren(document.getElementById('rightarrow'));
-        if(state===1){
-        img.setAttribute('src',mediaurl+'/pager_arrow_right.gif');
-        var atag = document.createElement('a');
-        atag.setAttribute('onclick','setNumber(true);loadListPage()');
-        atag.setAttribute('title','Next page');
-        atag.setAttribute('href','#');
-        atag.appendChild(img);
-        document.getElementById('rightarrow').appendChild(atag);
-        }else{
-        img.setAttribute('src',mediaurl+'/pager_arrow_right_off.gif');
-        document.getElementById('rightarrow').appendChild(img);
-        }
-        }
-        function setNumber(state){
-        document.getElementById('page').value = (state)? parseInt(document.getElementById('page').value)+1: parseInt(document.getElementById('page').value)-1;
-        }
-        function clearAllChildren(e){
-        while (e.lastChild)
-        e.removeChild(e.lastChild);
-        }
-        function pageNumber(){
-        var a = parseInt(totalrecord) / parseInt(document.getElementById('totalpage').options[document.getElementById('totalpage').selectedIndex].value);
-        document.getElementById('currentpage').innerHTML = Math.ceil(a);
-        }
+            var totalrecord = parseInt(<?php echo $count ?>);
+            setRecordNavi();
+            loadListPage();
+
+            function getRecord(e) {
+                if (e.keyCode == 13) {
+                    loadListPage();
+                }
+            }
+            function clearAndLoadListPage() {
+                document.getElementById('contactemail').value = '';
+                loadListPage();
+            }
+
+            function loadListPage() {
+                var pageno = document.getElementById('page').value;
+                var contactemail = (document.getElementById('contactemail').value).trim();
+                var totalpage = document.getElementById('totalpage').options[document.getElementById('totalpage').selectedIndex].value;
+                pageno = (pageno) ? pageno : 1;
+                var obj = document.getElementById('output-div');
+                var reloadurl = '<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'list')); ?>';
+                //        Element.hide(obj);
+                new Ajax.Request(reloadurl, {
+                    method: 'post',
+                    parameters: encodeURI('pageno=' + pageno + '&totalpage=' + totalpage + '&contactemail=' + contactemail),
+                    onComplete: function (transport) {
+                        document.getElementById('output-div').innerHTML = transport.responseText;
+                        pageNumber();
+                        setRecordNavi();
+                        //                Element.show(obj);
+                    }
+                });
+            }
+
+            function editCustomer(customerid) {
+                window.location = '<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'edit')); ?>?id=' + customerid;
+            }
+
+            function updateCustomer(customerid) {
+
+            }
+            function clearEmail() {
+                document.getElementById('contactemail').value = '';
+                loadListPage();
+            }
+            function setRecordNavi(cleardetail) {
+                if (cleardetail)
+                    document.getElementById('output-div2').innerHTML = '';
+                var curr = parseInt(document.getElementById('page').value);
+                var totalpage = document.getElementById('totalpage').options[document.getElementById('totalpage').selectedIndex].value;
+                //var totalpage = document.getElementById('currentpage').innerHTML;
+                if (curr == totalrecord) {
+                    onRightArrow(0);
+                    if (curr > 1) {
+                        onLeftArrow(1);
+                    }
+                }
+                if (1 == curr) {
+                    onLeftArrow(0);
+                    if (curr < totalrecord) {
+                        onRightArrow(1);
+                    }
+                }
+                if (1 < curr && curr < totalrecord) {
+                    onLeftArrow(1);
+                    onRightArrow(1);
+                }
+                if ((parseInt(curr) * parseInt(totalpage)) > totalrecord) {
+                    onRightArrow(0);
+                }
+            }
+            function onLeftArrow(state) {
+                var img = document.createElement('img');
+                img.setAttribute('class', 'arrow');
+                clearAllChildren(document.getElementById('leftarrow'));
+                if (state === 1) {
+                    img.setAttribute('src', mediaurl + '/pager_arrow_left.gif');
+                    var atag = document.createElement('a');
+                    atag.setAttribute('onclick', 'setNumber(false);loadListPage()');
+                    atag.setAttribute('title', 'Next page');
+                    atag.setAttribute('href', '#');
+                    atag.appendChild(img);
+                    document.getElementById('leftarrow').appendChild(atag);
+                } else {
+                    img.setAttribute('src', mediaurl + '/pager_arrow_left_off.gif');
+                    document.getElementById('leftarrow').appendChild(img);
+                }
+            }
+            function onRightArrow(state) {
+                var img = document.createElement('img');
+                img.setAttribute('class', 'arrow');
+                clearAllChildren(document.getElementById('rightarrow'));
+                if (state === 1) {
+                    img.setAttribute('src', mediaurl + '/pager_arrow_right.gif');
+                    var atag = document.createElement('a');
+                    atag.setAttribute('onclick', 'setNumber(true);loadListPage()');
+                    atag.setAttribute('title', 'Next page');
+                    atag.setAttribute('href', '#');
+                    atag.appendChild(img);
+                    document.getElementById('rightarrow').appendChild(atag);
+                } else {
+                    img.setAttribute('src', mediaurl + '/pager_arrow_right_off.gif');
+                    document.getElementById('rightarrow').appendChild(img);
+                }
+            }
+            function setNumber(state) {
+                document.getElementById('page').value = (state) ? parseInt(document.getElementById('page').value) + 1 : parseInt(document.getElementById('page').value) - 1;
+            }
+            function clearAllChildren(e) {
+                while (e.lastChild)
+                    e.removeChild(e.lastChild);
+            }
+            function pageNumber() {
+                var a = parseInt(totalrecord) / parseInt(document.getElementById('totalpage').options[document.getElementById('totalpage').selectedIndex].value);
+                document.getElementById('currentpage').innerHTML = Math.ceil(a);
+            }
+            function addCustomer() {
+                window.location = '<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'add')); ?>';
+            }
         </script>
     </div>
 </div>

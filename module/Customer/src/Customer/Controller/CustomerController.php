@@ -34,24 +34,45 @@ class CustomerController extends AbstractActionController {
     }
 
     public function editAction() {
-        $checklogin = new IndexController();
-        $obj = $checklogin->checkLogin($this->getServiceLocator());
-        if ($obj) {
-            return $obj;
-        } else {
-            $request = $this->getRequest();
-
-            $user = new User($this->getServiceLocator());
-            $adminloginuser = new Container('adminloginuser');
-            $menus = $user->getUserMenu($adminloginuser->userid);
-            return new ViewModel(array(
-                'userdetail' => $adminloginuser->userdetail,
-                'islink' => true,
-                'menus' => $menus,
-                'controller' => 'Customeredit',
-                'customerdetail' => $this->getCustomerCollection(0, 1, '', $request->getQuery('id')),
+        $container = new Container('adminloginuser');
+        if ($container->userid == '') { // this section is not working. Need some more work here
+            return $this->redirect()->toRoute('admin/default', array(
+                        'controller' => 'index',
+                        'action' => 'login'
             ));
         }
+        $request = $this->getRequest();
+
+        $user = new User($this->getServiceLocator());
+//        $adminloginuser = new Container('adminloginuser');
+        $menus = $user->getUserMenu($container->userid);
+        return new ViewModel(array(
+            'userdetail' => $container->userdetail,
+            'islink' => true,
+            'menus' => $menus,
+            'controller' => 'Customeredit',
+            'customerdetail' => $this->getCustomerCollection(0, 1, '', $request->getQuery('id')),
+        ));
+    }
+
+    public function addAction() {
+        $container = new Container('adminloginuser');
+        if ($container->userid == '') { // this section is not working. Need some more work here
+            return $this->redirect()->toRoute('admin/default', array(
+                        'controller' => 'index',
+                        'action' => 'login'
+            ));
+        }
+
+        $user = new User($this->getServiceLocator());
+//        $adminloginuser = new Container('adminloginuser');
+        $menus = $user->getUserMenu($container->userid);
+        return new ViewModel(array(
+            'userdetail' => $container->userdetail,
+            'islink' => true,
+            'menus' => $menus,
+            'controller' => 'Customeredit',
+        ));
     }
 
     public function listAction() {
@@ -103,20 +124,24 @@ class CustomerController extends AbstractActionController {
     public function updateAction() {
         $request = $this->getRequest();
         $data = $request->getPost();
-        
+
         $db = $this->getTable('customer');
-        if($data['actiontype']=='delete'){
+        if ($data['actiontype'] == 'delete') {
             $db->delete(array('id' => $data['id']));
-        }elseif($data['actiontype']=='update'){
-            $postdata=array();
+        } elseif ($data['actiontype'] == 'add') {
+            $postdata = array();
+            foreach ($data as $key => $value) {
+                $postdata[$key] = $value;
+            }
+            $db->insert($postdata);
+        } elseif ($data['actiontype'] == 'update') {
+            $postdata = array();
             foreach ($data as $key => $value) {
                 $postdata[$key] = $value;
             }
 
-            $db->update($postdata, 
-                    array('id' => $data['id'])
+            $db->update($postdata, array('id' => $data['id'])
             );
-            
         }
         return $this->redirect()->toRoute('customer/default', array('controller' => 'customer', 'action' => 'index'));
     }
@@ -129,4 +154,5 @@ class CustomerController extends AbstractActionController {
         }
         return $this->tables[$tablename];
     }
+
 }

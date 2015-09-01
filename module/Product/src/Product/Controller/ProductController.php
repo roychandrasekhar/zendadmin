@@ -28,9 +28,34 @@ class ProductController extends AbstractActionController {
                 'menus' => $menus,
                 'controller' => 'Products',
                 'totalproduct' => $this->getTotalProduct(),
-//                'messages' => realpath(dirname(__FILE__) . '/../../../../../public/images/products/'),
+//                'messages' => $this->getActiveAttributes(),
             ));
         }
+    }
+
+    public function getActiveAttributes($product_id) {
+        $servicelocator = $this->getServiceLocator();
+        $dbadapter = $servicelocator->get('Zend\Db\Adapter\Adapter');
+        $sql = "SELECT att_type.id, pro_att.name,pro_att.description,pro_att.type,att_type.name as attribute_type,att_type.tablename
+                ,att_st.value as att_string_val
+                ,att_in.value as att_integer_val
+                ,att_de.value as att_decimal_val
+                ,att_bo.value as att_boolean_val
+                FROM productattribute as pro_att 
+                left join attributetype as att_type on pro_att.type=att_type.id 
+                left join attribute_string as att_st on (pro_att.type=att_st.attributetype_id and att_st.product_id=$product_id)
+                left join attribute_integer as att_in on (pro_att.type=att_in.attributetype_id and att_in.product_id=$product_id)
+                left join attribute_decimal as att_de on (pro_att.type=att_de.attributetype_id and att_de.product_id=$product_id)
+                left join attribute_boolean as att_bo on (pro_att.type=att_bo.attributetype_id and att_bo.product_id=$product_id)
+                where pro_att.active=1";
+        $statement = $dbadapter->query($sql);
+        $results = $statement->execute();
+        $returnArray = array();
+        // iterate through the rows
+        foreach ($results as $result) {
+            $returnArray[] = $result;
+        }
+        return $returnArray;
     }
 
     public function editAction() {
@@ -57,6 +82,7 @@ class ProductController extends AbstractActionController {
             'productdetail' => $productdetail,
             'categorytree' => $this->getAllCategory(),
             'categoryid' => $this->getProductCategoryId($request->getQuery('id')),
+            'activeattributes' => $this->getActiveAttributes($request->getQuery('id')),
         ));
     }
 
@@ -65,19 +91,19 @@ class ProductController extends AbstractActionController {
         $data = $request->getPost();
         $totalpage = $data['totalpage'];
         $pagecounter = $data['pageno'];
-        $contactemail = $data['contactemail'];
-        return array('productlist' => $this->getProductCollection($pagecounter - 1, $totalpage, $contactemail));
+        $productname = $data['productname'];
+        return array('productlist' => $this->getProductCollection($pagecounter - 1, $totalpage, $productname));
     }
 
-    private function getProductCollection($pagecounter = 0, $totalpage = 0, $contactemail, $productid = '') {
+    private function getProductCollection($pagecounter = 0, $totalpage = 0, $productname, $productid = '') {
         $servicelocator = $this->getServiceLocator();
         $dbadapter = $servicelocator->get('Zend\Db\Adapter\Adapter');
 //        $param = function($name) use ($dbadapter) {
 //            return $dbadapter->driver->formatParameterName($name);
 //        };
         $sql = 'select * from product';
-        if ($contactemail != '') {
-            $sql .= ' where email like "' . $contactemail . '%"';
+        if ($productname != '') {
+            $sql .= ' where name like "' . $productname . '%"';
         } else if ($productid != '') {
             $sql .= ' where id =' . $productid;
         }
@@ -117,9 +143,7 @@ class ProductController extends AbstractActionController {
             $postdata = array();
             $categoryid = '';
             foreach ($data as $key => $value) {
-                if($key=='name' || $key=='description'||$key=='short_description'||$key=='status'
-                        ||$key=='price'||$key=='imagepath'||$key=='inventory'||$key=='category'
-                        ||$key=='customer_id'||$key=='approved'){
+                if ($key == 'name' || $key == 'description' || $key == 'short_description' || $key == 'status' || $key == 'price' || $key == 'imagepath' || $key == 'inventory' || $key == 'category' || $key == 'customer_id' || $key == 'approved') {
                     $postdata[$key] = $value;
                 } else if ($key == 'category') {
                     $categoryid = $value;
@@ -133,7 +157,7 @@ class ProductController extends AbstractActionController {
             if ($_FILES['photo']['name']) {
                 //if no errors...
                 if (!$_FILES['photo']['error']) {
-                    $valid_file=true;
+                    $valid_file = true;
                     //now is the time to modify the future file name and validate the file
                     $new_file_name = strtolower($_FILES['photo']['tmp_name']); //rename file
                     if ($_FILES['photo']['size'] > (1024000)) { //can't be larger than 1 MB
@@ -142,10 +166,10 @@ class ProductController extends AbstractActionController {
                     }
 
                     if ($valid_file) {
-                        $imgname = '/'.$data['id'].'_'.$_FILES['photo']['name'];
-                        move_uploaded_file($_FILES['photo']['tmp_name'], realpath(dirname(__FILE__) . '/../../../../../public/images/products/').$imgname);
+                        $imgname = '/' . $data['id'] . '_' . $_FILES['photo']['name'];
+                        move_uploaded_file($_FILES['photo']['tmp_name'], realpath(dirname(__FILE__) . '/../../../../../public/images/products/') . $imgname);
                         $postdata = array();
-                        $postdata['imagepath'] = 'images/products'.$imgname;
+                        $postdata['imagepath'] = 'images/products' . $imgname;
                         $db->update($postdata, array('id' => $data['id']));
                     }
                 }
@@ -156,36 +180,35 @@ class ProductController extends AbstractActionController {
                 }
             }
             // image part
-            
-            $attributetablearray = $this->getAttributeTablename();
+
+//            $attributetablearray = $this->getAttributeTablename();
             // check for attribute
             foreach ($data as $key => $value) {
                 $subatt = explode('||', $key);
-                if($subatt[0]=='attribute'){
+                if ($subatt[0] == 'attribute') {
                     // get table name from id
-                    $tablename = $attributetablearray[$subatt[2]];
-                    
+                    $tablename = $subatt[2];
+
                     // delete old value for $data['id'] in that table
                     $attTable = $this->getTable($tablename);
                     $attTable->delete(array('product_id' => $data['id']));
-                    
+
                     // insert new $value in that table
-                    $data = array();
-                    $data['product_id']=$data['id'];
-                    $data['attributetype_id']=$subatt[1];
-                    $data['value']=$value;
-                    $attTable->insert();
+                    $newdata = array();
+                    $newdata['product_id'] = $data['id'];
+                    $newdata['attributetype_id'] = $subatt[1];
+                    $newdata['value'] = $value;
+                    $attTable->insert($newdata);
                 }
             }
             // check for attribute
         }
         return $this->redirect()->toRoute('product/default', array('controller' => 'product', 'action' => 'index'));
     }
-    
+
     public function getAttributeTablename() {
-        $categoryTable = $this->getTable('attributetype');
-        $results = $categoryTable
-                ->select();
+        $attTable = $this->getTable('attributetype');
+        $results = $attTable->select();
         $returnArray = array();
         foreach ($results as $result) {
             $returnArray[$result['id']] = $result['tablename'];
@@ -227,8 +250,6 @@ class ProductController extends AbstractActionController {
         }
         return $returnArray;
     }
-    
-    
 
     public function getTable($tablename) {
         if (!isset($this->tables[$tablename])) {

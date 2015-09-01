@@ -31,8 +31,8 @@
                     <span class="separator">|</span>
                     Total <?php echo $count ?> records found
                     <span class="separator">|</span>
-                    Search by email
-                    <input type="text" onkeypress="getRecord(event)" class="input-text" style="width:180px !important" value="" name="contactemail" id="contactemail">
+                    Search by Name
+                    <input type="text" onkeypress="getRecord(event)" class="input-text" style="width:180px !important" value="" name="productname" id="productname">
                     <img style='height:18px; padding-left: 5px;padding-right: 5px;cursor: pointer' class='buttonstyle' onclick="clearAndLoadListPage()" title="Clear" src="<?= $this->basePath() ?>/images/cancel_icon.gif" />
                     <span class="no-display" id="super_product_links-total-count"></span>
                 </td>
@@ -50,13 +50,13 @@
                 }
             }
             function clearAndLoadListPage() {
-                document.getElementById('contactemail').value = '';
+                document.getElementById('productname').value = '';
                 loadListPage();
             }
 
             function loadListPage() {
                 var pageno = document.getElementById('page').value;
-                var contactemail = (document.getElementById('contactemail').value).trim();
+                var productname = (document.getElementById('productname').value).trim();
                 var totalpage = document.getElementById('totalpage').options[document.getElementById('totalpage').selectedIndex].value;
                 pageno = (pageno) ? pageno : 1;
                 var obj = document.getElementById('output-div');
@@ -64,7 +64,7 @@
                 //        Element.hide(obj);
                 new Ajax.Request(reloadurl, {
                     method: 'post',
-                    parameters: encodeURI('pageno=' + pageno + '&totalpage=' + totalpage + '&contactemail=' + contactemail),
+                    parameters: encodeURI('pageno=' + pageno + '&totalpage=' + totalpage + '&productname=' + productname),
                     onComplete: function (transport) {
                         document.getElementById('output-div').innerHTML = transport.responseText;
                         pageNumber();
@@ -82,7 +82,7 @@
 
             }
             function clearEmail() {
-                document.getElementById('contactemail').value = '';
+                document.getElementById('productname').value = '';
                 loadListPage();
             }
             function setRecordNavi(cleardetail) {

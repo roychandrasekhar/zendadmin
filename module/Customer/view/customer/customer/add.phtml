@@ -6,18 +6,17 @@
             <tr>
                 <td>dealer_type</td>
                 <td>
-                    <input type="hidden" name="id" value="<?= $this->customerdetail['id'] ?>" />
                     <input type="hidden" name="actiontype" id="actiontype" />
                     <select name="dealer_type">
-                        <option value="1" <?= ($this->customerdetail['dealer_type'] == 1) ? "selected" : "" ?>>Commercial</option>
-                        <option value="2" <?= ($this->customerdetail['dealer_type'] == 2) ? "selected" : "" ?>>Domestic</option>
+                        <option value="1">Commercial</option>
+                        <option value="2">Domestic</option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <td>User Name *</td>
                 <td>
-                    <input type="text" name="username" id="username" value="<?= $this->customerdetail['username'] ?>" />
+                    <input type="text" name="username" id="username" />
                 </td>
             </tr>
             <tr>
@@ -32,65 +31,63 @@
                     <input type="password" id="re-password" />
                 </td>
             </tr>
-            
             <tr>
                 <td>Position in Company</td>
                 <td>
-                    <input type="text" name="position_in_company" value="<?= $this->customerdetail['position_in_company'] ?>" />
+                    <input type="text" name="position_in_company" />
                 </td>
             </tr>
             <tr>
                 <td>Telephone no.</td>
                 <td>
-                    <input type="text" name="telephone" value="<?= $this->customerdetail['telephone'] ?>" />
+                    <input type="text" name="telephone" />
                 </td>
             </tr>
             <tr>
                 <td>Mobile no.</td>
                 <td>
-                    <input type="text" name="mobile" value="<?= $this->customerdetail['mobile'] ?>" />
+                    <input type="text" name="mobile"/>
                 </td>
             </tr>
             <tr>
                 <td>Name</td>
                 <td>
-                    <input type="text" name="name" value="<?= $this->customerdetail['name'] ?>" />
+                    <input type="text" name="name" />
                 </td>
             </tr>
             <tr>
                 <td>Email *</td>
                 <td>
-                    <input type="text" name="email" value="<?= $this->customerdetail['email'] ?>" id="email" />
+                    <input type="text" name="email" id="email"/>
                 </td>
             </tr>
             <tr>
                 <td>Company Name</td>
                 <td>
-                    <input type="text" name="company_name" value="<?= $this->customerdetail['company_name'] ?>" />
+                    <input type="text" name="company_name" />
                 </td>
             </tr>
             <tr>
                 <td>Website</td>
                 <td>
-                    <input type="text" name="website" value="<?= $this->customerdetail['website'] ?>" />
+                    <input type="text" name="website" />
                 </td>
             </tr>
             <tr>
                 <td>Status</td>
                 <td>
                     <select name="state">
-                        <option value="1" <?= ($this->customerdetail['state'] == 1) ? "selected" : "" ?>>Enable</option>
-                        <option value="2" <?= ($this->customerdetail['state'] == 0) ? "selected" : "" ?>>Disable</option>
+                        <option value="1">Enable</option>
+                        <option value="2">Disable</option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <!--<input type="button" value="Delete" onclick="submitPage('delete')"/>-->
                 </td>
                 <td style="text-align: right">
                     <input type="button" value="Cancel" onclick="gotoListPage()"/>
-                    <input type="button" value="Update" onclick="submitPage('update')"/>
+                    <input type="button" value="Save" onclick="submitPage('add')"/>
                 </td>
             </tr>
         </tbody>
@@ -100,7 +97,7 @@
 
 
 <script>
-    function gotoListPage(){
+    function gotoListPage() {
         window.location = '<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'index')); ?>';
     }
     function validate() {
@@ -124,18 +121,10 @@
         }
         return false;
     }
-    function submitPage(action){
-        if(action=='delete'){
-            if(!confirm('Are you sure to delete this Customer ?')==true){
-                return;
-            }
-            document.getElementById('actiontype').value = action;
-            document.getElementById('form1').submit();
-        }else{
-            if(validate()==false)return;
-            document.getElementById('actiontype').value = action;
-            document.getElementById('form1').submit();
-        }
+    function submitPage(action) {
+        if(validate()==false)return;
+        document.getElementById('actiontype').value = action;
+        document.getElementById('form1').submit();
     }
 </script>
 

@@ -55,15 +55,16 @@
                 <td>
                     <p><a href="javascript: d.openAll();">open all</a> | <a href="javascript: d.closeAll();">close all</a></p>
                     <script type="text/javascript">
-                    <!--
+                        <!--
                         d = new dTree('d', '<?php echo $this->serverUrl() . $this->basePath('dtree'); ?>');
 //                        d.add(0, -1, '<input type="checkbox" value="0" name="treenode"> Category Tree', '');
                         d.add(0, -1, 'Category Tree', '');
-                        <?php 
-                        $tree = $this->categoryid;
-                        foreach($this->categorytree as $eachrow){ ?>
-                            d.add(<?=$eachrow['id']?>, <?=$eachrow['parent_id']?>, '<a href="javascript:;"><input type="checkbox" value="<?=$eachrow['id']?>" <?= (in_array($eachrow['id'], $tree))?"checked":"" ?>  name="treenodes"></a> <?=$eachrow['name']?>','');
-                        <?php } ?>
+<?php
+$tree = $this->categoryid;
+foreach ($this->categorytree as $eachrow) {
+    ?>
+                            d.add(<?= $eachrow['id'] ?>, <?= $eachrow['parent_id'] ?>, '<a href="javascript:;"><input type="checkbox" value="<?= $eachrow['id'] ?>" <?= (in_array($eachrow['id'], $tree)) ? "checked" : "" ?>  name="treenodes"></a> <?= $eachrow['name'] ?>', '');
+<?php } ?>
                         document.write(d);
                         d.openAll();
                         //-->
@@ -74,17 +75,19 @@
                 <td>Belonging Customer</td>
                 <td>
                     <input type="text" readonly name="customername" value="<?= $this->customername ?>" />
-                    <a href='<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'edit')); ?>?id=<?=$this->productdetail['customer_id']?>' target="_blank">View</a>
+                    <a href='<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'edit')); ?>?id=<?= $this->productdetail['customer_id'] ?>' target="_blank">View</a>
                 </td>
             </tr>
             <tr>
                 <td>Image</td>
                 <td>
+                    <?php if($this->productdetail['imagepath']){?>
                     <img src="<?php echo $this->serverUrl() . $this->basePath($this->productdetail['imagepath']); ?>">
+                    <?php }?>
                     Product Image: <input type="file" name="photo" size="25" />
                 </td>
             </tr>
-            
+
             <tr>
                 <td>Approved</td>
                 <td>
@@ -94,6 +97,33 @@
                     </select>
                 </td>
             </tr>
+            <?php foreach ($this->activeattributes as $eachrow) { ?>
+                <tr>
+                    <td><?= $eachrow['name'] . ' (' . $eachrow['description'] . ')' ?></td>
+                    <?php
+                    if ($eachrow['attribute_type'] == 'String') { ?>
+                        <td>
+                            <input type="text" name="<?= 'attribute||'.$eachrow['type'].'||'.$eachrow['tablename'] ?>" value="<?= $eachrow['att_string_val'] ?>"/>
+                        </td>
+                    <?php } else if ($eachrow['attribute_type'] == 'Decimal') {?>
+                        <td>
+                            <input type="text" name="<?= 'attribute||'.$eachrow['type'].'||'.$eachrow['tablename'] ?>" value="<?= $eachrow['att_decimal_val'] ?>"/>
+                        </td>
+                    <?php } else if ($eachrow['attribute_type'] == 'Integer') {?>
+                        <td>
+                            <input type="text" name="<?= 'attribute||'.$eachrow['type'].'||'.$eachrow['tablename'] ?>" value="<?= $eachrow['att_integer_val'] ?>"/>
+                        </td>
+                    <?php } else if ($eachrow['attribute_type'] == 'Yes / No') {?>
+                        <td>
+                            <select name="<?= 'attribute||'.$eachrow['type'].'||'.$eachrow['tablename'] ?>">
+                                <option value="1" <?= ($eachrow['att_boolean_val'] == 1) ? "selected" : "" ?>>Yes</option>
+                                <option value="0" <?= ($eachrow['att_boolean_val'] == 0) ? "selected" : "" ?>>No</option>
+                            </select>
+                        </td>
+                    <?php } ?>
+                </tr>
+            <?php }
+            ?>
             <tr>
                 <td>
                     <input type="button" value="Delete" onclick="submitPage('delete')"/>
@@ -110,30 +140,30 @@
 
 
 <script>
-    function gotoListPage(){
+    function gotoListPage() {
         window.location = '<?php echo $this->url('product/default', array('controller' => 'product', 'action' => 'index')); ?>';
     }
-    function validateForm(){
-        
+    function validateForm() {
+
     }
-    function submitPage(action){
-        if(action=='delete'){
-            if(!confirm('Are you sure to delete this Product ?')==true){
+    function submitPage(action) {
+        if (action == 'delete') {
+            if (!confirm('Are you sure to delete this Product ?') == true) {
                 return;
             }
         }
         var treenodes = document.getElementsByName('treenodes');
-        var category='';
-        for(i=0;i<treenodes.length;i++){
+        var category = '';
+        for (i = 0; i < treenodes.length; i++) {
             if (treenodes[i].type == "checkbox" && treenodes[i].checked) {
-                category = (category=='')?treenodes[i].value: category+','+treenodes[i].value;
+                category = (category == '') ? treenodes[i].value : category + ',' + treenodes[i].value;
             }
         }
-        
+
         document.getElementById('actiontype').value = action;
         document.getElementById('category').value = category;
         document.getElementById('form1').submit();
-        
+
     }
 </script>
 
