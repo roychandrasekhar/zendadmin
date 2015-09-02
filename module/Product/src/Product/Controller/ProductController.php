@@ -36,17 +36,17 @@ class ProductController extends AbstractActionController {
     public function getActiveAttributes($product_id) {
         $servicelocator = $this->getServiceLocator();
         $dbadapter = $servicelocator->get('Zend\Db\Adapter\Adapter');
-        $sql = "SELECT att_type.id, pro_att.name,pro_att.description,pro_att.type,att_type.name as attribute_type,att_type.tablename
+        $sql = "SELECT pro_att.id, pro_att.name,pro_att.description,pro_att.type,att_type.name as attribute_type,att_type.tablename
                 ,att_st.value as att_string_val
                 ,att_in.value as att_integer_val
                 ,att_de.value as att_decimal_val
                 ,att_bo.value as att_boolean_val
                 FROM productattribute as pro_att 
                 left join attributetype as att_type on pro_att.type=att_type.id 
-                left join attribute_string as att_st on (pro_att.type=att_st.attributetype_id and att_st.product_id=$product_id)
-                left join attribute_integer as att_in on (pro_att.type=att_in.attributetype_id and att_in.product_id=$product_id)
-                left join attribute_decimal as att_de on (pro_att.type=att_de.attributetype_id and att_de.product_id=$product_id)
-                left join attribute_boolean as att_bo on (pro_att.type=att_bo.attributetype_id and att_bo.product_id=$product_id)
+                left join attribute_string as att_st on (pro_att.id=att_st.attributetype_id and att_st.product_id=$product_id)
+                left join attribute_integer as att_in on (pro_att.id=att_in.attributetype_id and att_in.product_id=$product_id)
+                left join attribute_decimal as att_de on (pro_att.id=att_de.attributetype_id and att_de.product_id=$product_id)
+                left join attribute_boolean as att_bo on (pro_att.id=att_bo.attributetype_id and att_bo.product_id=$product_id)
                 where pro_att.active=1";
         $statement = $dbadapter->query($sql);
         $results = $statement->execute();
@@ -140,7 +140,7 @@ class ProductController extends AbstractActionController {
         $db = $this->getTable('product');
         if ($data['actiontype'] == 'delete') {
             $db->delete(array('id' => $data['id']));
-        } elseif ($data['actiontype'] == 'update') {
+        } elseif ($data['actiontype'] == 'save' || $data['actiontype'] == 'save_continue') {
             $postdata = array();
             $categoryid = '';
             foreach ($data as $key => $value) {
@@ -192,7 +192,8 @@ class ProductController extends AbstractActionController {
 
                     // delete old value for $data['id'] in that table
                     $attTable = $this->getTable($tablename);
-                    $attTable->delete(array('product_id' => $data['id']));
+                    $attTable->delete(array('product_id' => $data['id'],
+                                            'attributetype_id'=>$subatt[1]));
 
                     // insert new $value in that table
                     $newdata = array();
@@ -203,6 +204,26 @@ class ProductController extends AbstractActionController {
                 }
             }
             // check for attribute
+            
+            if($data['actiontype'] == 'save_continue'){
+                $user = new User($this->getServiceLocator());
+                $adminloginuser = new Container('adminloginuser');
+                $menus = $user->getUserMenu($adminloginuser->userid);
+                $productdetail = $this->getProductCollection(0, 1, '', $data['id']);
+                $view = new ViewModel(array(
+                    'userdetail' => $adminloginuser->userdetail,
+                    'menus' => $menus,
+                    'controller' => 'Productedit',
+                    'customername' => $this->getCustomerName($productdetail['customer_id']),
+                    'controller' => 'Products',
+                    'islink' => true,
+                    'productdetail' => $productdetail,
+                    'categorytree' => $this->getAllCategory(),
+                    'categoryid' => $this->getProductCategoryId($data['id']),
+                    'activeattributes' => $this->getActiveAttributes($data['id']),
+                ));
+                return $view->setTemplate('/product/product/edit.phtml');
+            }
         }
         return $this->redirect()->toRoute('product/default', array('controller' => 'product', 'action' => 'index'));
     }

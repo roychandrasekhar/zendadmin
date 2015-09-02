@@ -103,19 +103,19 @@ foreach ($this->categorytree as $eachrow) {
                     <?php
                     if ($eachrow['attribute_type'] == 'String') { ?>
                         <td>
-                            <input type="text" name="<?= 'attribute||'.$eachrow['type'].'||'.$eachrow['tablename'] ?>" value="<?= $eachrow['att_string_val'] ?>"/>
+                            <input type="text" name="<?= 'attribute||'.$eachrow['id'].'||'.$eachrow['tablename'] ?>" value="<?= $eachrow['att_string_val'] ?>"/>
                         </td>
                     <?php } else if ($eachrow['attribute_type'] == 'Decimal') {?>
                         <td>
-                            <input type="text" name="<?= 'attribute||'.$eachrow['type'].'||'.$eachrow['tablename'] ?>" value="<?= $eachrow['att_decimal_val'] ?>"/>
+                            <input type="text" name="<?= 'attribute||'.$eachrow['id'].'||'.$eachrow['tablename'] ?>" value="<?= $eachrow['att_decimal_val'] ?>"/>
                         </td>
                     <?php } else if ($eachrow['attribute_type'] == 'Integer') {?>
                         <td>
-                            <input type="text" name="<?= 'attribute||'.$eachrow['type'].'||'.$eachrow['tablename'] ?>" value="<?= $eachrow['att_integer_val'] ?>"/>
+                            <input type="text" name="<?= 'attribute||'.$eachrow['id'].'||'.$eachrow['tablename'] ?>" value="<?= $eachrow['att_integer_val'] ?>"/>
                         </td>
                     <?php } else if ($eachrow['attribute_type'] == 'Yes / No') {?>
                         <td>
-                            <select name="<?= 'attribute||'.$eachrow['type'].'||'.$eachrow['tablename'] ?>">
+                            <select name="<?= 'attribute||'.$eachrow['id'].'||'.$eachrow['tablename'] ?>">
                                 <option value="1" <?= ($eachrow['att_boolean_val'] == 1) ? "selected" : "" ?>>Yes</option>
                                 <option value="0" <?= ($eachrow['att_boolean_val'] == 0) ? "selected" : "" ?>>No</option>
                             </select>
@@ -130,7 +130,8 @@ foreach ($this->categorytree as $eachrow) {
                 </td>
                 <td style="text-align: right">
                     <input type="button" value="Cancel" onclick="gotoListPage()"/>
-                    <input type="button" value="Update" onclick="submitPage('update')"/>
+                    <input type="button" value="Save" onclick="submitPage('save')"/>
+                    <input type="button" value="Save & continue edit" onclick="submitPage('save_continue')"/>
                 </td>
             </tr>
         </tbody>
