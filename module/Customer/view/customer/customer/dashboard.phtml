@@ -7,13 +7,15 @@
         <table class="pager-table" cellspacing="0">
             <tr>
                 <td class="pager" >
-                    <img style='height:18px; padding-left: 5px;padding-right: 5px;cursor: pointer' class='buttonstyle' onclick="loadListPage()" title="reload" src="<?= $this->basePath() ?>/images/reload.png" />
+                    <img class="reload" onclick="loadListPage()" title="reload" src="<?= $this->basePath() ?>/images/reload.png" />
+                    <p class="pages">
                     Page
-                    <span id="leftarrow" class="buttonstyle"></span>
-                    <input type="text" style="width:50px" value="1" onkeypress="getRecord(event);" name="page" id="page">
-                    <span id="rightarrow" class="buttonstyle"></span>
+                    <span id="leftarrow" class="arrow"></span>
+                    <input type="text" value="1" onkeypress="getRecord(event);" name="page" id="page">
+                    <span id="rightarrow" class="arrow"></span>
                     of <span id="currentpage"></span> pages
-                    <span class="separator">|</span>
+                    </p>
+                    <p class="pages">
                     View
                     <select onchange="loadListPage()" id="totalpage">
                         <option selected="selected" value="10">10</option>
@@ -24,12 +26,13 @@
                         <option <?php echo ($count > 100 || $count >= 200) ? '' : 'disabled="true"' ?> value="200">200</option>
                     </select>
                     per page
-                    <span class="separator">|</span>
-                    Total <?php echo $count ?> records found
-                    <span class="separator">|</span>
+                    </p>
+                    <p class="pages">Total <?php echo $count ?> records found</p>
+                    <p class="pages mail-search">
                     Search by email
                     <input type="text" onkeypress="getRecord(event)" class="input-text" style="width:180px !important" value="" name="contactemail" id="contactemail">
-                    <img style='height:18px; padding-left: 5px;padding-right: 5px;cursor: pointer' class='buttonstyle' onclick="clearAndLoadListPage()" title="Clear" src="<?= $this->basePath() ?>/images/cancel_icon.gif" />
+                    <img class="cancel" onclick="clearAndLoadListPage()" title="Clear" src="<?= $this->basePath() ?>/images/cancel.png" />
+                    </p>
                     <input type="button" value="Add Customer" onclick="addCustomer()">
                     <span class="no-display" id="super_product_links-total-count"></span>
                 </td>

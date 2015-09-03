@@ -41,18 +41,24 @@ class ProductController extends AbstractActionController {
                 ,att_in.value as att_integer_val
                 ,att_de.value as att_decimal_val
                 ,att_bo.value as att_boolean_val
+                ,att_sel.value as att_select_val
                 FROM productattribute as pro_att 
                 left join attributetype as att_type on pro_att.type=att_type.id 
                 left join attribute_string as att_st on (pro_att.id=att_st.attributetype_id and att_st.product_id=$product_id)
                 left join attribute_integer as att_in on (pro_att.id=att_in.attributetype_id and att_in.product_id=$product_id)
                 left join attribute_decimal as att_de on (pro_att.id=att_de.attributetype_id and att_de.product_id=$product_id)
                 left join attribute_boolean as att_bo on (pro_att.id=att_bo.attributetype_id and att_bo.product_id=$product_id)
+                left join attribute_select as att_sel on (pro_att.id=att_sel.attributetype_id and att_sel.product_id=$product_id)
                 where pro_att.active=1";
         $statement = $dbadapter->query($sql);
         $results = $statement->execute();
         $returnArray = array();
         // iterate through the rows
         foreach ($results as $result) {
+            if(strtolower($result['attribute_type'])=='select'){
+                // get all that option
+                $result['options']=$this->getAttributeSelectOption($result['id']);
+            }
             $returnArray[] = $result;
         }
         return $returnArray;
@@ -98,9 +104,6 @@ class ProductController extends AbstractActionController {
     private function getProductCollection($pagecounter = 0, $totalpage = 0, $productname, $productid = '') {
         $servicelocator = $this->getServiceLocator();
         $dbadapter = $servicelocator->get('Zend\Db\Adapter\Adapter');
-//        $param = function($name) use ($dbadapter) {
-//            return $dbadapter->driver->formatParameterName($name);
-//        };
         $sql = 'select * from product';
         if ($productname != '') {
             $sql .= ' where name like "' . $productname . '%"';
@@ -113,6 +116,7 @@ class ProductController extends AbstractActionController {
         $returnArray = array();
         // iterate through the rows
         foreach ($results as $result) {
+            $result['imagepath'] = $this->getImagePathArray($result['id']);
             if ($productid)
                 return $result;
             $returnArray[] = $result;
@@ -137,14 +141,14 @@ class ProductController extends AbstractActionController {
         $request = $this->getRequest();
         $data = $request->getPost();
 
+        $categoryid = '';
         $db = $this->getTable('product');
         if ($data['actiontype'] == 'delete') {
             $db->delete(array('id' => $data['id']));
         } elseif ($data['actiontype'] == 'save' || $data['actiontype'] == 'save_continue') {
             $postdata = array();
-            $categoryid = '';
             foreach ($data as $key => $value) {
-                if ($key == 'name' || $key == 'description' || $key == 'short_description' || $key == 'status' || $key == 'price' || $key == 'imagepath' || $key == 'inventory' || $key == 'category' || $key == 'customer_id' || $key == 'approved') {
+                if ($key == 'name' || $key == 'description' || $key == 'short_description' || $key == 'status' || $key == 'price' || $key == 'imagepath' || $key == 'inventory' || $key == 'customer_id' || $key == 'approved') {
                     $postdata[$key] = $value;
                 } else if ($key == 'category') {
                     $categoryid = $value;
@@ -169,9 +173,13 @@ class ProductController extends AbstractActionController {
                     if ($valid_file) {
                         $imgname = '/' . $data['id'] . '_' . $_FILES['photo']['name'];
                         move_uploaded_file($_FILES['photo']['tmp_name'], realpath(dirname(__FILE__) . '/../../../../../public/images/products/') . $imgname);
+                        $db = $this->getTable('product_image');
                         $postdata = array();
+                        $postdata['product_id'] = $data['id'];
                         $postdata['imagepath'] = 'images/products' . $imgname;
-                        $db->update($postdata, array('id' => $data['id']));
+                        $db->delete(array('product_id' => $data['id'],
+                                            'imagepath'=>'images/products' . $imgname));
+                        $db->insert($postdata);
                     }
                 }
                 //if there is an error...
@@ -205,26 +213,34 @@ class ProductController extends AbstractActionController {
             }
             // check for attribute
             
-            if($data['actiontype'] == 'save_continue'){
-                $user = new User($this->getServiceLocator());
-                $adminloginuser = new Container('adminloginuser');
-                $menus = $user->getUserMenu($adminloginuser->userid);
-                $productdetail = $this->getProductCollection(0, 1, '', $data['id']);
-                $view = new ViewModel(array(
-                    'userdetail' => $adminloginuser->userdetail,
-                    'menus' => $menus,
-                    'controller' => 'Productedit',
-                    'customername' => $this->getCustomerName($productdetail['customer_id']),
-                    'controller' => 'Products',
-                    'islink' => true,
-                    'productdetail' => $productdetail,
-                    'categorytree' => $this->getAllCategory(),
-                    'categoryid' => $this->getProductCategoryId($data['id']),
-                    'activeattributes' => $this->getActiveAttributes($data['id']),
-                ));
-                return $view->setTemplate('/product/product/edit.phtml');
-            }
+        } elseif ($data['actiontype'] == 'remove_image' || $data['remove_image_id'] != '') {
+            // remove file $data['remove_image_path']
+            unlink(realpath(dirname(__FILE__)).'/../../../../../public/'.$data['remove_image_path']);
+            $db = $this->getTable('product_image');
+            $db->delete(array('id' => $data['remove_image_id']));
         }
+        
+        if($data['actiontype'] == 'save_continue' || $data['actiontype'] == 'remove_image'){
+            $user = new User($this->getServiceLocator());
+            $adminloginuser = new Container('adminloginuser');
+            $menus = $user->getUserMenu($adminloginuser->userid);
+            $productdetail = $this->getProductCollection(0, 1, '', $data['id']);
+            $view = new ViewModel(array(
+                'userdetail' => $adminloginuser->userdetail,
+                'menus' => $menus,
+                'controller' => 'Productedit',
+                'customername' => $this->getCustomerName($productdetail['customer_id']),
+                'controller' => 'Products',
+                'islink' => true,
+                'productdetail' => $productdetail,
+                'categorytree' => $this->getAllCategory(),
+                'categoryid' => $this->getProductCategoryId($data['id']),
+                'activeattributes' => $this->getActiveAttributes($data['id']),
+//                'message' => $categoryid,
+            ));
+            return $view->setTemplate('/product/product/edit.phtml');
+        }
+        
         return $this->redirect()->toRoute('product/default', array('controller' => 'product', 'action' => 'index'));
     }
 
@@ -237,11 +253,33 @@ class ProductController extends AbstractActionController {
         }
         return $returnArray;
     }
+    
+    public function getImagePathArray($product_id) {
+        $attTable = $this->getTable('product_image');
+        $results = $attTable->select(array('product_id' => $product_id));
+        $returnArray = array();
+        foreach ($results as $result) {
+            $returnArray[$result['id']] = $result['imagepath'];
+        }
+        return $returnArray;
+    }
 
     public function getAllCategory() {
         $categoryTable = $this->getTable('category');
         $results = $categoryTable
                 ->select();
+//                ->order(array('id','parent_id'));
+        $returnArray = array();
+        foreach ($results as $result) {
+            $returnArray[] = $result;
+        }
+        return $returnArray;
+    }
+    
+    public function getAttributeSelectOption($pro_att_id) {
+        $attribute_select_option = $this->getTable('attribute_select_option');
+        $results = $attribute_select_option
+                ->select(array('productattribute_id' => $pro_att_id));
 //                ->order(array('id','parent_id'));
         $returnArray = array();
         foreach ($results as $result) {

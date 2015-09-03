@@ -83,7 +83,7 @@ class CustomerController extends AbstractActionController {
         $contactemail = $data['contactemail'];
         return array('customerlist' => $this->getCustomerCollection($pagecounter - 1, $totalpage, $contactemail));
     }
-    
+
     public function uniqueemailAction() {
         $request = $this->getRequest();
         $data = $request->getPost();
@@ -103,7 +103,8 @@ class CustomerController extends AbstractActionController {
         } else if ($customerid != '') {
             $sql .= ' where id =' . $customerid;
         }
-        if($pagecounter) $pagecounter = $totalpage*$pagecounter;
+        if ($pagecounter)
+            $pagecounter = $totalpage * $pagecounter;
         $statement = $dbadapter->query($sql . " limit $pagecounter,$totalpage ");
         $results = $statement->execute();
         $returnArray = array();
@@ -122,7 +123,7 @@ class CustomerController extends AbstractActionController {
         $servicelocator = $this->getServiceLocator();
         $dbadapter = $servicelocator->get('Zend\Db\Adapter\Adapter');
         $statement = $dbadapter->query(
-                "select count(*) as total from customer where email='".$email."'");
+                "select count(*) as total from customer where email='" . $email . "'");
         $results = $statement->execute();
         $total = 0;
         foreach ($results as $result) {
@@ -131,6 +132,7 @@ class CustomerController extends AbstractActionController {
         return $total;
 //        return "select count(*) as total from customer where email='".$email."'";
     }
+
     private function getTotalCustomer() {
         $servicelocator = $this->getServiceLocator();
         $dbadapter = $servicelocator->get('Zend\Db\Adapter\Adapter');
@@ -156,6 +158,8 @@ class CustomerController extends AbstractActionController {
             foreach ($data as $key => $value) {
                 if ($key == 'actiontype') {
                     continue;
+                } else if ($key == 'password') {
+                    $value = md5($value);
                 }
                 $postdata[$key] = $value;
             }

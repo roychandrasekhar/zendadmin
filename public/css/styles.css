@@ -264,10 +264,11 @@ table tr.headings th:nth-child(6), table tr.pointer td:nth-child(6) {
 table tr.headings th:nth-child(7), table tr.pointer td:nth-child(7) {
     width: 8%;
 }
-table tr.even {
-    background: #f7f7f7;
+table tr{ background: #fff; }
+table tr.even.pointer, table tr:nth-child(odd) {
+    background: #fafafa;
 }
-table tr.pointer {
+table tr.pointer, table tr:nth-child(even) {
     background: #fff;
 }
 table tr.headings {
@@ -285,3 +286,31 @@ table.pager-table, table.pager-table td, table.pager-table th {
 table.white {
     background: #fff;
 }
+
+table.field-control input:not([type="submit"]):not([type="button"]):not([type="radio"]):not([type="checkbox"]), table.field-control select{ height: 30px; line-height: 30px; padding: 0 10px; width: 70%; }
+
+.reload, .cancel{ cursor: pointer; display: inline-block; vertical-align: middle; margin: 0 10px 0 0; }
+.pager-table td.pager p{ line-height: 28px; display: inline-block; vertical-align: top; margin: 0 15px; }
+.pager-table td.pager input[type="button"]{ float: right; }
+.pager-table td.pager .pages input, .pager-table td.pager .pages select{ height: 26px; text-align: center; width: 40px; margin: 0 4px; }
+.pager-table td.pager .pages span.arrow{ vertical-align: top; display: inline-block; }
+.pager-table td.pager .pages span.arrow img{ display: inline-block; vertical-align: middle; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

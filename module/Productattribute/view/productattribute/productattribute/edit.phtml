@@ -1,8 +1,10 @@
 <?= $this->partial('/admin/common/header.phtml', array('userdetail' => $this->userdetail)); ?>
 <?= $this->partial('/admin/menu/left.phtml', array('menus' => $this->menus, 'controller' => $this->controller)); ?> 
-
+<div class="main">
+<div class="wrapper">
+<h2>Product Attribute Edit</h2>
 <form id="form1" method="POST" action="<?php echo $this->url('productattribute/default', array('controller' => 'productattribute', 'action' => 'update')); ?>">
-    <table border="1">
+    <table class="field-control" border="1">
         <tbody>
             <tr>
                 <td>Status</td>
@@ -50,7 +52,8 @@
         </tbody>
     </table>
 </form>
-
+</div>
+</div>
 
 
 <script>

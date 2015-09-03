@@ -21,11 +21,11 @@ foreach ($this->productlist as $item) {
             <td class=''><?=$item['price']?></td>
             <td class=''><?= ($item['approved']==1)?'Yes':'No' ?></td>
             <td class=''><?= ($item['status']==1)?'Active':'In-active' ?></td>
-            <?php if($item['imagepath']){?>
-            <td class=''><img width="100" src="<?php echo $this->serverUrl() . $this->basePath($item['imagepath']); ?>"></td>
-            <?php }else{?>
-            <td></td>
-            <?php }?>
+            <td class=''>
+                <?php foreach($item['imagepath'] as $eachimagepath){?>
+                    <img width="100" src="<?php echo $this->serverUrl() . $this->basePath($eachimagepath); ?>">
+                <?php break;}?>
+            </td>
             <td class=''><a href='javascript:editProduct(<?=$item['id']?>)'>Edit</a></td>
         </tr>
     <?php $displays = ($displays) ? false : true;

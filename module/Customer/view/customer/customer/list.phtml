@@ -5,7 +5,7 @@
                 <th>Email</th>
                 <th>Mobile</th>
                 <th>Telephone</th>
-                <th>Dealer Type</th>
+                <th>Customer Type</th>
                 <th>State</th>
                 <th>Action</th>
             </tr>
@@ -22,7 +22,7 @@ foreach ($this->customerlist as $item) {
             <td class=''><?=$item['email']?></td>
             <td class=''><?=$item['mobile']?></td>
             <td class=''><?=$item['telephone']?></td>
-            <td class=''><?= ($item['dealer_type']==1)?'Commercial':'Domestic' ?></td>
+            <td class=''><?= ($item['dealer_type']==2)?'Dealer':'Trader' ?></td>
             <td class=''><?= ($item['state']==1)?'Active':'In-active' ?></td>
             <td class=''><a href='javascript:editCustomer(<?=$item['id']?>)'>Edit</a></td>
         </tr>

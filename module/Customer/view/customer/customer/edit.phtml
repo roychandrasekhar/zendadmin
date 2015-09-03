@@ -1,16 +1,19 @@
 <?= $this->partial('/admin/common/header.phtml', array('userdetail' => $this->userdetail)); ?>
 <?= $this->partial('/admin/menu/left.phtml', array('menus' => $this->menus, 'controller' => $this->controller)); ?> 
+<div class="main">
+<div class="wrapper">
+<h2>Customer Edit</h2>
 <form id="form1" method="POST" action="<?php echo $this->url('customer/default', array('controller' => 'customer', 'action' => 'update')); ?>">
-    <table border="1">
+    <table class="field-control" border="1">
         <tbody>
             <tr>
-                <td>dealer_type</td>
+                <td>Customer Type</td>
                 <td>
                     <input type="hidden" name="id" value="<?= $this->customerdetail['id'] ?>" />
                     <input type="hidden" name="actiontype" id="actiontype" />
                     <select name="dealer_type">
-                        <option value="1" <?= ($this->customerdetail['dealer_type'] == 1) ? "selected" : "" ?>>Commercial</option>
-                        <option value="2" <?= ($this->customerdetail['dealer_type'] == 2) ? "selected" : "" ?>>Domestic</option>
+                        <option value="1" <?= ($this->customerdetail['dealer_type'] == 1) ? "selected" : "" ?>>Trader</option>
+                        <option value="2" <?= ($this->customerdetail['dealer_type'] == 2) ? "selected" : "" ?>>Dealer</option>
                     </select>
                 </td>
             </tr>
@@ -96,7 +99,8 @@
         </tbody>
     </table>
 </form>
-
+</div>
+</div>
 
 
 <script>
