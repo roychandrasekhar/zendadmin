@@ -64,7 +64,7 @@
         var responsevalue = true;
         var obj = new Array();
         obj[obj.length] = ['req', document.getElementById("type"), 'Attribute type not selected'];
-        obj[obj.length] = ['req', document.getElementById("name"), 'Please enter Name'];
+//        obj[obj.length] = ['req', document.getElementById("name"), 'Please enter Name'];
         obj[obj.length] = ['req', document.getElementById("description"), 'Please enter description'];
         for (cnt = 0; cnt < obj.length; cnt++) {
             responsevalue = V2validateData(obj[cnt][0], obj[cnt][1], obj[cnt][2]);
