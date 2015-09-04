@@ -1,70 +1,80 @@
 <?= $this->partial('/admin/common/header.phtml', array('userdetail' => $this->userdetail)); ?>
 <?= $this->partial('/admin/menu/left.phtml', array('menus' => $this->menus, 'controller' => $this->controller)); ?> 
 <div class="main">
-<div class="wrapper">
-<h2>Product Attribute Edit</h2>
-<form id="form1" method="POST" action="<?php echo $this->url('productattribute/default', array('controller' => 'productattribute', 'action' => 'update')); ?>">
-    <table class="field-control" border="1">
-        <tbody>
-            <tr>
-                <td>Status</td>
-                <td>
-                    <input type="hidden" name="id" value="<?= $this->productattributedetail['id'] ?>" />
-                    <input type="hidden" name="actiontype" id="actiontype" />
-                    <select name="active">
-                        <option value="1" <?= ($this->productattributedetail['active'] == 1) ? "selected" : "" ?>>Active</option>
-                        <option value="0" <?= ($this->productattributedetail['active'] == 0) ? "selected" : "" ?>>In-active</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Name</td>
-                <td>
-                    <?= $this->productattributedetail['name'] ?>
-                </td>
-            </tr>
-            <tr>
-                <td>Description *</td>
-                <td>
-                    <input type="text" id="description" name="description" value="<?= $this->productattributedetail['description'] ?>" />
-                </td>
-            </tr>
-            <tr>
-                <td>Attribute Type *</td>
-                <td>
-                    <select name="type" id="type">
-                        <option></option>
-                        <?php foreach ($this->attributetype as $key => $value) { ?>
-                            <option value="<?= $key ?>" <?= ($this->productattributedetail['type'] == $key) ? "selected" : "" ?>><?= $value ?></option>
-                        <?php } ?>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="button" value="Delete" onclick="submitPage('delete')"/>
-                </td>
-                <td style="text-align: right">
-                    <input type="button" value="Cancel" onclick="gotoListPage()"/>
-                    <input type="button" value="Update" onclick="submitPage('update')"/>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</form>
+    <div class="wrapper">
+        <h2>Product Attribute Edit</h2>
+        <form id="form1" method="POST" action="<?php echo $this->url('productattribute/default', array('controller' => 'productattribute', 'action' => 'update')); ?>">
+            <table class="field-control" border="1">
+                <tbody>
+                    <tr>
+                        <td>Status</td>
+                        <td>
+                            <input type="hidden" name="id" value="<?= $this->productattributedetail['id'] ?>" />
+                            <input type="hidden" name="actiontype" id="actiontype" />
+                            <input type="hidden" name="optiontextval" id="optiontextval" />
+                            <select name="active">
+                                <option value="1" <?= ($this->productattributedetail['active'] == 1) ? "selected" : "" ?>>Active</option>
+                                <option value="0" <?= ($this->productattributedetail['active'] == 0) ? "selected" : "" ?>>In-active</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>
+                            <input type="text" id="name" name="name" value="<?= $this->productattributedetail['name'] ?>" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Description *</td>
+                        <td>
+                            <input type="text" id="description" name="description" value="<?= $this->productattributedetail['description'] ?>" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Attribute Type *</td>
+                        <td>
+                            <!--<select name="type" id="type">-->
+                            <!--<option></option>-->
+                            <?php
+                            $tempattributetype = '';
+                            foreach ($this->attributetype as $key => $value) {
+                                if ($this->productattributedetail['type'] == $key) {
+                                    echo $value;
+                                    $tempattributetype = $value;
+                                }
+                            }
+                            ?>
+                            <!--</select>-->
+                            <div id="optiondiv" style="display:none"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" value="Delete" onclick="submitPage('delete')"/>
+                        </td>
+                        <td style="text-align: right">
+                            <input type="button" value="Cancel" onclick="gotoListPage()"/>
+                            <input type="button" value="Update" onclick="submitPage('update')"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
 </div>
-</div>
-
 
 <script>
+<?php if ($this->attributeoptiondata) { ?>
+        showOptionDiv('<?= $this->attributeoptiondata ?>');
+<?php } ?>
     function gotoListPage() {
         window.location = '<?php echo $this->url('productattribute/default', array('controller' => 'productattribute', 'action' => 'index')); ?>';
     }
     function validate() {
         var responsevalue = true;
         var obj = new Array();
-        obj[obj.length] = ['req', document.getElementById("type"), 'Attribute type not selected'];
-//        obj[obj.length] = ['req', document.getElementById("name"), 'Please enter Name'];
+//        obj[obj.length] = ['req', document.getElementById("type"), 'Attribute type not selected'];
+        obj[obj.length] = ['req', document.getElementById("name"), 'Please enter Name'];
         obj[obj.length] = ['req', document.getElementById("description"), 'Please enter description'];
         for (cnt = 0; cnt < obj.length; cnt++) {
             responsevalue = V2validateData(obj[cnt][0], obj[cnt][1], obj[cnt][2]);
@@ -81,12 +91,121 @@
             }
             document.getElementById('actiontype').value = action;
             document.getElementById('form1').submit();
-        }else{
-            if(validate()==false)return;
+        } else {
+            if (validate() == false)
+                return;
+
+            if ('Select' == '<?= $tempattributetype; ?>') {
+                // check for any option
+                var optiontext = document.getElementsByName('optiontext');
+                var optiontextval = '';
+                for (var i = 0; i < optiontext.length; i++) {
+                    if (optiontext[i].type == "text" && optiontext[i].value != '') {
+                        optiontextval = (optiontextval == '') ? optiontext[i].value : optiontextval + ',' + optiontext[i].value;
+                    }
+                }
+                if (optiontextval == '') {
+                    alert('No option added !');
+                    return;
+                } else {
+                    document.getElementById('optiontextval').value = optiontextval;
+                }
+            }
+
+
             document.getElementById('actiontype').value = action;
             document.getElementById('form1').submit();
         }
 
+    }
+
+    function showOptionDiv(optiondata) {
+        if (true) {
+            var eachoption = optiondata.split("--");
+            createOptionDiv();
+            for (var i = 0; i < eachoption.length; i++) {
+                addOptionTextBox(eachoption[i]);
+            }
+        } else {
+            var obj = document.getElementById('optiondiv');
+            obj.innerHTML = '';
+        }
+    }
+
+    var textboxcounter = 0;
+    function createOptionDiv() {
+        var obj = document.getElementById('optiondiv');
+        obj.innerHTML = '';
+        textboxcounter = 0;
+        obj.setAttribute('style', 'display:block;');
+        prepareRadioDiv();
+
+
+    }
+
+    function prepareRadioDiv() {
+        var radiodiv = document.createElement("div");
+        radiodiv.setAttribute("id", "radiodiv");
+        radiodiv.setAttribute("name", "radiodiv");
+        radiodiv.setAttribute("style", "padding-top:10px");
+        document.getElementById("optiondiv").appendChild(radiodiv);
+
+        var buttondiv = document.createElement("div");
+        buttondiv.setAttribute("id", "buttondiv");
+        buttondiv.setAttribute("name", "buttondiv");
+        buttondiv.setAttribute("style", "padding-top:10px");
+        document.getElementById("optiondiv").appendChild(buttondiv);
+
+        var inputbutton = document.createElement("input");
+        inputbutton.setAttribute("type", "button");
+        inputbutton.setAttribute("id", "buttondiv");
+        inputbutton.setAttribute("value", "Add Option");
+        inputbutton.setAttribute("onclick", "addOptionTextBox('')");
+        buttondiv.appendChild(inputbutton);
+    }
+
+    function addOptionTextBox(value) {
+        textboxcounter++;
+        var radiodiv = document.getElementById("radiodiv");
+        var textbox = document.createElement('input');
+        textbox.setAttribute('type', 'text');
+        textbox.setAttribute('style', 'width:250px;');
+        textbox.setAttribute('value', value);
+        textbox.setAttribute('id', 'name' + textboxcounter);
+        textbox.setAttribute('name', 'optiontext');
+
+        var spantext = document.createElement('span');
+        spantext.setAttribute('id', 'span1' + textboxcounter);
+        var spantextm = document.createTextNode(" Option name : ");
+        spantext.appendChild(spantextm);
+        radiodiv.appendChild(spantext);
+        radiodiv.appendChild(textbox);
+
+        var removebutton = document.createElement('input');
+        removebutton.setAttribute('type', 'button');
+        removebutton.setAttribute('value', 'Remove');
+        removebutton.setAttribute('class', 'remove_option');
+        removebutton.setAttribute('id', 'button' + textboxcounter);
+        removebutton.setAttribute('onclick', 'removeOption(' + textboxcounter + ')');
+        radiodiv.appendChild(removebutton);
+
+        var br = document.createElement('br');
+        br.setAttribute('id', 'br' + textboxcounter);
+        radiodiv.appendChild(br);
+
+//        textbox.focus();
+    }
+
+    function removeOption(id) {
+        var option = document.getElementById('name' + id);
+        option.parentNode.removeChild(option);
+        var spantext = document.getElementById('span1' + id);
+        spantext.parentNode.removeChild(spantext);
+
+        var button = document.getElementById('button' + id);
+        button.parentNode.removeChild(button);
+        var br = document.getElementById('br' + id);
+        br.parentNode.removeChild(br);
     }
 </script>
 

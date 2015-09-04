@@ -1,56 +1,58 @@
 <?= $this->partial('/admin/common/header.phtml', array('userdetail' => $this->userdetail)); ?>
 <?= $this->partial('/admin/menu/left.phtml', array('menus' => $this->menus, 'controller' => $this->controller)); ?> 
 <div class="main">
-<div class="wrapper">
-<h2>Product Attribute Add</h2>
-<form id="form1" method="POST" action="<?php echo $this->url('productattribute/default', array('controller' => 'productattribute', 'action' => 'update')); ?>">
-    <table class="field-control" border="1">
-        <tbody>
-            <tr>
-                <td>Status</td>
-                <td>
-                    <input type="hidden" name="actiontype" id="actiontype" />
-                    <select name="active">
-                        <option value="1">Active</option>
-                        <option value="0">In-active</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Name *</td>
-                <td>
-                    <input type="text" name="name" id="name" />
-                </td>
-            </tr>
-            <tr>
-                <td>Description *</td>
-                <td>
-                    <input type="text" name="description" id="description"/>
-                </td>
-            </tr>
-            <tr>
-                <td>Attribute Type</td>
-                <td>
-                    <select name="type" id="type">
-                        <option></option>
-                        <?php foreach ($this->attributetype as $key => $value) { ?>
-                            <option value="<?= $key ?>"><?= $value ?></option>
-                        <?php } ?>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                </td>
-                <td style="text-align: right">
-                    <input type="button" value="Cancel" onclick="gotoListPage()"/>
-                    <input type="button" value="Add" onclick="submitPage('add')"/>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</form>
-</div>
+    <div class="wrapper">
+        <h2>Product Attribute Add</h2>
+        <form id="form1" method="POST" action="<?php echo $this->url('productattribute/default', array('controller' => 'productattribute', 'action' => 'update')); ?>">
+            <table class="field-control" border="1">
+                <tbody>
+                    <tr>
+                        <td>Status</td>
+                        <td>
+                            <input type="hidden" name="actiontype" id="actiontype" />
+                            <input type="hidden" name="optiontextval" id="optiontextval" />
+                            <select name="active">
+                                <option value="1">Active</option>
+                                <option value="0">In-active</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Name *</td>
+                        <td>
+                            <input type="text" name="name" id="name" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Description *</td>
+                        <td>
+                            <input type="text" name="description" id="description"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Attribute Type</td>
+                        <td>
+                            <select name="type" id="type" onchange="showOptionDiv()">
+                                <option></option>
+                                <?php foreach ($this->attributetype as $key => $value) { ?>
+                                    <option value="<?= $key ?>"><?= $value ?></option>
+                                <?php } ?>
+                            </select>
+                            <div id="optiondiv" style="display:none"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                        <td style="text-align: right">
+                            <input type="button" value="Cancel" onclick="gotoListPage()"/>
+                            <input type="button" value="Add" onclick="submitPage('add')"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
 </div>
 
 
@@ -75,6 +77,26 @@
     function submitPage(action) {
         if (validate() == false)
             return;
+
+        // collect option value
+        var option = document.getElementById('type');
+        if (option.options[option.selectedIndex].text == 'Select') {
+            // check for any option
+            var optiontext = document.getElementsByName('optiontext');
+            var optiontextval = '';
+            for (var i = 0; i < optiontext.length; i++) {
+                if (optiontext[i].type == "text" && optiontext[i].value != '') {
+                    optiontextval = (optiontextval == '') ? optiontext[i].value : optiontextval + ',' + optiontext[i].value;
+                }
+            }
+            if (optiontextval == '') {
+                alert('No option added !');
+                return;
+            } else {
+                document.getElementById('optiontextval').value = optiontextval;
+            }
+        }
+//        return;
         uniqueAttribute(action);
 //        document.getElementById('actiontype').value = action;
 //        document.getElementById('form1').submit();
@@ -87,16 +109,108 @@
             method: 'post',
             parameters: encodeURI('name=' + name),
             onComplete: function (transport) {
-                if(transport.responseText=='0'){
+                if (transport.responseText == '0') {
                     document.getElementById('actiontype').value = action;
                     document.getElementById('form1').submit();
-                }else{
-                    alert('Attribute name ['+document.getElementById("name").value + '] already exist');
+                } else {
+                    alert('Attribute name [' + document.getElementById("name").value + '] already exist');
                     document.getElementById("name").focus();
                 }
             }
         });
     }
+
+    function showOptionDiv() {
+        var option = document.getElementById('type');
+        if (option.options[option.selectedIndex].text == 'Select') {
+            createOptionDiv();
+        } else {
+            var obj = document.getElementById('optiondiv');
+            obj.innerHTML = '';
+        }
+    }
+
+    var textboxcounter = 0;
+    function createOptionDiv() {
+        var obj = document.getElementById('optiondiv');
+        obj.innerHTML = '';
+        textboxcounter = 0;
+        obj.setAttribute('style', 'display:block;');
+        prepareRadioDiv();
+        addOptionTextBox('');
+
+    }
+
+    function prepareRadioDiv() {
+        var radiodiv = document.createElement("div");
+        radiodiv.setAttribute("id", "radiodiv");
+        radiodiv.setAttribute("name", "radiodiv");
+        radiodiv.setAttribute("style", "padding-top:10px");
+        document.getElementById("optiondiv").appendChild(radiodiv);
+
+        var buttondiv = document.createElement("div");
+        buttondiv.setAttribute("id", "buttondiv");
+        buttondiv.setAttribute("name", "buttondiv");
+        buttondiv.setAttribute("style", "padding-top:10px");
+        document.getElementById("optiondiv").appendChild(buttondiv);
+
+        var inputbutton = document.createElement("input");
+        inputbutton.setAttribute("type", "button");
+        inputbutton.setAttribute("id", "buttondiv");
+        inputbutton.setAttribute("value", "Add Option");
+        inputbutton.setAttribute("onclick", "addOptionTextBox('')");
+        buttondiv.appendChild(inputbutton);
+    }
+
+    function addOptionTextBox(value) {
+        var partval = value.split('--');
+        if (typeof partval[1] === 'undefined') {
+            partval[1] = 0;
+        }
+
+        textboxcounter++;
+        var radiodiv = document.getElementById("radiodiv");
+        var textbox = document.createElement('input');
+        textbox.setAttribute('type', 'text');
+        textbox.setAttribute('style', 'width:250px;');
+        textbox.setAttribute('value', partval[0]);
+        textbox.setAttribute('id', 'name' + textboxcounter);
+        textbox.setAttribute('name', 'optiontext');
+
+        var spantext = document.createElement('span');
+        spantext.setAttribute('id', 'span1' + textboxcounter);
+        var spantextm = document.createTextNode(" Option name : ");
+        spantext.appendChild(spantextm);
+        radiodiv.appendChild(spantext);
+        radiodiv.appendChild(textbox);
+
+        var removebutton = document.createElement('input');
+        removebutton.setAttribute('type', 'button');
+        removebutton.setAttribute('value', 'Remove');
+        removebutton.setAttribute('class', 'remove_option');
+        removebutton.setAttribute('id', 'button' + textboxcounter);
+        removebutton.setAttribute('onclick', 'removeOption(' + textboxcounter + ')');
+        radiodiv.appendChild(removebutton);
+
+        var br = document.createElement('br');
+        br.setAttribute('id', 'br' + textboxcounter);
+        radiodiv.appendChild(br);
+
+        textbox.focus();
+    }
+
+    function removeOption(id) {
+        var option = document.getElementById('name' + id);
+        option.parentNode.removeChild(option);
+        var spantext = document.getElementById('span1' + id);
+        spantext.parentNode.removeChild(spantext);
+
+        var button = document.getElementById('button' + id);
+        button.parentNode.removeChild(button);
+        var br = document.getElementById('br' + id);
+        br.parentNode.removeChild(br);
+    }
+
 </script>
 
 <?= $this->partial('/admin/common/footer.phtml', array()); ?>

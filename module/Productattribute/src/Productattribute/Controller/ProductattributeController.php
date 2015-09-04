@@ -47,14 +47,30 @@ class ProductattributeController extends AbstractActionController {
         $adminloginuser = new Container('adminloginuser');
         $menus = $user->getUserMenu($adminloginuser->userid);
         $productattributedetail = $this->getProductattributeCollection(0, 1, '', $request->getQuery('id'));
+        $all_attribute_type = $this->getAttributeType();
+        $attribute_options =  $this->getOptionArray($request->getQuery('id'));
+        $temp_type = $all_attribute_type[$productattributedetail['type']];
         return new ViewModel(array(
             'userdetail' => $adminloginuser->userdetail,
             'menus' => $menus,
             'controller' => 'Product Attribute',
             'islink' => true,
             'productattributedetail' => $productattributedetail,
-            'attributetype'=> $this->getAttributeType()
+            'attributetype'=> $all_attribute_type,
+            'attributeoptiondata'=> (trim($temp_type)=='Select')?implode('--',$attribute_options):'',
         ));
+    }
+    
+    public function getOptionArray($productattribute_id) {
+        $attribute_select_option = $this->getTable('attribute_select_option');
+        $results = $attribute_select_option
+                ->select(array('productattribute_id' => $productattribute_id));
+//                ->order(array('id','parent_id'));
+        $returnArray = array();
+        foreach ($results as $result) {
+            $returnArray[] = $result['title'];
+        }
+        return $returnArray;
     }
     
     public function addAction() {
@@ -119,6 +135,8 @@ class ProductattributeController extends AbstractActionController {
         } else if ($productattributeid != '') {
             $sql .= ' where id =' . $productattributeid;
         }
+        if ($pagecounter)
+            $pagecounter = $totalpage * $pagecounter;
         $statement = $dbadapter->query($sql . " limit $pagecounter,$totalpage ");
         $results = $statement->execute();
         $returnArray = array();
@@ -149,13 +167,17 @@ class ProductattributeController extends AbstractActionController {
         $data = $request->getPost();
 
         $db = $this->getTable('productattribute');
+        $optiontextval = '';
         if ($data['actiontype'] == 'delete') {
             $db->delete(array('id' => $data['id']));
         } elseif ($data['actiontype'] == 'update') {
             $postdata = array();
             $categoryid = '';
             foreach ($data as $key => $value) {
-                if ($key == 'actiontype') {
+                if ($key == 'actiontype' || $key =='optiontext') {
+                    continue;
+                } else if ($key == 'optiontextval') {
+                    $optiontextval = $value;
                     continue;
                 } else {
                     $postdata[$key] = $value;
@@ -166,15 +188,55 @@ class ProductattributeController extends AbstractActionController {
             $postdata = array();
             $categoryid = '';
             foreach ($data as $key => $value) {
-                if ($key == 'actiontype') {
+                if ($key == 'actiontype' || $key =='optiontext') {
+                    continue;
+                } else if ($key == 'optiontextval') {
+                    $optiontextval = $value;
                     continue;
                 } else {
                     $postdata[$key] = $value;
                 }
             }
             $db->insert($postdata);
+            $results = $db->select(array('name'=>$postdata['name']));
+            foreach ($results as $result) {
+                $data['id'] = $result['id'];
+                break;
+            }
+        }
+        if($optiontextval){
+            $this->insertAttributeOptionValue($data['id'],$optiontextval);
         }
         return $this->redirect()->toRoute('productattribute/default', array('controller' => 'productattribute', 'action' => 'index'));
+    }
+    
+    public function insertAttributeOptionValue($attribute_id, $optiontextval) {
+        $alloption = explode(',', $optiontextval);
+        $attribute_select_option = $this->getTable('attribute_select_option');
+        
+        $results = $attribute_select_option
+                ->select(array('productattribute_id' => $attribute_id));
+        $att_data = array();
+        foreach ($results as $result) {
+            $att_data[$result['title']] = $result['title'];
+        }
+        
+        $data = array();
+        foreach ($alloption as $value) {
+            if(isset($att_data[$value]) && $att_data[$value]==$value){
+                unset($att_data[$value]);
+                continue;
+            }
+            $data['productattribute_id'] = $attribute_id;
+            $data['title'] = $value;
+            $attribute_select_option->insert($data);
+        }
+        
+        // drop remaining option
+        foreach($att_data as $key => $value){
+            $attribute_select_option->delete(array('productattribute_id' => $attribute_id,
+                'title'=>$value));
+        }
     }
     
     public function getAttributeType() {
