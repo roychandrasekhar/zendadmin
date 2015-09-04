@@ -50,7 +50,7 @@ class CustomerController extends AbstractActionController {
             'userdetail' => $container->userdetail,
             'islink' => true,
             'menus' => $menus,
-            'controller' => 'Customeredit',
+            'controller' => 'Customer',
             'customerdetail' => $this->getCustomerCollection(0, 1, '', $request->getQuery('id')),
         ));
     }
@@ -71,7 +71,7 @@ class CustomerController extends AbstractActionController {
             'userdetail' => $container->userdetail,
             'islink' => true,
             'menus' => $menus,
-            'controller' => 'Customeredit',
+            'controller' => 'Customer',
         ));
     }
 

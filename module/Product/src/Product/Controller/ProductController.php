@@ -142,6 +142,7 @@ class ProductController extends AbstractActionController {
         $data = $request->getPost();
 
         $categoryid = '';
+        $default_image = '';
         $db = $this->getTable('product');
         if ($data['actiontype'] == 'delete') {
             $db->delete(array('id' => $data['id']));
@@ -152,6 +153,9 @@ class ProductController extends AbstractActionController {
                     $postdata[$key] = $value;
                 } else if ($key == 'category') {
                     $categoryid = $value;
+                    continue;
+                } else if ($key == 'default_image') {
+                    $default_image = $value;
                     continue;
                 }
             }
@@ -189,8 +193,17 @@ class ProductController extends AbstractActionController {
                 }
             }
             // image part
+            
+            // default image if found update
+            if($default_image){
+                $image_db = $this->getTable('product_image');
+                $image_db->update(array('is_default' => 0),
+                                            array('is_default'=>1));
+                $image_db->update(array('is_default' => 1),
+                                            array('id'=>$default_image));
+            }
+            // default image if found update
 
-//            $attributetablearray = $this->getAttributeTablename();
             // check for attribute
             foreach ($data as $key => $value) {
                 $subatt = explode('||', $key);
@@ -228,7 +241,7 @@ class ProductController extends AbstractActionController {
             $view = new ViewModel(array(
                 'userdetail' => $adminloginuser->userdetail,
                 'menus' => $menus,
-                'controller' => 'Productedit',
+//                'controller' => 'Productedit',
                 'customername' => $this->getCustomerName($productdetail['customer_id']),
                 'controller' => 'Products',
                 'islink' => true,
@@ -259,7 +272,7 @@ class ProductController extends AbstractActionController {
         $results = $attTable->select(array('product_id' => $product_id));
         $returnArray = array();
         foreach ($results as $result) {
-            $returnArray[$result['id']] = $result['imagepath'];
+            $returnArray[$result['id']] = array($result['imagepath'],$result['is_default']);
         }
         return $returnArray;
     }

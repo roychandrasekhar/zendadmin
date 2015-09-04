@@ -297,8 +297,8 @@ table.field-control input:not([type="submit"]):not([type="button"]):not([type="r
 .pager-table td.pager .pages span.arrow img{ display: inline-block; vertical-align: middle; }
 
 
-
-
+.img-table td *{ vertical-align: inherit; display: inline-block; }
+.img-table td .img-table-pic img{ display: block; }
 
 
 

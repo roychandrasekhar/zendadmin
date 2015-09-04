@@ -22,9 +22,10 @@ foreach ($this->productlist as $item) {
             <td class=''><?= ($item['approved']==1)?'Yes':'No' ?></td>
             <td class=''><?= ($item['status']==1)?'Active':'In-active' ?></td>
             <td class=''>
-                <?php foreach($item['imagepath'] as $eachimagepath){?>
-                    <img width="100" src="<?php echo $this->serverUrl() . $this->basePath($eachimagepath); ?>">
-                <?php break;}?>
+                <?php foreach($item['imagepath'] as $eachimagepath){
+                    if($eachimagepath[1]==1){?>
+                    <img width="100" src="<?php echo $this->serverUrl() . $this->basePath($eachimagepath[0]); ?>">
+                    <?php }}?>
             </td>
             <td class=''><a href='javascript:editProduct(<?=$item['id']?>)'>Edit</a></td>
         </tr>

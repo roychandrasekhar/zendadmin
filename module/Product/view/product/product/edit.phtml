@@ -61,7 +61,7 @@
                             <script type="text/javascript">
                                 <!--
                                 d = new dTree('d', '<?php echo $this->serverUrl() . $this->basePath('dtree'); ?>');
-        //                        d.add(0, -1, '<input type="checkbox" value="0" name="treenode"> Category Tree', '');
+                                //                        d.add(0, -1, '<input type="checkbox" value="0" name="treenode"> Category Tree', '');
                                 d.add(0, -1, 'Category Tree', '');
 <?php
 $tree = $this->categoryid;
@@ -85,9 +85,22 @@ foreach ($this->categorytree as $eachrow) {
                     <tr>
                         <td>Image</td>
                         <td>
-                            <?php foreach ($this->productdetail['imagepath'] as $key => $eachimagepath) { ?>
-                                <img width="100" style="cursor: not-allowed" onclick="removeImage(<?= $key ?>, '<?= $eachimagepath ?>')" title="Removed ?" src="<?php echo $this->serverUrl() . $this->basePath($eachimagepath); ?>">
-                            <?php } ?>
+                            <table class="img-table">
+                                <?php foreach ($this->productdetail['imagepath'] as $key => $eachimagepath) { ?>
+                                    <tr>
+                                        <td>
+                                            <a class="img-table-pic" style="text-decoration: none" href="<?php echo $this->serverUrl() . $this->basePath($eachimagepath[0]); ?>" target="_blank">
+                                                <img width="100" style="cursor:url " src="<?php echo $this->serverUrl() . $this->basePath($eachimagepath[0]); ?>">
+                                            </a>
+                                            <label for="<?=$key ?>" style="padding-left: 10px;"> 
+                                                <input type="radio" name="default_image" value="<?=$key ?>" id="<?=$key ?>" <?= ($eachimagepath[1]==1)?'checked':''; ?>>
+                                                Default
+                                            </label>
+                                            <a href="javascript:;" style="padding-left: 10px;" onclick="removeImage(<?= $key ?>, '<?= $eachimagepath[0] ?>')">Remove</a>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </table>
                             <br>Product Image: <input type="file" name="photo" size="25" />
                             <input type="button" value="Upload Image" onclick="submitPage('save_continue')"/>
                         </td>
@@ -172,6 +185,9 @@ foreach ($this->categorytree as $eachrow) {
         }
     }
     function removeImage(image_id, imagepath) {
+        if (!confirm('Are you sure to delete this Image ?') == true) {
+            return;
+        }
         document.getElementById('actiontype').value = 'remove_image';
         document.getElementById('remove_image_id').value = image_id;
         document.getElementById('remove_image_path').value = imagepath;
