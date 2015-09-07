@@ -1,4 +1,8 @@
-        <table class='data' cellspacing='0' border='1'>
+<?php
+//    print_r('<pre>');
+//    print_r($this->productlist);
+?>
+<table class='data' cellspacing='0' border='1'>
             <tr class='headings'>
                 <th>Name</th>
                 <th>Description</th>
@@ -6,6 +10,11 @@
                 <th>Approved</th>
                 <th>Status</th>
                 <th>Image</th>
+            <?php
+                foreach($this->admin_attribute_list as $option_name){ ?>
+                    <th><?=$option_name?></th>
+                <?php }
+            ?>
                 <th>Action</th>
             </tr>
 <?php
@@ -27,6 +36,30 @@ foreach ($this->productlist as $item) {
                     <img width="100" src="<?php echo $this->serverUrl() . $this->basePath($eachimagepath[0]); ?>">
                     <?php }}?>
             </td>
+            <?php
+                foreach($this->admin_attribute_list as $option_name){
+                    foreach($item['attributedata'] as $eachoption){
+                        if($eachoption['name'] == $option_name){
+                            if($eachoption['attribute_type']=='String'){?>
+                                <td class=''><?=$eachoption['att_string_val']?></td>
+                            <?php }else if($eachoption['attribute_type']=='Integer'){?>
+                                <td class=''><?=$eachoption['att_integer_val']?></td>
+                            <?php }else if($eachoption['attribute_type']=='Yes / No'){?>
+                                <td class=''><?=($eachoption['att_boolean_val'])?'Yes':'No' ?></td>
+                            <?php }else if($eachoption['attribute_type']=='Decimal'){?>
+                                <td class=''><?=$eachoption['att_decimal_val']?></td>
+                            <?php }else if($eachoption['attribute_type']=='Select'){
+                                foreach ($eachoption['options'] as $eachattributeoption) {
+                                    if($eachattributeoption['id']==$eachoption['att_select_val']){?>
+                                        <td class=''><?=$eachattributeoption['title']?></td>
+                                    <?php }
+                                }
+                                ?>
+                            <?php }
+                        }
+                    }
+                }
+            ?>
             <td class=''><a href='javascript:editProduct(<?=$item['id']?>)'>Edit</a></td>
         </tr>
     <?php $displays = ($displays) ? false : true;

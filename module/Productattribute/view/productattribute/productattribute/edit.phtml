@@ -49,6 +49,15 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>Show in Admin Product list ?</td>
+                        <td>
+                            <select name="admin_list">
+                                <option value="1" <?= ($this->productattributedetail['admin_list'] == 1) ? "selected" : "" ?>>Yes</option>
+                                <option value="0" <?= ($this->productattributedetail['admin_list'] == 0) ? "selected" : "" ?>>No</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>
                             <input type="button" value="Delete" onclick="submitPage('delete')"/>
                         </td>

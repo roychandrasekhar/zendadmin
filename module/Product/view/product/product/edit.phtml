@@ -207,6 +207,22 @@ foreach ($this->categorytree as $eachrow) {
         } else {
             if (validate() == false)
                 return;
+            
+            var default_image = document.getElementsByName('default_image');
+            var ischecked = false;
+            for ( var i = 0; i < default_image.length; i++) {
+                if(default_image[i].checked) {
+                    ischecked = true;
+                    break;
+                }
+            }
+            if(!ischecked)   {
+                for ( var i = 0; i < default_image.length; i++) {
+                    default_image[i].checked = true;
+                    break;
+                }
+            }
+            
             var treenodes = document.getElementsByName('treenodes');
             var category = '';
             for (i = 0; i < treenodes.length; i++) {

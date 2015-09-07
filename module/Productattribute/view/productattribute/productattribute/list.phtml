@@ -4,6 +4,7 @@
         <th>Description</th>
         <th>Type</th>
         <th>Status</th>
+        <th>Show in product Admin ?</th>
         <th>Action</th>
     </tr>
     <?php
@@ -19,6 +20,7 @@
             <td class=''><?= $item['description'] ?></td>
             <td class=''><?= $this->attributetype[$item['type']] ?></td>
             <td class=''><?= ($item['active'] == 1) ? 'Active' : 'In-active' ?></td>
+            <td class=''><?= ($item['admin_list'] == 1) ? 'Yes' : 'No' ?></td>
             <td class=''><a href="javascript:editProductattribute(<?= $item['id'] ?>)" >Edit</a></td>
         </tr>
         <?php $displays = ($displays) ? false : true;

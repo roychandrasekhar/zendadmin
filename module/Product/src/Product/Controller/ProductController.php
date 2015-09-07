@@ -55,9 +55,9 @@ class ProductController extends AbstractActionController {
         $returnArray = array();
         // iterate through the rows
         foreach ($results as $result) {
-            if(strtolower($result['attribute_type'])=='select'){
+            if (strtolower($result['attribute_type']) == 'select') {
                 // get all that option
-                $result['options']=$this->getAttributeSelectOption($result['id']);
+                $result['options'] = $this->getAttributeSelectOption($result['id']);
             }
             $returnArray[] = $result;
         }
@@ -98,7 +98,26 @@ class ProductController extends AbstractActionController {
         $totalpage = $data['totalpage'];
         $pagecounter = $data['pageno'];
         $productname = $data['productname'];
-        return array('productlist' => $this->getProductCollection($pagecounter - 1, $totalpage, $productname));
+        return array(
+            'productlist' => $this->getProductCollection($pagecounter - 1, $totalpage, $productname),
+            'admin_attribute_list' => $this->getAdminAttributeList('name'),
+        );
+    }
+
+    public function getAdminAttributeList($field = null) {
+        $productattributeTable = $this->getTable('productattribute');
+        $results = $productattributeTable
+                ->select(array('active' => 1, 'admin_list' => 1));
+//                ->order(array('id','parent_id'));
+        $returnArray = array();
+        foreach ($results as $result) {
+            if ($field) {
+                $returnArray[] = $result[$field];
+            } else {
+                $returnArray[] = $result;
+            }
+        }
+        return $returnArray;
     }
 
     private function getProductCollection($pagecounter = 0, $totalpage = 0, $productname, $productid = '') {
@@ -110,13 +129,16 @@ class ProductController extends AbstractActionController {
         } else if ($productid != '') {
             $sql .= ' where id =' . $productid;
         }
-        if($pagecounter) $pagecounter = $totalpage*$pagecounter;
+        if ($pagecounter)
+            $pagecounter = $totalpage * $pagecounter;
         $statement = $dbadapter->query($sql . " limit $pagecounter,$totalpage ");
         $results = $statement->execute();
         $returnArray = array();
         // iterate through the rows
         foreach ($results as $result) {
             $result['imagepath'] = $this->getImagePathArray($result['id']);
+            $result['attributedata'] = $this->getActiveAttributes($result['id']);
+            
             if ($productid)
                 return $result;
             $returnArray[] = $result;
@@ -182,7 +204,7 @@ class ProductController extends AbstractActionController {
                         $postdata['product_id'] = $data['id'];
                         $postdata['imagepath'] = 'images/products' . $imgname;
                         $db->delete(array('product_id' => $data['id'],
-                                            'imagepath'=>'images/products' . $imgname));
+                            'imagepath' => 'images/products' . $imgname));
                         $db->insert($postdata);
                     }
                 }
@@ -193,17 +215,13 @@ class ProductController extends AbstractActionController {
                 }
             }
             // image part
-            
             // default image if found update
-            if($default_image){
+            if ($default_image) {
                 $image_db = $this->getTable('product_image');
-                $image_db->update(array('is_default' => 0),
-                                            array('is_default'=>1));
-                $image_db->update(array('is_default' => 1),
-                                            array('id'=>$default_image));
+                $image_db->update(array('is_default' => 0), array('is_default' => 1, 'product_id' => $data['id']));
+                $image_db->update(array('is_default' => 1), array('id' => $default_image));
             }
             // default image if found update
-
             // check for attribute
             foreach ($data as $key => $value) {
                 $subatt = explode('||', $key);
@@ -214,7 +232,7 @@ class ProductController extends AbstractActionController {
                     // delete old value for $data['id'] in that table
                     $attTable = $this->getTable($tablename);
                     $attTable->delete(array('product_id' => $data['id'],
-                                            'attributetype_id'=>$subatt[1]));
+                        'attributetype_id' => $subatt[1]));
 
                     // insert new $value in that table
                     $newdata = array();
@@ -225,15 +243,14 @@ class ProductController extends AbstractActionController {
                 }
             }
             // check for attribute
-            
         } elseif ($data['actiontype'] == 'remove_image' || $data['remove_image_id'] != '') {
             // remove file $data['remove_image_path']
-            unlink(realpath(dirname(__FILE__)).'/../../../../../public/'.$data['remove_image_path']);
+            unlink(realpath(dirname(__FILE__)) . '/../../../../../public/' . $data['remove_image_path']);
             $db = $this->getTable('product_image');
             $db->delete(array('id' => $data['remove_image_id']));
         }
-        
-        if($data['actiontype'] == 'save_continue' || $data['actiontype'] == 'remove_image'){
+
+        if ($data['actiontype'] == 'save_continue' || $data['actiontype'] == 'remove_image') {
             $user = new User($this->getServiceLocator());
             $adminloginuser = new Container('adminloginuser');
             $menus = $user->getUserMenu($adminloginuser->userid);
@@ -253,7 +270,7 @@ class ProductController extends AbstractActionController {
             ));
             return $view->setTemplate('/product/product/edit.phtml');
         }
-        
+
         return $this->redirect()->toRoute('product/default', array('controller' => 'product', 'action' => 'index'));
     }
 
@@ -266,13 +283,13 @@ class ProductController extends AbstractActionController {
         }
         return $returnArray;
     }
-    
+
     public function getImagePathArray($product_id) {
         $attTable = $this->getTable('product_image');
         $results = $attTable->select(array('product_id' => $product_id));
         $returnArray = array();
         foreach ($results as $result) {
-            $returnArray[$result['id']] = array($result['imagepath'],$result['is_default']);
+            $returnArray[$result['id']] = array($result['imagepath'], $result['is_default']);
         }
         return $returnArray;
     }
@@ -288,7 +305,7 @@ class ProductController extends AbstractActionController {
         }
         return $returnArray;
     }
-    
+
     public function getAttributeSelectOption($pro_att_id) {
         $attribute_select_option = $this->getTable('attribute_select_option');
         $results = $attribute_select_option
