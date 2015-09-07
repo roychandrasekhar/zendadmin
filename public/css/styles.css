@@ -287,7 +287,7 @@ table.white {
     background: #fff;
 }
 
-table.field-control input:not([type="submit"]):not([type="button"]):not([type="radio"]):not([type="checkbox"]), table.field-control select{ height: 30px; line-height: 30px; padding: 0 10px; width: 70%; }
+table.field-control input:not([type="submit"]):not([type="button"]):not([type="radio"]):not([type="checkbox"]):not([type="file"]), table.field-control select{ height: 30px; line-height: 30px; padding: 0 10px; width: 70%; }
 
 .reload, .cancel{ cursor: pointer; display: inline-block; vertical-align: middle; margin: 0 10px 0 0; }
 .pager-table td.pager p{ line-height: 28px; display: inline-block; vertical-align: top; margin: 0 15px; }
@@ -298,11 +298,12 @@ table.field-control input:not([type="submit"]):not([type="button"]):not([type="r
 
 
 .img-table td *{ vertical-align: inherit; display: inline-block; }
+.img-table td .img-table-pic{ border: solid 1px #cdcdcd; }
 .img-table td .img-table-pic img{ display: block; }
+.img-table .remove{ width: 12px; height: 16px; font-size: 0px; background: url(../images/remove.png) no-repeat 0 0; padding: 0; margin: 0 0 0 10px; }
 
-
-
-
+.upload-image{ margin: 10px 0 0; line-height: 28px; }
+.upload-image input[type="file"]{ height: 28px; }
 
 
 

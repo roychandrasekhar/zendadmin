@@ -96,13 +96,19 @@ foreach ($this->categorytree as $eachrow) {
                                                 <input type="radio" name="default_image" value="<?=$key ?>" id="<?=$key ?>" <?= ($eachimagepath[1]==1)?'checked':''; ?>>
                                                 Default
                                             </label>
-                                            <a href="javascript:;" style="padding-left: 10px;" onclick="removeImage(<?= $key ?>, '<?= $eachimagepath[0] ?>')">Remove</a>
+                                            <a href="javascript:;" class="remove" onclick="removeImage(<?= $key ?>, '<?= $eachimagepath[0] ?>')">Remove</a>
                                         </td>
                                     </tr>
                                 <?php } ?>
                             </table>
-                            <br>Product Image: <input type="file" name="photo" size="25" />
-                            <input type="button" value="Upload Image" onclick="submitPage('save_continue')"/>
+                            <table class="upload-image">
+                                <tr>
+                                    <td>
+                                        Product Image: <input type="file" name="photo" size="25" />
+                                        <input type="button" value="Upload Image" onclick="submitPage('save_continue')"/>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
 
