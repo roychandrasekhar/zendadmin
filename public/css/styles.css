@@ -243,11 +243,15 @@ table, table td, table th {
 }
 table th {
     font-weight: 700;
+    white-space: normal;
+    word-wrap: break-word;
 }
 table td {
     padding: 6px 10px;
     font-size: 13px;
     line-height: 19px;
+    white-space: normal;
+    word-wrap: break-word;
 }
 table th {
     padding: 10px;
@@ -255,7 +259,7 @@ table th {
 table a {
     color: #2190cc;
 }
-table tr.headings th:last-child, table tr.pointer td:last-child {
+/*table tr.headings th:last-child, table tr.pointer td:last-child {
     width: 8%;
 }
 table tr.headings th:nth-child(6), table tr.pointer td:nth-child(6) {
@@ -263,7 +267,7 @@ table tr.headings th:nth-child(6), table tr.pointer td:nth-child(6) {
 }
 table tr.headings th:nth-child(7), table tr.pointer td:nth-child(7) {
     width: 8%;
-}
+}*/
 table tr{ background: #fff; }
 table tr.even.pointer, table tr:nth-child(odd) {
     background: #fafafa;
