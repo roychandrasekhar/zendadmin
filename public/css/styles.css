@@ -230,7 +230,7 @@ input[type="button"] {
 .main {
     padding: 30px 0;
 }
-table {
+table:not(.calendar_table) {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
@@ -309,7 +309,7 @@ table.field-control input:not([type="submit"]):not([type="button"]):not([type="r
 .upload-image{ margin: 10px 0 0; line-height: 28px; }
 .upload-image input[type="file"]{ height: 28px; }
 
-
+.calendar_table .button{ border-radius: 0px; color: inherit; cursor: default; display: table-cell; font-size: inherit; height: auto; line-height: inherit; text-decoration: none; transition: none; vertical-align: inherit; }
 
 
 

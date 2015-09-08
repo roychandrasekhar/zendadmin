@@ -48,6 +48,8 @@ foreach ($this->productlist as $item) {
                                 <td class=''><?=($eachoption['att_boolean_val'])?'Yes':'No' ?></td>
                             <?php }else if($eachoption['attribute_type']=='Decimal'){?>
                                 <td class=''><?=$eachoption['att_decimal_val']?></td>
+                            <?php }else if($eachoption['attribute_type']=='Date'){?>
+                                <td class=''><?=date('d-m-Y', ($eachoption['att_date_val']))?></td>
                             <?php }else if($eachoption['attribute_type']=='Select'){
                                 foreach ($eachoption['options'] as $eachattributeoption) {
                                     if($eachattributeoption['id']==$eachoption['att_select_val']){?>

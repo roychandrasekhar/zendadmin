@@ -151,6 +151,15 @@ foreach ($this->categorytree as $eachrow) {
                                         <?php } ?>
                                     </select>
                                 </td>
+                            <?php } else if ($eachrow['attribute_type'] == 'Date') { 
+                                $start_date=date('d-m-Y', ($eachrow['att_date_val']));
+                                ?>
+                                <td>
+                                    <input class="calstyle" readonly type="text" name="<?= 'attribute||' . $eachrow['id'] . '||' . $eachrow['tablename'] ?>" id="<?= 'attribute||' . $eachrow['id'] . '||' . $eachrow['tablename'] ?>" value="<?= $start_date ?>"/>
+                                    <script>
+                                        Calendar.setup({inputField:"<?= 'attribute||' . $eachrow['id'] . '||' . $eachrow['tablename'] ?>",ifFormat:"%d-%m-%Y",button:"<?= 'attribute||' . $eachrow['id'] . '||' . $eachrow['tablename'] ?>"});
+                                    </script>
+                                </td>
                             <?php } ?>
                         </tr>
                     <?php }

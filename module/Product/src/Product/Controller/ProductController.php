@@ -42,6 +42,7 @@ class ProductController extends AbstractActionController {
                 ,att_de.value as att_decimal_val
                 ,att_bo.value as att_boolean_val
                 ,att_sel.value as att_select_val
+                ,att_date.value as att_date_val
                 FROM productattribute as pro_att 
                 left join attributetype as att_type on pro_att.type=att_type.id 
                 left join attribute_string as att_st on (pro_att.id=att_st.attributetype_id and att_st.product_id=$product_id)
@@ -49,6 +50,7 @@ class ProductController extends AbstractActionController {
                 left join attribute_decimal as att_de on (pro_att.id=att_de.attributetype_id and att_de.product_id=$product_id)
                 left join attribute_boolean as att_bo on (pro_att.id=att_bo.attributetype_id and att_bo.product_id=$product_id)
                 left join attribute_select as att_sel on (pro_att.id=att_sel.attributetype_id and att_sel.product_id=$product_id)
+                left join attribute_date as att_date on (pro_att.id=att_date.attributetype_id and att_date.product_id=$product_id)
                 where pro_att.active=1";
         $statement = $dbadapter->query($sql);
         $results = $statement->execute();
@@ -238,7 +240,11 @@ class ProductController extends AbstractActionController {
                     $newdata = array();
                     $newdata['product_id'] = $data['id'];
                     $newdata['attributetype_id'] = $subatt[1];
-                    $newdata['value'] = $value;
+                    if($tablename=='attribute_date'){
+                        $newdata['value'] = strtotime($value);
+                    }else{
+                        $newdata['value'] = $value;
+                    }
                     $attTable->insert($newdata);
                 }
             }
