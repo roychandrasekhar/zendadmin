@@ -1,0 +1,143 @@
+<?= $this->partial('/admin/common/header.phtml', array('userdetail' => $this->userdetail)); ?>
+<?= $this->partial('/admin/menu/left.phtml', array('menus' => $this->menus, 'controller' => $this->controller)); ?> 
+<div class="main">
+<div class="wrapper">
+<h2>Customer Edit</h2>
+<form id="form1" method="POST" action="<?php echo $this->url('auction/default', array('controller' => 'auction', 'action' => 'update')); ?>">
+    <table class="field-control" border="1">
+        <tbody>
+            <tr>
+                <td>Customer Type</td>
+                <td>
+                    <input type="hidden" name="id" value="<?= $this->auctiondetail['id'] ?>" />
+                    <input type="hidden" name="actiontype" id="actiontype" />
+                    <select name="dealer_type">
+                        <option value="1" <?= ($this->auctiondetail['dealer_type'] == 1) ? "selected" : "" ?>>Trader</option>
+                        <option value="2" <?= ($this->auctiondetail['dealer_type'] == 2) ? "selected" : "" ?>>Dealer</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>User Name *</td>
+                <td>
+                    <input type="text" name="username" id="username" value="<?= $this->auctiondetail['username'] ?>" />
+                </td>
+            </tr>
+            <tr>
+                <td>Password *</td>
+                <td>
+                    <input type="password" name="password" id="password" />
+                </td>
+            </tr>
+            <tr>
+                <td>Re-enter Password</td>
+                <td>
+                    <input type="password" id="re-password" />
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Position in Company</td>
+                <td>
+                    <input type="text" name="position_in_company" value="<?= $this->auctiondetail['position_in_company'] ?>" />
+                </td>
+            </tr>
+            <tr>
+                <td>Telephone no.</td>
+                <td>
+                    <input type="text" name="telephone" value="<?= $this->auctiondetail['telephone'] ?>" />
+                </td>
+            </tr>
+            <tr>
+                <td>Mobile no.</td>
+                <td>
+                    <input type="text" name="mobile" value="<?= $this->auctiondetail['mobile'] ?>" />
+                </td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td>
+                    <input type="text" name="name" value="<?= $this->auctiondetail['name'] ?>" />
+                </td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>
+                    <?= $this->auctiondetail['email'] ?>
+                </td>
+            </tr>
+            <tr>
+                <td>Company Name</td>
+                <td>
+                    <input type="text" name="company_name" value="<?= $this->auctiondetail['company_name'] ?>" />
+                </td>
+            </tr>
+            <tr>
+                <td>Website</td>
+                <td>
+                    <input type="text" name="website" value="<?= $this->auctiondetail['website'] ?>" />
+                </td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td>
+                    <select name="state">
+                        <option value="1" <?= ($this->auctiondetail['state'] == 1) ? "selected" : "" ?>>Enable</option>
+                        <option value="2" <?= ($this->auctiondetail['state'] == 0) ? "selected" : "" ?>>Disable</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <!--<input type="button" value="Delete" onclick="submitPage('delete')"/>-->
+                </td>
+                <td style="text-align: right">
+                    <input type="button" value="Cancel" onclick="gotoListPage()"/>
+                    <input type="button" value="Update" onclick="submitPage('update')"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+</div>
+</div>
+
+
+<script>
+    function gotoListPage(){
+        window.location = '<?php echo $this->url('auction/default', array('controller' => 'auction', 'action' => 'index')); ?>';
+    }
+    function validate() {
+        var responsevalue = true;
+        var obj = new Array();
+        obj[obj.length] = ['req', document.getElementById("username"), 'Please enter Username'];
+        obj[obj.length] = ['req', document.getElementById("email"), 'Please enter email'];
+        for (cnt = 0; cnt < obj.length; cnt++) {
+            responsevalue = V2validateData(obj[cnt][0], obj[cnt][1], obj[cnt][2]);
+            if (responsevalue == false) {
+                obj[cnt][1].focus();
+                return false;
+            }
+        }
+        if(document.getElementById('password').value!=document.getElementById('re-password').value){
+            alert('Password do not match');
+            document.getElementById('password').focus();
+            return false;
+        }
+    }
+    function submitPage(action){
+        if(action=='delete'){
+            if(!confirm('Are you sure to delete this Customer ?')==true){
+                return;
+            }
+            document.getElementById('actiontype').value = action;
+            document.getElementById('form1').submit();
+        }else{
+            if(validate()==false)return;
+            document.getElementById('actiontype').value = action;
+            document.getElementById('form1').submit();
+        }
+    }
+</script>
+
+<?= $this->partial('/admin/common/footer.phtml', array()); ?>

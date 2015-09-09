@@ -1,0 +1,4 @@
+<?= $this->partial('/admin/common/header.phtml',array('userdetail' => $this->userdetail)); ?>
+<?= $this->partial('/admin/menu/left.phtml', array('menus' => $this->menus, 'controller'=> $this->controller)); ?> 
+<?= $this->partial('/auction/auction/dashboard.phtml', array('totalauction'=>$this->totalauction));?>
+<?= $this->partial('/admin/common/footer.phtml', array());?>

@@ -1,0 +1,164 @@
+<div class="main">
+    <div class="wrapper">
+        <h2>Auction Dashboard</h2>
+        <?php
+        $count = $this->totalauction;
+        ?>
+        <table class="pager-table" cellspacing="0">
+            <tr>
+                <td class="pager" >
+                    <img class="reload" onclick="loadListPage()" title="reload" src="<?= $this->basePath() ?>/images/reload.png" />
+                    <p class="pages">
+                    Page
+                    <span id="leftarrow" class="arrow"></span>
+                    <input type="text" value="1" onkeypress="getRecord(event);" name="page" id="page">
+                    <span id="rightarrow" class="arrow"></span>
+                    of <span id="currentpage"></span> pages
+                    </p>
+                    <p class="pages">
+                    View
+                    <select onchange="loadListPage()" id="totalpage">
+                        <option selected="selected" value="10">10</option>
+                        <option <?php echo ($count > 10 || $count >= 20) ? '' : 'disabled="true"' ?> value="20">20</option>
+                        <option <?php echo ($count > 20 || $count >= 30) ? '' : 'disabled="true"' ?> value="30">30</option>
+                        <option <?php echo ($count > 30 || $count >= 50) ? '' : 'disabled="true"' ?> value="50">50</option>
+                        <option <?php echo ($count > 50 || $count >= 100) ? '' : 'disabled="true"' ?> value="100">100</option>
+                        <option <?php echo ($count > 100 || $count >= 200) ? '' : 'disabled="true"' ?> value="200">200</option>
+                    </select>
+                    per page
+                    </p>
+                    <p class="pages">Total <?php echo $count ?> records found</p>
+<!--                    <p class="pages mail-search">
+                    Search by email
+                    <input type="text" onkeypress="getRecord(event)" class="input-text" style="width:180px !important" value="" name="contactemail" id="contactemail">
+                    <img class="cancel" onclick="clearAndLoadListPage()" title="Clear" src="<?= $this->basePath() ?>/images/cancel.png" />
+                    </p>-->
+                    <span class="no-display" id="super_product_links-total-count"></span>
+                </td>
+            </tr>
+        </table>
+        <div class="hor-scroll" id="output-div"></div>
+        <script>
+            var totalrecord = parseInt(<?php echo $count ?>);
+            setRecordNavi();
+            loadListPage();
+
+            function getRecord(e) {
+                if (e.keyCode == 13) {
+                    loadListPage();
+                }
+            }
+            function clearAndLoadListPage() {
+                document.getElementById('contactemail').value = '';
+                loadListPage();
+            }
+
+            function loadListPage() {
+                var pageno = document.getElementById('page').value;
+//                var contactemail = (document.getElementById('contactemail').value).trim();
+                var contactemail = '';
+                var totalpage = document.getElementById('totalpage').options[document.getElementById('totalpage').selectedIndex].value;
+                pageno = (pageno) ? pageno : 1;
+                var obj = document.getElementById('output-div');
+                var reloadurl = '<?php echo $this->url('auction/default', array('controller' => 'auction', 'action' => 'list')); ?>';
+                //        Element.hide(obj);
+                new Ajax.Request(reloadurl, {
+                    method: 'post',
+                    parameters: encodeURI('pageno=' + pageno + '&totalpage=' + totalpage + '&contactemail=' + contactemail),
+                    onComplete: function (transport) {
+                        document.getElementById('output-div').innerHTML = transport.responseText;
+                        pageNumber();
+                        setRecordNavi();
+                        //                Element.show(obj);
+                    }
+                });
+            }
+
+            function editAuction(auctionid) {
+                window.location = '<?php echo $this->url('auction/default', array('controller' => 'auction', 'action' => 'edit')); ?>?id=' + auctionid;
+            }
+
+            function updateAuction(auctionid) {
+
+            }
+            function clearEmail() {
+                document.getElementById('contactemail').value = '';
+                loadListPage();
+            }
+            function setRecordNavi(cleardetail) {
+                if (cleardetail)
+                    document.getElementById('output-div2').innerHTML = '';
+                var curr = parseInt(document.getElementById('page').value);
+                var totalpage = document.getElementById('totalpage').options[document.getElementById('totalpage').selectedIndex].value;
+                //var totalpage = document.getElementById('currentpage').innerHTML;
+                if (curr == totalrecord) {
+                    onRightArrow(0);
+                    if (curr > 1) {
+                        onLeftArrow(1);
+                    }
+                }
+                if (1 == curr) {
+                    onLeftArrow(0);
+                    if (curr < totalrecord) {
+                        onRightArrow(1);
+                    }
+                }
+                if (1 < curr && curr < totalrecord) {
+                    onLeftArrow(1);
+                    onRightArrow(1);
+                }
+                if ((parseInt(curr) * parseInt(totalpage)) > totalrecord) {
+                    onRightArrow(0);
+                }
+            }
+            function onLeftArrow(state) {
+                var img = document.createElement('img');
+                img.setAttribute('class', 'arrow');
+                clearAllChildren(document.getElementById('leftarrow'));
+                if (state === 1) {
+                    img.setAttribute('src', mediaurl + '/pager_arrow_left.gif');
+                    var atag = document.createElement('a');
+                    atag.setAttribute('onclick', 'setNumber(false);loadListPage()');
+                    atag.setAttribute('title', 'Next page');
+                    atag.setAttribute('href', '#');
+                    atag.appendChild(img);
+                    document.getElementById('leftarrow').appendChild(atag);
+                } else {
+                    img.setAttribute('src', mediaurl + '/pager_arrow_left_off.gif');
+                    document.getElementById('leftarrow').appendChild(img);
+                }
+            }
+            function onRightArrow(state) {
+                var img = document.createElement('img');
+                img.setAttribute('class', 'arrow');
+                clearAllChildren(document.getElementById('rightarrow'));
+                if (state === 1) {
+                    img.setAttribute('src', mediaurl + '/pager_arrow_right.gif');
+                    var atag = document.createElement('a');
+                    atag.setAttribute('onclick', 'setNumber(true);loadListPage()');
+                    atag.setAttribute('title', 'Next page');
+                    atag.setAttribute('href', '#');
+                    atag.appendChild(img);
+                    document.getElementById('rightarrow').appendChild(atag);
+                } else {
+                    img.setAttribute('src', mediaurl + '/pager_arrow_right_off.gif');
+                    document.getElementById('rightarrow').appendChild(img);
+                }
+            }
+            function setNumber(state) {
+                document.getElementById('page').value = (state) ? parseInt(document.getElementById('page').value) + 1 : parseInt(document.getElementById('page').value) - 1;
+            }
+            function clearAllChildren(e) {
+                while (e.lastChild)
+                    e.removeChild(e.lastChild);
+            }
+            function pageNumber() {
+                var a = parseInt(totalrecord) / parseInt(document.getElementById('totalpage').options[document.getElementById('totalpage').selectedIndex].value);
+                document.getElementById('currentpage').innerHTML = Math.ceil(a);
+            }
+            function addAuction() {
+                window.location = '<?php echo $this->url('auction/default', array('controller' => 'auction', 'action' => 'add')); ?>';
+            }
+        </script>
+    </div>
+</div>

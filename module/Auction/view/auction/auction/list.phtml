@@ -1,0 +1,45 @@
+<?php //print_r($this->auctionlist)  ?>
+<table class='data' cellspacing='0' border='1'>
+            <tr class='headings'>
+                <th>Id</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Product Name</th>
+                <th>Belongs to</th>
+                <th>Cancel Time</th>
+                <th>Total Bid</th>
+                <th>Current Bid</th>
+                <th>State</th>
+                <!--<th>Action</th>-->
+            </tr>
+<?php
+$temp = false;
+$returntxt='';
+$displays = true;
+foreach ($this->auctionlist as $item) {
+    $temp = true;
+    $style = '';?>
+        <tr class='<?= ($displays) ? 'even pointer' : 'pointer'?>' style='cursor:default;<?=$style?>' title='#'>
+            <td class=''><?=$item['id']?></td>
+            <td class=''><?=date('d-m-Y', ($item['start_time']))?></td>
+            <td class=''><?=date('d-m-Y', ($item['end_time']))?></td>
+            <td class=''><?=$item['product_detail']['name']?></td>
+            <td class=''><?=$item['product_detail']['customer_name']?></td>
+            <td class=''><?= ($item['cancel_time'])? date('d-m-Y', ($item['cancel_time'])):''?></td>
+            <td class=''><?=$item['biddeatil']['count']?></td>
+            <td class=''><?=$item['biddeatil']['max']?></td>
+            <td class=''><?= ($item['state']==1)?'Active':(($item['state']==2)?'Withdraw':'Closed') ?></td>
+            <!--<td class=''><a href='javascript:editAuction(<?=$item['id']?>)'>Edit</a></td>-->
+        </tr>
+    <?php $displays = ($displays) ? false : true;
+}?>
+<?php if ($temp == false) {?>
+    <tr><td colspan='8'>No Auction found</td></tr>
+<?php }?>
+        </table>
+
+<script>
+    function editAuction(auctionid) {
+        window.location = '<?php echo $this->url('auction/default', array('controller' => 'auction', 'action' => 'edit')); ?>?id='+auctionid;
+    }
+</script>
